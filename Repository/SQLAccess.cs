@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +22,36 @@ namespace Repository
 
         public bool Add<IdType>(dynamic entety, Table table, string pKName)
         {
-            throw new NotImplementedException();
+            string prop = "";
+            string value = "";
+            foreach (PropertyInfo e in entety.GetType().GetProperties())
+            {
+                if (e.Name != pKName)
+                {
+                    if (prop != "")
+                    {
+                        prop += ",";
+                        value += ",";
+                    }
+
+                    prop += e.Name;
+                    value += "@" + e.Name;
+
+                }
+            }
+
+            string sql = $"INSERT INTO {table} ({prop})" +
+                "OUTPUT Inserted.ID" +
+                $" VALUES({value});";
+            IdType id;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                id = connection.QuerySingle<IdType>(sql, (object)entety);
+            }
+            PropertyInfo propertyInfo = entety.GetType().GetProperty(pKName);
+            propertyInfo.SetValue(entety, Convert.ChangeType((IdType)id, propertyInfo.PropertyType), null);
+
+            return true;
         }
 
         public IEnumerable<T> GetMenySingelTabel<T>(string Selekt, Table table, IDictionary<string, string> Where)
