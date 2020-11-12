@@ -55,9 +55,30 @@ namespace Repository
             return true;
         }
 
-        public IEnumerable<T> GetMenySingelTabel<T>(string Selekt, Table table, IDictionary<string, string> Where)
+        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Selekt, Table table, IDictionary<string, string> Where)
         {
-            throw new NotImplementedException();
+            IEnumerable<T> entety;
+            String sSelekt = "Selekt ";
+            if(top > 0)
+            {
+                sSelekt += $"TOP({top}) ";
+            }
+            sSelekt += Selekt;
+
+            string sWhere = "where ";
+            foreach (KeyValuePair<string, string> kvp in Where)
+            {
+                if (sWhere == "where ")
+                {
+                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                }
+            }
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                //get data from sql
+                entety = connection.Query<T>($"{sSelekt} * FROM {table} {sWhere}");
+            }
+            return entety;
         }
 
         public T GetSingel<T>(string Selekt, Table table, IDictionary<string, string> Where)
@@ -74,7 +95,7 @@ namespace Repository
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"SELECT * FROM {table} {sWhere}").FirstOrDefault();
+                entety = connection.Query<T>($"SELECT TOP(1) * FROM {table} {sWhere}").FirstOrDefault();
             }
             return entety;
         }
