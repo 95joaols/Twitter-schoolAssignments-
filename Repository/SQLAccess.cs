@@ -1,15 +1,24 @@
-using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Dapper;
+using Microsoft.Extensions.Configuration;
 
 namespace Repository
 {
     internal class SQLAccess : IFullControl
     {
         private string connectionString;
-        public SQLAccess(string connectionString)
+        public SQLAccess(string ConnectionStringName)
         {
-            this.connectionString = connectionString;
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            IConfigurationRoot config = builder.Build();
+            connectionString = config.GetConnectionString(ConnectionStringName);
         }
 
         public bool Add<IdType>(dynamic entety, Table table, string pKName)
