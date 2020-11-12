@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Repository.Enum;
 
 namespace Repository
 {

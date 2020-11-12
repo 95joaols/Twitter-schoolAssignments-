@@ -1,3 +1,5 @@
+using Repository.Enum;
+
 namespace Repository
 {
     public interface IModified

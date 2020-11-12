@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Repository.Enum;
+
 namespace Repository
 {
     public interface ISeekable

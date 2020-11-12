@@ -1,6 +1,6 @@
 using System;
 
-namespace Repository
+namespace Repository.Enum
 {
     public enum Table
     {
