@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -61,7 +62,21 @@ namespace Repository
 
         public T GetSingel<T>(string Selekt, Table table, IDictionary<string, string> Where)
         {
-            throw new NotImplementedException();
+            T entety;
+            string sWhere = "where ";
+            foreach (KeyValuePair<string,string> kvp in Where)
+            {
+                if(sWhere == "where ")
+                {
+                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'","").Replace("\"","")}'";
+                }
+            }
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                //get data from sql
+                entety = connection.Query<T>($"SELECT * FROM {table} {sWhere}").FirstOrDefault();
+            }
+            return entety;
         }
     }
 }
