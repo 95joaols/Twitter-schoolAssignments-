@@ -56,50 +56,50 @@ namespace Repository
             return true;
         }
 
-        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Selekt, Table table, IDictionary<string, string> Where = null)
+        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Select, Table table, IDictionary<string, string> Where = null)
         {
             IEnumerable<T> entety;
-            String sSelekt = "Selekt ";
+            String sSelect = "Select ";
             if (top > 0)
             {
-                sSelekt += $"TOP({top}) ";
+                sSelect += $"TOP({top}) ";
             }
-            sSelekt += Selekt;
+            sSelect += Select;
 
-            string sWhere = "where ";
+            string sWhere = "";
             if (Where != null)
             {
                 foreach (KeyValuePair<string, string> kvp in Where)
                 {
-                    if (sWhere == "where ")
+                    if (sWhere == "")
                     {
-                        sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                        sWhere += $"where {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
                     }
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"{sSelekt} * FROM {table} {sWhere}");
+                entety = connection.Query<T>($"{sSelect} FROM {table} {sWhere}");
             }
             return entety;
         }
 
-        public T GetSingel<T>(string Selekt, Table table, IDictionary<string, string> Where)
+        public T GetSingel<T>(string Select, Table table, IDictionary<string, string> Where)
         {
             T entety;
-            string sWhere = "where ";
+            string sWhere = "";
             foreach (KeyValuePair<string, string> kvp in Where)
             {
                 if (sWhere == "where ")
                 {
-                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                    sWhere += $"where {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"SELECT TOP(1) * FROM {table} {sWhere}").FirstOrDefault();
+                entety = connection.Query<T>($"SELECT TOP(1) {Select} FROM {table} {sWhere}").FirstOrDefault();
             }
             return entety;
         }
