@@ -5,7 +5,7 @@ namespace Repository
 {
     public interface ISeekable
     {
-        T GetSingel<T>(string Selekt, Table table, IDictionary<string, string> Where);
-        IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Selekt, Table table, IDictionary<string, string> Where = null);
+        T GetSingel<T>(string Select, Table table, IDictionary<string, string> Where = null);
+        IEnumerable<T> GetMenyEntitys<T>(int top, string Select, Table table, IDictionary<string, string> Where = null);
     }
 }

@@ -30,7 +30,7 @@ namespace TwitterCore
             List<Tweet> tweets = new List<Tweet>();
 
             // IEnumerable<Tweet> tweetsable = db.GetTweetsFromDb();
-            IEnumerable<Tweet> tweetsable = dbControl.GetMenyEntitysSingelTabel<Tweet>(top, "*", Table.Tweet, null);
+            IEnumerable<Tweet> tweetsable = dbControl.GetMenyEntitys<Tweet>(top, "CreateDate, Message, Username", Table.TweetUser, null);
 
             foreach (var tweet in tweetsable)
             {

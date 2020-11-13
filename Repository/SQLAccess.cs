@@ -56,8 +56,13 @@ namespace Repository
             return true;
         }
 
-        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Select, Table table, IDictionary<string, string> Where = null)
+        public IEnumerable<T> GetMenyEntitys<T>(int top, string Select, Table table, IDictionary<string, string> Where = null)
         {
+            if (string.IsNullOrWhiteSpace(Select))
+            {
+                throw new ArgumentException($"'{nameof(Select)}' cannot be null or whitespace", nameof(Select));
+            }
+
             IEnumerable<T> entety;
             String sSelect = "Select ";
             if (top > 0)
@@ -80,13 +85,18 @@ namespace Repository
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"{sSelect} FROM {table} {sWhere}");
+                entety = connection.Query<T>($"{sSelect} FROM {CodeTools.GetEnumDescription(table)} {sWhere}");
             }
             return entety;
         }
 
-        public T GetSingel<T>(string Select, Table table, IDictionary<string, string> Where)
+        public T GetSingel<T>(string Select, Table table, IDictionary<string, string> Where = null)
         {
+            if (string.IsNullOrWhiteSpace(Select))
+            {
+                throw new ArgumentException($"'{nameof(Select)}' cannot be null or whitespace", nameof(Select));
+            }
+
             T entety;
             string sWhere = "";
             foreach (KeyValuePair<string, string> kvp in Where)
