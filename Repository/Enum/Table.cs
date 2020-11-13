@@ -1,9 +1,10 @@
 using System;
 
-namespace Repository.Enum
+namespace Repository.Enums
 {
     public enum Table
     {
-        User
+        User,
+        Tweet
     }
 }

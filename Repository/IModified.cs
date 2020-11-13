@@ -1,4 +1,4 @@
-using Repository.Enum;
+using Repository.Enums;
 
 namespace Repository
 {
@@ -14,5 +14,6 @@ namespace Repository
         /// <param name="table"> the table that you want to add in</param>
         /// <exception cref="System.Exception"></exception>
         bool Add<IdType>(dynamic entety, Table table, string pKName);
+        bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue);
     }
 }

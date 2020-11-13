@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel;
+using System.Reflection;
 
-namespace Repository.Enum
+namespace Repository.Enums
 {
     public static class CodeTools
     {

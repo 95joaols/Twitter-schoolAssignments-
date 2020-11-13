@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Repository.Enum;
+using Repository.Enums;
 
 namespace Repository
 {
@@ -56,22 +56,25 @@ namespace Repository
             return true;
         }
 
-        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Selekt, Table table, IDictionary<string, string> Where)
+        public IEnumerable<T> GetMenyEntitysSingelTabel<T>(int top, string Selekt, Table table, IDictionary<string, string> Where = null)
         {
             IEnumerable<T> entety;
             String sSelekt = "Selekt ";
-            if(top > 0)
+            if (top > 0)
             {
                 sSelekt += $"TOP({top}) ";
             }
             sSelekt += Selekt;
 
             string sWhere = "where ";
-            foreach (KeyValuePair<string, string> kvp in Where)
+            if (Where != null)
             {
-                if (sWhere == "where ")
+                foreach (KeyValuePair<string, string> kvp in Where)
                 {
-                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                    if (sWhere == "where ")
+                    {
+                        sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                    }
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -86,11 +89,11 @@ namespace Repository
         {
             T entety;
             string sWhere = "where ";
-            foreach (KeyValuePair<string,string> kvp in Where)
+            foreach (KeyValuePair<string, string> kvp in Where)
             {
-                if(sWhere == "where ")
+                if (sWhere == "where ")
                 {
-                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'","").Replace("\"","")}'";
+                    sWhere += $"{kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -99,6 +102,33 @@ namespace Repository
                 entety = connection.Query<T>($"SELECT TOP(1) * FROM {table} {sWhere}").FirstOrDefault();
             }
             return entety;
+        }
+
+        public bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue)
+        {
+            string SET = "";
+            foreach (PropertyInfo e in entety.GetType().GetProperties())
+            {
+                if (e.Name != pKName)
+                {
+                    if (SET != "")
+                    {
+                        SET += ",";
+                    }
+
+                    SET += e.Name + "=" + e.GetValue(entety);
+                }
+            }
+
+            string sql = $"UPDATE {table} SET ({SET})" +
+                $" WHERE {pKName}={pKvalue};";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Query(sql);
+            }
+
+            return true;
         }
     }
 }

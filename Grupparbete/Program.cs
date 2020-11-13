@@ -64,6 +64,7 @@ namespace Grupparbete
                         break;
                     case ConsoleKey.D3:
                         loginSystem.LogOutUser(user);
+                        PrintHeadMenu();
                         System.Console.WriteLine("Logged out");
                         break;
                     case ConsoleKey.D4:

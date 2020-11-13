@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Repository.Enum
+namespace Repository.Enums
 {
     public enum JoinTable
     {
