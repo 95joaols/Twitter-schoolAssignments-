@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Repository;
 using Repository.Enums;
 
-namespace Grupparbete
+namespace TwitterCore
 {
     public class LoginSystem
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Grupparbete
+namespace TwitterCore
 {
     public class Tweet
     {

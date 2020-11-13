@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Repository;
 using Repository.Enums;
 
-namespace Grupparbete
+namespace TwitterCore
 {
     // den skulle inte kunna heta UserService?
     public class TweetManager

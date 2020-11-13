@@ -1,19 +1,22 @@
-public class User
+namespace TwitterCore
 {
-
-    public int Id { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
-    public string Firstname { get; set; }
-    public string Lastname { get; set; }
-    public string Biography { get; set; }
-    public bool IsLoggedIn { get; set; }
-
-    public User() { }
-
-    public User(string username, string password)
+    public class User
     {
-        Username = username;
-        Password = password;
+
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Biography { get; set; }
+        public bool IsLoggedIn { get; set; }
+
+        public User() { }
+
+        public User(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
     }
 }

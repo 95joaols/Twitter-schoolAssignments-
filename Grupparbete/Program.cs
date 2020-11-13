@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TwitterCore;
 
 namespace Grupparbete
 {
@@ -115,7 +116,7 @@ namespace Grupparbete
 
         public static void PrintTweets()
         {
-            List<Tweet> tweets = tweetManager.GetTweets();
+            List<Tweet> tweets = tweetManager.GetTweets(10);
 
             foreach (Tweet tweet in tweets)
             {
