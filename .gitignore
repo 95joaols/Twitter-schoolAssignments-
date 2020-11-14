@@ -39,6 +39,8 @@ Temporary Items
 !.vscode/extensions.json
 *.code-workspace
 
+.vs/*
+
 appsettings*
 
 /build/

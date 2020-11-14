@@ -80,6 +80,10 @@ namespace Repository
                     {
                         sWhere += $"where {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
                     }
+                    else
+                    {
+                        sWhere += $", {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                    }
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -101,15 +105,19 @@ namespace Repository
             string sWhere = "";
             foreach (KeyValuePair<string, string> kvp in Where)
             {
-                if (sWhere == "where ")
+                if (sWhere == "")
                 {
                     sWhere += $"where {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
+                }
+                else
+                {
+                    sWhere += $", {kvp.Key} = '{kvp.Value.Replace("'", "").Replace("\"", "")}'";
                 }
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"SELECT TOP(1) {Select} FROM {table} {sWhere}").FirstOrDefault();
+                entety = connection.Query<T>($"SELECT TOP(1) {Select} FROM {CodeTools.GetEnumDescription(table)} {sWhere}").FirstOrDefault();
             }
             return entety;
         }
