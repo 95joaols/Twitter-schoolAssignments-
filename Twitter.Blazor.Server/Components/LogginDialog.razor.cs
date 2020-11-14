@@ -15,25 +15,31 @@ namespace Twitter.Blazor.Server.Components
         public void Show()
         {
             ShowDialog = true;
+            StateHasChanged();
         }
 
         public void Close()
         {
             ShowDialog = false;
+            StateHasChanged();
         }
 
         protected async Task HandleValidSubmit()
         {
+            (bool, User) UserReturn = (false, null);
             await Task.Run(() =>
             {
                 LoginSystem loginSystem = new LoginSystem();
-                (bool, User) UserReturn = loginSystem.LogInUser(User.Username, User.Password);
+                UserReturn = loginSystem.LogInUser(User.Username, User.Password);
                if(UserReturn.Item1)
                 {
                     ShowDialog = false;
-                    LoggedIn.InvokeAsync(UserReturn.Item2);
                 }
             });
+            if (UserReturn.Item1)
+            {
+                await LoggedIn.InvokeAsync(UserReturn.Item2);
+            }
             return;
         }
     }

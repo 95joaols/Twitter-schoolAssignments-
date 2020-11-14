@@ -26,11 +26,8 @@ namespace Twitter.Blazor.Server.Components
         }
         public async void LogginDialog_OnLoggin(User LogginUser)
         {
-            await Task.Run(() =>
-            {
-                User = LogginUser;
-                LoggedIn.InvokeAsync(LogginUser);
-            });
+            User = LogginUser;
+            await LoggedIn.InvokeAsync(LogginUser);
         }
     }
 }
