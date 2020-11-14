@@ -13,7 +13,8 @@ else
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">not inloged</h5>
-            <a href="#" class="card-link">login</a>
+            <button @onclick="ShowLoginDialog" class="btn btn-dark table-btn quick-add-btn">login</button>
+            <LogginDialog @ref="LogginDialog" LoggedIn="@LogginDialog_OnLoggin"></LogginDialog>
         </div>
     </div>
 }

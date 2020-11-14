@@ -11,5 +11,26 @@ namespace Twitter.Blazor.Server.Components
     {
         [Parameter]
         public User User { get; set; }
+
+        [Parameter]
+        public EventCallback<User> LoggedIn { get; set; }
+        [Parameter]
+        public EventCallback<bool> Loggedout { get; set; }
+
+        protected LogginDialog LogginDialog { get; set; }
+
+
+        protected void ShowLoginDialog()
+        {
+            LogginDialog.Show();
+        }
+        public async void LogginDialog_OnLoggin(User LogginUser)
+        {
+            await Task.Run(() =>
+            {
+                User = LogginUser;
+                LoggedIn.InvokeAsync(LogginUser);
+            });
+        }
     }
 }
