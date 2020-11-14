@@ -10,10 +10,15 @@ namespace Twitter.Blazor.Server.Pages
     {
         public IEnumerable<Tweet> Tweets { get; set; }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            TweetManager tweetManager = new TweetManager();
-            Tweets = tweetManager.GetTweets(50);
+            await Task.Run(() =>
+            {
+                TweetManager tweetManager = new TweetManager();
+                Tweets = tweetManager.GetTweets(50);
+                Tweets = Tweets.OrderByDescending(tweet => tweet.CreateDate);
+            });
+            return;
         }
     }
 }
