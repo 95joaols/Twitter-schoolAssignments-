@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
 {
-    public class CurrentUser
+    public partial class CurrentUser
     {
+        [Parameter]
+        public User User { get; set; }
     }
 }
