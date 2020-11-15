@@ -12,7 +12,7 @@ namespace Repository
 {
     internal class SQLAccess : IFullControl
     {
-        private string connectionString;
+        private readonly string connectionString;
         public SQLAccess(string ConnectionStringName)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()

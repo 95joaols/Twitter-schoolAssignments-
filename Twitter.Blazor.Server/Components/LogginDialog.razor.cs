@@ -1,4 +1,7 @@
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TwitterCore;
 
@@ -14,9 +17,8 @@ namespace Twitter.Blazor.Server.Components
         public bool HasError { get; set; }
         public string Messege { get; set; }
 
-
-        [Parameter]
-        public EventCallback<User> LoggedIn { get; set; }
+        [Inject]
+        ISessionStorageService sessionStorage { get; set; }
 
         public void Show()
         {
@@ -51,7 +53,7 @@ namespace Twitter.Blazor.Server.Components
             });
             if (UserReturn.Item1)
             {
-                await LoggedIn.InvokeAsync(UserReturn.Item2);
+                await sessionStorage.SetItemAsync("CurentUser", UserReturn.Item2);
             }
             return;
         }

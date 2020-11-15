@@ -8,8 +8,7 @@ namespace TwitterCore
     {
         //SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
 
-        List<User> users = new List<User>();
-        IFullControl dbControl;
+        private readonly IFullControl dbControl;
 
         public LoginSystem()
         {

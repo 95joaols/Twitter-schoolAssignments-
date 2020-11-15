@@ -9,8 +9,6 @@ namespace Twitter.Blazor.Server.Components
         public User User { get; set; }
 
         [Parameter]
-        public EventCallback<User> LoggedIn { get; set; }
-        [Parameter]
         public EventCallback<bool> Loggedout { get; set; }
 
         protected LogginDialog LogginDialog { get; set; }
@@ -20,10 +18,6 @@ namespace Twitter.Blazor.Server.Components
         {
             LogginDialog.Show();
         }
-        public async void LogginDialog_OnLoggin(User LogginUser)
-        {
-            User = LogginUser;
-            await LoggedIn.InvokeAsync(LogginUser);
-        }
+       
     }
 }

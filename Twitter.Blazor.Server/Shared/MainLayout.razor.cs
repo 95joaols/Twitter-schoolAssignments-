@@ -1,3 +1,5 @@
+using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using TwitterCore;
 
@@ -5,15 +7,14 @@ namespace Twitter.Blazor.Server.Shared
 {
     public partial class MainLayout
     {
+        [Inject]
+        ISessionStorageService SessionStorage { get; set; }
+
         public User User { get; set; }
 
-        public async void CurrentUser_LoggedIn(User LogginUser)
+        protected override async Task OnInitializedAsync()
         {
-            await Task.Run(() =>
-            {
-                User = LogginUser;
-            });
+            User = await SessionStorage.GetItemAsync<User>("CurentUser");
         }
-
     }
 }
