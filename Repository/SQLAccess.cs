@@ -22,13 +22,13 @@ namespace Repository
             connectionString = config.GetConnectionString(ConnectionStringName);
         }
 
-        public bool Add<IdType>(dynamic entety, Table table, string pKName)
+        public bool Add<IdType>(dynamic entety, Table table, string pKName, List<string> ignore = null)
         {
             string prop = "";
             string value = "";
             foreach (PropertyInfo e in entety.GetType().GetProperties())
             {
-                if (e.Name != pKName)
+                if (e.Name != pKName && !ignore.Contains(e.Name))
                 {
                     if (prop != "")
                     {
@@ -134,7 +134,15 @@ namespace Repository
                         SET += ",";
                     }
 
-                    SET += e.Name + "=" + e.GetValue(entety);
+                    // object o = e.GetValue(entety);
+                    // if (IsNumericType(o))
+                    // {
+                    //     SET += e.Name + "=" + o;
+                    // }
+                    // else
+                    // {
+                    SET += e.Name + $"='{e.GetValue(entety)}'";
+                    // }
                 }
             }
 
@@ -147,6 +155,26 @@ namespace Repository
             }
 
             return true;
+        }
+        public static bool IsNumericType(object o)
+        {
+            switch (Type.GetTypeCode(o.GetType()))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server
 {
@@ -23,6 +24,7 @@ namespace Twitter.Blazor.Server
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddBlazoredSessionStorage();
+            services.AddScoped<IDataAccess,DataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

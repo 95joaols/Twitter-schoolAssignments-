@@ -21,7 +21,7 @@ namespace TwitterCore
             // add user to DB
             //db.CreateUserToDB() typ
             //db.AddTweetToDb(tweet);
-            dbControl.Add<int>(tweet, Table.Tweet, "ID");
+            dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount" });
         }
 
         public List<Tweet> GetTweets(int top)

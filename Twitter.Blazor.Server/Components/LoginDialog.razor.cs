@@ -1,13 +1,11 @@
-using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Twitter.Blazor.Server.Data;
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
 {
-    public partial class LogginDialog
+    public partial class LoginDialog
     {
 
         public User User { get; set; } = new User();
@@ -18,7 +16,7 @@ namespace Twitter.Blazor.Server.Components
         public string Messege { get; set; }
 
         [Inject]
-        ISessionStorageService sessionStorage { get; set; }
+        private IDataAccess DataAccess { get; set; }
 
         public void Show()
         {
@@ -35,12 +33,9 @@ namespace Twitter.Blazor.Server.Components
         protected async Task HandleValidSubmit()
         {
             HasError = false;
-            (bool, User) UserReturn = (false, null);
             await Task.Run(() =>
             {
-                LoginSystem loginSystem = new LoginSystem();
-                UserReturn = loginSystem.LogInUser(User.Username, User.Password);
-                if (UserReturn.Item1)
+                if (DataAccess.LogingIn(User.Username, User.Password))
                 {
                     HasError = false;
                     ShowDialog = false;
@@ -51,11 +46,6 @@ namespace Twitter.Blazor.Server.Components
                     Messege = "Unable to login";
                 }
             });
-            if (UserReturn.Item1)
-            {
-                await sessionStorage.SetItemAsync("CurentUser", UserReturn.Item2);
-            }
-            return;
         }
     }
 }

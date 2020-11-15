@@ -4,7 +4,8 @@
         <div class="card-body">
             <h5 class="card-title">@User.Username</h5>
             <h6 class="card-subtitle mb-2 text-muted">@User.Firstname @User.Lastname</h6>
-            <a href="#" class="card-link">logout</a>
+            <button @onclick="ShowLogoutDialog" class="btn btn-dark table-btn quick-add-btn">Logout</button>
+            <LogoutDialog @ref="LogoutDialog"></LogoutDialog>
         </div>
     </div>
 }
@@ -14,7 +15,7 @@ else
         <div class="card-body">
             <h5 class="card-title">not inloged</h5>
             <button @onclick="ShowLoginDialog" class="btn btn-dark table-btn quick-add-btn">login</button>
-            <LogginDialog @ref="LogginDialog"></LogginDialog>
+            <LoginDialog @ref="LoginDialog"></LoginDialog>
         </div>
     </div>
 }

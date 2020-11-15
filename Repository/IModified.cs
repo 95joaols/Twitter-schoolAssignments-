@@ -1,4 +1,5 @@
 using Repository.Enums;
+using System.Collections.Generic;
 
 namespace Repository
 {
@@ -13,7 +14,7 @@ namespace Repository
         /// <param name="entety"> the entety you want to add to db</param>
         /// <param name="table"> the table that you want to add in</param>
         /// <exception cref="System.Exception"></exception>
-        bool Add<IdType>(dynamic entety, Table table, string pKName);
+        bool Add<IdType>(dynamic entety, Table table, string pKName, List<string> ignore = null);
         bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue);
     }
 }

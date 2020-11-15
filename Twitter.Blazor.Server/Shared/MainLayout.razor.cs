@@ -1,20 +1,25 @@
-using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
-using TwitterCore;
+using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Shared
 {
     public partial class MainLayout
     {
+
         [Inject]
-        ISessionStorageService SessionStorage { get; set; }
+        private IDataAccess DataAccess { get; set; }
 
-        public User User { get; set; }
-
-        protected override async Task OnInitializedAsync()
+        public override async Task SetParametersAsync(ParameterView parameters)
         {
-            User = await SessionStorage.GetItemAsync<User>("CurentUser");
+            await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
+        }
+
+        public async Task OnNotifyDataChanged()
+        {
+            await InvokeAsync(() => StateHasChanged());
         }
     }
 }
+
+
