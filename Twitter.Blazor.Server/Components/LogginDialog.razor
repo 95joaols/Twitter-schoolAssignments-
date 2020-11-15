@@ -4,7 +4,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="titleLabel">Employee Quick Add</h5>
+                    <h5 class="modal-title" id="titleLabel">Login</h5>
                     <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -16,16 +16,21 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
+                        @if(HasError)
+                        {
+                            <div class="alert alert-danger" role="alert"> @Messege</div>
+                        }
+
                         <div class="form-group">
-                            <label for="lastName">Last name: </label>
-                            <InputText id="lastName" class="form-control" @bind-Value="@User.Username"
-                                       placeholder="Enter last name"></InputText>
+                            <label for="Username">Username: </label>
+                            <InputText id="Username" class="form-control" @bind-Value="@User.Username"
+                                placeholder="Enter Username"></InputText>
                         </div>
 
                         <div class="form-group">
-                            <label for="firstName">First name: </label>
-                            <InputText id="firstName" class="form-control" @bind-Value="@User.Password"
-                                       placeholder="Enter first name"></InputText>
+                            <label for="Password">Password: </label>
+                            <InputText type="password" id="Password" class="form-control" @bind-Value="@User.Password"
+                                placeholder="Password"></InputText>
                         </div>
                         <button type="submit" class="btn btn-primary">Loggin</button>
                         <a class="btn btn-outline-primary" @onclick="@Close">Close</a>

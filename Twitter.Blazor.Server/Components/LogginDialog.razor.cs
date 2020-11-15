@@ -6,9 +6,15 @@ namespace Twitter.Blazor.Server.Components
 {
     public partial class LogginDialog
     {
+
         public User User { get; set; } = new User();
 
         public bool ShowDialog { get; set; }
+
+        public bool HasError { get; set; }
+        public string Messege { get; set; }
+
+
         [Parameter]
         public EventCallback<User> LoggedIn { get; set; }
 
@@ -31,9 +37,15 @@ namespace Twitter.Blazor.Server.Components
             {
                 LoginSystem loginSystem = new LoginSystem();
                 UserReturn = loginSystem.LogInUser(User.Username, User.Password);
-               if(UserReturn.Item1)
+                if (UserReturn.Item1)
                 {
+                    HasError = false;
                     ShowDialog = false;
+                }
+                else
+                {
+                    HasError = true;
+                    Messege = "Unable to login";
                 }
             });
             if (UserReturn.Item1)
