@@ -32,6 +32,7 @@ namespace Twitter.Blazor.Server.Components
 
         protected async Task HandleValidSubmit()
         {
+            HasError = false;
             (bool, User) UserReturn = (false, null);
             await Task.Run(() =>
             {

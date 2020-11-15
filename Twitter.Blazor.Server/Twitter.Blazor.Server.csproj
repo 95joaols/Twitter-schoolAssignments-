@@ -1,7 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TwitterCore\TwitterCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
   <PropertyGroup>
