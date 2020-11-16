@@ -8,6 +8,7 @@ namespace Grupparbete
     {
         static LoginSystem loginSystem = new LoginSystem();
         static TweetManager tweetManager = new TweetManager();
+        static UserManager userManager = new UserManager();
         static ConsoleKey userKey;
         static void Main(string[] args)
         {
@@ -61,7 +62,7 @@ namespace Grupparbete
                     case ConsoleKey.D2:
                         Console.Write("Write your bio: ");
                         string bio = Console.ReadLine();
-                        tweetManager.AddBioToUser(bio,user);
+                        userManager.AddBioToUser(bio,user);
                         break;
                     case ConsoleKey.D3:
                         loginSystem.LogOutUser(user);
