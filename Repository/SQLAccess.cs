@@ -157,6 +157,19 @@ namespace Repository
 
             return true;
         }
+        public bool Delete(Table table, string pKName, dynamic pKvalue)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Query($"DELETE FROM {table} WHERE {pKName} = @pKvalue", new
+                {
+                    pKvalue
+                });
+            }
+
+            return true;
+        }
+
         public static bool IsNumericType(object o)
         {
             switch (Type.GetTypeCode(o.GetType()))

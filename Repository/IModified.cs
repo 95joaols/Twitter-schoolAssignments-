@@ -16,5 +16,6 @@ namespace Repository
         /// <exception cref="System.Exception"></exception>
         bool Add<IdType>(dynamic entety, Table table, string pKName, List<string> ignore = null);
         bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue, List<string> ignore = null);
+        bool Delete(Table table, string pKName, dynamic pKvalue);
     }
 }

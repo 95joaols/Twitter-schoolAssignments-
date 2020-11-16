@@ -39,6 +39,22 @@ namespace TwitterCore
             return tweets;
         }
 
+        public bool Delete(int tweetId, User user)
+        {
+            Dictionary<string, string> where = new Dictionary<string, string>();
+            where.Add("ID", tweetId.ToString());
+            Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
+            if (tweet != null && tweet.UserID == user.Id)
+            {
+                dbControl.Delete(Table.Tweet, "ID", tweetId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void AddBioToUser(string bio, User user)
         {
             user.Biography = bio;
