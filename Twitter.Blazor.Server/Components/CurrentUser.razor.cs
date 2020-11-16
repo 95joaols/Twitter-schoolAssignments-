@@ -7,9 +7,6 @@ namespace Twitter.Blazor.Server.Components
 {
     public partial class CurrentUser
     {
-        [Parameter]
-        public User User { get; set; }
-
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
@@ -18,11 +15,7 @@ namespace Twitter.Blazor.Server.Components
 
         protected override async Task OnInitializedAsync()
         {
-            await Task.Run(() => User = DataAccess.User);
-        }
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            await Task.Run(() => User = DataAccess.User);
+            await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
         }
 
         protected void ShowLoginDialog()
@@ -32,6 +25,11 @@ namespace Twitter.Blazor.Server.Components
         protected void ShowLogoutDialog()
         {
             LogoutDialog.Show();
+        }
+
+        public async Task OnNotifyDataChanged()
+        {
+            await InvokeAsync(() => StateHasChanged());
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Twitter.Blazor.Server.Data
             if (UserReturn.Item1)
             {
                 User = UserReturn.Item2;
-                //NotifyDataChanged.Invoke();
+                NotifyDataChanged.Invoke();
             }
             SessionStorage?.SetItemAsync("CurentUser", User).Wait();
             return UserReturn.Item1;
@@ -62,21 +62,23 @@ namespace Twitter.Blazor.Server.Data
         public void LogingOut()
         {
             User = null;
-            //NotifyDataChanged.Invoke();
+            NotifyDataChanged.Invoke();
         }
 
-        public void OnSyncTweet(object source, ElapsedEventArgs e)
+        public async void OnSyncTweet(object source, ElapsedEventArgs e)
         {
-            TweetManager tweetManager = new TweetManager();
-            IEnumerable<Tweet> Tweets = tweetManager.GetTweets(50);
-            Tweets = Tweets.OrderByDescending(tweet => tweet.CreateDate);
-
-            var set = new HashSet<Tweet>(Tweets);
-            if (!set.SetEquals(TopTweets))
+            await Task.Run(() =>
             {
-                TopTweets = Tweets;
-                //NotifyDataChanged.Invoke();
-            }
+                TweetManager tweetManager = new TweetManager();
+                IEnumerable<Tweet> Tweets = tweetManager.GetTweets(50);
+
+                HashSet<int> set = new HashSet<int>(Tweets.Select(x => x.ID));
+                if (!set.SetEquals(TopTweets.Select(x => x.ID)))
+                {
+                    TopTweets = Tweets;
+                    NotifyDataChanged.Invoke();
+                }
+            });
         }
 
 

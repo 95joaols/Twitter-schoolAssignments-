@@ -13,7 +13,6 @@ namespace Twitter.Blazor.Server.Data
         bool Runing { get; }
 
         void Start();
-        void OnSyncTweet(object source, ElapsedEventArgs e);
 
         bool LogingIn(string username, string password);
         void LogingOut();

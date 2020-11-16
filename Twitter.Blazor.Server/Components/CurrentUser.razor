@@ -1,9 +1,9 @@
-﻿@if (User != null)
+﻿@if (DataAccess.User != null)
 {
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">@User.Username</h5>
-            <h6 class="card-subtitle mb-2 text-muted">@User.Firstname @User.Lastname</h6>
+            <h5 class="card-title">@DataAccess.User.Username</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@DataAccess.User.Firstname @DataAccess.User.Lastname</h6>
             <button @onclick="ShowLogoutDialog" class="btn btn-dark table-btn quick-add-btn">Logout</button>
             <LogoutDialog @ref="LogoutDialog"></LogoutDialog>
         </div>
