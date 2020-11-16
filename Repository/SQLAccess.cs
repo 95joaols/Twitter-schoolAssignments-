@@ -57,7 +57,7 @@ namespace Repository
             return true;
         }
 
-        public IEnumerable<T> GetMenyEntitys<T>(int top, string Select, Table table, IDictionary<string, string> Where = null)
+        public IEnumerable<T> GetMenyEntitys<T>(int top, string Select, Table table, IDictionary<string, string> Where = null, string orderColumBy = "")
         {
             if (string.IsNullOrWhiteSpace(Select))
             {
@@ -87,10 +87,15 @@ namespace Repository
                     }
                 }
             }
+
+            if (!string.IsNullOrWhiteSpace(orderColumBy))
+            {
+                orderColumBy = "ORDER BY " + orderColumBy + " DESC";
+            }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //get data from sql
-                entety = connection.Query<T>($"{sSelect} FROM {CodeTools.GetEnumDescription(table)} {sWhere}");
+                entety = connection.Query<T>($"{sSelect} FROM {CodeTools.GetEnumDescription(table)} {sWhere} {orderColumBy}");
             }
             return entety;
         }
