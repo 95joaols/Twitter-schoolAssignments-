@@ -1,14 +1,12 @@
 @page "/"
-@if (DataAccess.TopTweets == null)
-    {
+@if (Tweets == null)
+{
     <p><em>Loading...</em></p>
-    }
-    else
-    {
-    @foreach (var Tweet in DataAccess.TopTweets)
+}
+else
+{
+    @foreach (var Tweet in Tweets)
     {
         <TweetC TweetP=Tweet></TweetC>
     }
 }
-
-<p><em>testing...</em></p>

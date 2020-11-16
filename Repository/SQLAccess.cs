@@ -122,12 +122,12 @@ namespace Repository
             return entety;
         }
 
-        public bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue)
+        public bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue, List<string> ignore = null)
         {
             string SET = "";
             foreach (PropertyInfo e in entety.GetType().GetProperties())
             {
-                if (e.Name != pKName)
+                if (e.Name != pKName && !ignore.Contains(e.Name))
                 {
                     if (SET != "")
                     {
@@ -146,7 +146,7 @@ namespace Repository
                 }
             }
 
-            string sql = $"UPDATE {table} SET ({SET})" +
+            string sql = $"UPDATE {CodeTools.GetEnumDescription(table)} SET ({SET})" +
                 $" WHERE {pKName}={pKvalue};";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

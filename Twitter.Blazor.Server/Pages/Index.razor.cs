@@ -1,21 +1,24 @@
-using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Twitter.Blazor.Server.Data;
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Pages
 {
     public partial class Index
     {
-        [Inject]
-        private IDataAccess DataAccess { get; set; }
-
-        public IEnumerable<Tweet> TopTweets { get; private set; }
+        public IEnumerable<Tweet> Tweets { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            await Task.Run(() => TopTweets = DataAccess.TopTweets);
+            await Task.Run(() =>
+            {
+                TweetManager tweetManager = new TweetManager();
+                Tweets = tweetManager.GetTweets(50);
+                Tweets = Tweets.OrderByDescending(tweet => tweet.CreateDate);
+            });
+            return;
         }
     }
 }

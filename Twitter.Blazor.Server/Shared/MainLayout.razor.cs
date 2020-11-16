@@ -12,13 +12,13 @@ namespace Twitter.Blazor.Server.Shared
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
-            await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
+            //await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
         }
 
-        public async Task OnNotifyDataChanged()
-        {
-            await InvokeAsync(() => StateHasChanged());
-        }
+       // public async Task OnNotifyDataChanged()
+        //{
+        //    await InvokeAsync(() => StateHasChanged());
+        //}
     }
 }
 

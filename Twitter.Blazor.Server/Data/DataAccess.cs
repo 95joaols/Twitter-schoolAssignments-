@@ -53,7 +53,7 @@ namespace Twitter.Blazor.Server.Data
             if (UserReturn.Item1)
             {
                 User = UserReturn.Item2;
-                NotifyDataChanged.Invoke();
+                //NotifyDataChanged.Invoke();
             }
             SessionStorage?.SetItemAsync("CurentUser", User).Wait();
             return UserReturn.Item1;
@@ -62,7 +62,7 @@ namespace Twitter.Blazor.Server.Data
         public void LogingOut()
         {
             User = null;
-            NotifyDataChanged.Invoke();
+            //NotifyDataChanged.Invoke();
         }
 
         public void OnSyncTweet(object source, ElapsedEventArgs e)
@@ -75,7 +75,7 @@ namespace Twitter.Blazor.Server.Data
             if (!set.SetEquals(TopTweets))
             {
                 TopTweets = Tweets;
-                NotifyDataChanged.Invoke();
+                //NotifyDataChanged.Invoke();
             }
         }
 
