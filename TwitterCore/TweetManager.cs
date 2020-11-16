@@ -37,6 +37,7 @@ namespace TwitterCore
                 tweets.Add(tweet);
             }
             return tweets;
+            
         }
 
         public bool Delete(int tweetId, User user)
