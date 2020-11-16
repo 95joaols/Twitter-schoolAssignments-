@@ -28,7 +28,8 @@ namespace Repository
             string value = "";
             foreach (PropertyInfo e in entety.GetType().GetProperties())
             {
-                if (e.Name != pKName && !ignore.Contains(e.Name))
+
+
                 {
                     if (prop != "")
                     {
@@ -146,7 +147,7 @@ namespace Repository
                 }
             }
 
-            string sql = $"UPDATE {CodeTools.GetEnumDescription(table)} SET ({SET})" +
+            string sql = $"UPDATE {CodeTools.GetEnumDescription(table)} SET {SET}" +
                 $" WHERE {pKName}={pKvalue};";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

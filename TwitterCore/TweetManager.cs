@@ -43,7 +43,7 @@ namespace TwitterCore
         {
             user.Biography = bio;
             //db.UpdateBioToUserInDb(user);
-            dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount" });
+            dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
         }
 
     }

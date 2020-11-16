@@ -10,10 +10,10 @@ namespace Twitter.Blazor.Server.Shared
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
-        public override async Task SetParametersAsync(ParameterView parameters)
-        {
+        //public override async Task SetParametersAsync(ParameterView parameters)
+        //{
             //await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
-        }
+        //}
 
        // public async Task OnNotifyDataChanged()
         //{
