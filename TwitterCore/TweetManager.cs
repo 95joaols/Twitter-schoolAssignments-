@@ -43,11 +43,11 @@ namespace TwitterCore
         {
             Dictionary<string, string> where = new Dictionary<string, string>();
             where.Add("ID", tweetId.ToString());
+
             Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
             if (tweet != null && tweet.UserID == user.Id)
             {
-                dbControl.Delete(Table.Tweet, "ID", tweetId);
-                return true;
+                return dbControl.Delete(Table.Tweet, "ID", tweetId);
             }
             else
             {
