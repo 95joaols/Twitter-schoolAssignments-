@@ -22,14 +22,14 @@ namespace Repository
             connectionString = config.GetConnectionString(ConnectionStringName);
         }
 
-        public bool Add<IdType>(dynamic entety, Table table, string pKName, List<string> ignore = null)
+        public bool Add<IdType>(object entety, Table table, string pKName, List<string> ignore = null)
         {
             string prop = "";
             string value = "";
             foreach (PropertyInfo e in entety.GetType().GetProperties())
             {
 
-
+                if (e.Name != pKName && !ignore.Contains(e.Name))
                 {
                     if (prop != "")
                     {
@@ -49,7 +49,7 @@ namespace Repository
             IdType id;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                id = connection.QuerySingle<IdType>(sql, (object)entety);
+                id = connection.QuerySingle<IdType>(sql, entety);
             }
             PropertyInfo propertyInfo = entety.GetType().GetProperty(pKName);
             propertyInfo.SetValue(entety, Convert.ChangeType((IdType)id, propertyInfo.PropertyType), null);
@@ -128,7 +128,7 @@ namespace Repository
             return entety;
         }
 
-        public bool Update<T>(dynamic entety, Table table, string pKName, dynamic pKvalue, List<string> ignore = null)
+        public bool Update<T>(object entety, Table table, string pKName, object pKvalue, List<string> ignore = null)
         {
             string SET = "";
             foreach (PropertyInfo e in entety.GetType().GetProperties())
@@ -147,7 +147,7 @@ namespace Repository
                     // }
                     // else
                     // {
-                    SET += e.Name + $"='{e.GetValue(entety)}'";
+                    SET += e.Name + $"='{e.GetValue(entety).ToString().Replace("'", "").Replace("\"", "")}'";
                     // }
                 }
             }
@@ -162,7 +162,7 @@ namespace Repository
 
             return true;
         }
-        public bool Delete(Table table, string pKName, dynamic pKvalue)
+        public bool Delete(Table table, string pKName, object pKvalue)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
