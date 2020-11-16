@@ -69,6 +69,7 @@ namespace Grupparbete
                         System.Console.WriteLine("Logged out");
                         break;
                     case ConsoleKey.D4:
+                        tweetManager.Delete(2, user);
                         // söka användare
                         break;
                     case ConsoleKey.D5:
