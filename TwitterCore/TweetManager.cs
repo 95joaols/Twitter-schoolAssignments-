@@ -56,12 +56,12 @@ namespace TwitterCore
             }
         }
 
-        public void AddBioToUser(string bio, User user)
-        {
-            user.Biography = bio;
-            //db.UpdateBioToUserInDb(user);
-            dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
-        }
+        // public void AddBioToUser(string bio, User user)
+        // {
+        //     user.Biography = bio;
+        //     //db.UpdateBioToUserInDb(user);
+        //     dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
+        // }
 
     }
 }
