@@ -10,5 +10,12 @@ namespace Twitter.Blazor.Server.Pages
     {
         [Inject]
         private IDataAccess DataAccess { get; set; }
+
+        public IEnumerable<Tweet> TopTweets { get; private set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await Task.Run(() => TopTweets = DataAccess.TopTweets);
+        }
     }
 }

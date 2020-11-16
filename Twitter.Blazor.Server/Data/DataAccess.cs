@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +11,9 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
+        [Inject]
+        ISessionStorageService SessionStorage { get; set; }
+
         public IEnumerable<Tweet> TopTweets { get; private set; }
 
         public User User { get; private set; }
@@ -19,10 +24,11 @@ namespace Twitter.Blazor.Server.Data
 
         public DataAccess()
         {
+
             Start();
+            User = SessionStorage?.GetItemAsync<User>("CurentUser").Result;
 
 
-            Runing = true;
         }
         public void Start()
         {
@@ -35,6 +41,8 @@ namespace Twitter.Blazor.Server.Data
                 timer.Elapsed += OnSyncTweet;
                 timer.AutoReset = true;
                 timer.Enabled = true;
+
+                Runing = true;
             }
         }
 
@@ -47,6 +55,7 @@ namespace Twitter.Blazor.Server.Data
                 User = UserReturn.Item2;
                 NotifyDataChanged.Invoke();
             }
+            SessionStorage?.SetItemAsync("CurentUser", User).Wait();
             return UserReturn.Item1;
         }
 

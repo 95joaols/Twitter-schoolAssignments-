@@ -24,7 +24,8 @@ namespace Twitter.Blazor.Server
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddBlazoredSessionStorage();
-            services.AddScoped<IDataAccess,DataAccess>();
+            //services.AddScoped<IDataAccess,DataAccess>();
+            services.AddSingleton<IDataAccess, DataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
