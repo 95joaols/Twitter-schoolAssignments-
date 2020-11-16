@@ -9,7 +9,7 @@ namespace Twitter.Blazor.Server.Data
     interface IDataAccess
     {
         IEnumerable<Tweet> TopTweets { get;}
-        User User { get;}
+        User User { get; set; }
         bool Runing { get; }
 
         void Start();
@@ -18,5 +18,7 @@ namespace Twitter.Blazor.Server.Data
         void LogingOut();
 
         event Func<Task> NotifyDataChanged;
+        event Func<Task> LoggedIn;
+        event Func<Task> LoggedOut;
     }
 }
