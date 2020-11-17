@@ -62,5 +62,13 @@ namespace TwitterCore
                 connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
             }
         }
+
+        public IEnumerable<Search> SearchUsersAndTweets(string search)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Search>("EXEC SearchProcedure3 @SearchString = @Search", new { @Search = search });
+            }
+        }
     }
 }

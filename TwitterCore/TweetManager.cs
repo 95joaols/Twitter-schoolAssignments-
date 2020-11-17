@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Repository;
 using Repository.Enums;
+using System;
 
 namespace TwitterCore
 {
@@ -55,6 +56,16 @@ namespace TwitterCore
                 return false;
             }
         }
+
+        public IEnumerable<Search> SearchUsersAndTweets(string search)
+          {
+              SQLConnection sqlconn = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020");    // TODO: Should use dbControl instead. Not sure how.
+
+//                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
+                    return sqlconn.SearchUsersAndTweets(search);
+//                else
+//                    return null;
+          }
 
         // public void AddBioToUser(string bio, User user)
         // {
