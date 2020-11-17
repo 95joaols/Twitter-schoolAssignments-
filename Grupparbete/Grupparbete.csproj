@@ -9,4 +9,8 @@
     <ProjectReference Include="..\TwitterCore\TwitterCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+  </ItemGroup>
+
 </Project>

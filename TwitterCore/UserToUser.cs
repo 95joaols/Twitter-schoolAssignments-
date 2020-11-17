@@ -1,6 +1,6 @@
 namespace TwitterCore
 {
-    class UserToUser
+    public class UserToUser
     {
         public int Id { get; set; }
         public int UserId { get; set; }

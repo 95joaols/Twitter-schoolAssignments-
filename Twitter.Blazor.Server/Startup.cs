@@ -23,7 +23,7 @@ namespace Twitter.Blazor.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddBlazoredSessionStorage();
+           // services.AddBlazoredSessionStorage();
             services.AddScoped<IDataAccess,DataAccess>();
             //services.AddSingleton<IDataAccess, DataAccess>();
         }

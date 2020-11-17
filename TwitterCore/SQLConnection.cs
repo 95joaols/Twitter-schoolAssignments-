@@ -54,5 +54,13 @@ namespace TwitterCore
                 connection.Execute($"UPDATE [User] SET Biography = @Biography WHERE Id = @Id;", user);
             }
         }
+
+        public void AddUserFollowingToDb(UserToUser userToUser)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
+            }
+        }
     }
 }

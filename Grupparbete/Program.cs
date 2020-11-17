@@ -47,7 +47,7 @@ namespace Grupparbete
                 Console.WriteLine("[1] Add Twitter Post");
                 Console.WriteLine("[2] Lägg till Bio info");
                 Console.WriteLine("[3] Logga ut");
-                Console.WriteLine("[4] Search User");
+                Console.WriteLine("[4] Remove tweet");
                 Console.WriteLine("[5] Search Post");
                 Console.WriteLine("[6] ?");
 
@@ -74,7 +74,7 @@ namespace Grupparbete
                         // söka användare
                         break;
                     case ConsoleKey.D5:
-                        // söka post
+                        //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
                         break;
                     default:
                         System.Console.WriteLine("error");
@@ -124,6 +124,11 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}", tweet.Username, tweet.Message, tweet.CreateDate);
             }
+        }
+
+        public static void foo()
+        {
+            
         }
     }
 }
