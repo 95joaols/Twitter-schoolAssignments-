@@ -142,7 +142,7 @@ namespace Grupparbete
             Console.Write("Search: ");
             string searchString = Console.ReadLine();               // What to search for.
 
-            Console.WriteLine("Everything matching:");
+            Console.WriteLine();
             List<Search> fetchedSearchProc = tweetManager.SearchUsersAndTweets(searchString) as List<Search>;           // TODO: Overkill to use a List?
             foreach (Search x in fetchedSearchProc)
             {
@@ -151,10 +151,12 @@ namespace Grupparbete
 
             while (true)
             {
-                Console.WriteLine(Environment.NewLine + "1 = sort by users, 2 = sort by tweets, 3 = default view, Esc = return to main menu.");
+                Console.WriteLine(Environment.NewLine + "[1] Sort by users");
+                Console.WriteLine("[2] Sort by tweets");
+                Console.WriteLine("[3] Default view");
+                Console.WriteLine("[Esc] Return to main menu.");
                 Console.Write("Option: ");
                 userKey = Console.ReadKey(false).Key;
-                Console.WriteLine();
 
                 switch (userKey)
                 {
@@ -162,11 +164,14 @@ namespace Grupparbete
                     case ConsoleKey.D1:
                     {
                         var uniqueUsers = fetchedSearchProc.GroupBy(x => new {x.Id, x.Username, x.Biography});              // The type for uniqueUsers is an IEnumerable that holds an IGrouping (seems to be similar to a Dictionary). Not fun to work with!
+                        Console.WriteLine(Environment.NewLine);
                         foreach (var x in uniqueUsers)
                         {
                             Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}", x.Key.Id, x.Key.Username, x.Key.Biography);
                         }
-                        Console.WriteLine("1 = user select. Esc = return to search.");
+                        Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
+                        Console.WriteLine("[Esc] Return to search");
+                        Console.Write("Option: ");
                         userKey = Console.ReadKey(false).Key;
                         if (userKey == ConsoleKey.D1)
                         {
@@ -179,7 +184,7 @@ namespace Grupparbete
                                 // TODO: TOGGLE FOLLOW METHOD HERE.
                             }
                             else
-                                Console.WriteLine("Not a valid option. " + userKeyInt);
+                                Console.WriteLine("Not a valid User Id (" + userKeyInt + ")");
                         }
                         else if (userKey == ConsoleKey.Escape)
                             break;
@@ -188,24 +193,27 @@ namespace Grupparbete
 // --------------------------------------------------- SORT BY TWEETS
                     case ConsoleKey.D2:
                     {
+                        Console.WriteLine(Environment.NewLine);
                         foreach (Search x in fetchedSearchProc)
                         {
                             if (x.IdTweet != 0)
                                 Console.WriteLine("IdTweet: {0}, Username: {1}, Message: {2}, CreateDate: {3}", x.IdTweet, x.Username, x.Message, x.CreateDate);
                         }
 
-                        Console.Write("1 = Retweet. Esc = return to search.");
+                        Console.WriteLine(Environment.NewLine + "[1] Retweet");
+                        Console.WriteLine("[Esc] Return to search");
+                        Console.Write("Option: ");
                         userKey = Console.ReadKey(false).Key;
                         if (userKey == ConsoleKey.D1)
                         {
                             Console.Write(Environment.NewLine + "Choose an \"IdTweet\" to retweet: ");
-
                             int userKeyInt = Convert.ToInt32(Console.ReadLine());
+
                             foreach (Search x in fetchedSearchProc)
                             {
                                 if (x.IdTweet == userKeyInt)
                                 {
-                                    Console.WriteLine("You retweeted: " + userKeyInt);
+                                    Console.WriteLine("You retweeted (" + userKeyInt + ")");
                                     // TODO: RETWEET METHOD HERE.
                                 }
                             }
@@ -218,6 +226,7 @@ namespace Grupparbete
 // --------------------------------------------------- DEFAULT SORT
                     case ConsoleKey.D3:
                     {
+                        Console.WriteLine(Environment.NewLine);
                         foreach (Search x in fetchedSearchProc)
                         {
                             Console.WriteLine("User Id: {0}, Username: {1}, Bioagraphy: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id ,x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
