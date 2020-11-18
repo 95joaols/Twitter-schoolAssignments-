@@ -269,9 +269,9 @@ namespace Grupparbete
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What user to search for.
 
-                    IEnumerable<User> fetchedUsers = tweetManager.SearchUsers(searchString);
+                    IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
 
-                    Console.WriteLine("Count: " + fetchedUsers.Count());
+                    Console.WriteLine();
                     foreach (var x in fetchedUsers)
                         Console.WriteLine("User Id: {0}, Username: {1}, Firstname: {2}, Lastname: {3}, Biography: {4}", x.Id, x.Username, x.Firstname, x.Lastname, x.Biography);
 
@@ -296,6 +296,7 @@ namespace Grupparbete
 
                     IEnumerable<Tweet> fetchedTweets = tweetManager.SearchTweets(searchString);
 
+                    Console.WriteLine();
                     foreach (var x in fetchedTweets)
                         Console.WriteLine("Tweet Id: {0}, Message: {1}, CreateDate: {2}, UserId: {3}", x.ID, x.Message, x.CreateDate, x.UserID);
 
