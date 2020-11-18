@@ -31,7 +31,7 @@ namespace Twitter.Blazor.Server.Data
             if (!Runing)
             {
                 TweetManager tweetManager = new TweetManager();
-                TopTweets = tweetManager.GetTweets(50);
+                TopTweets = tweetManager.GetTweets();
                 if (User != null)
                 {
                     UrerTweets = tweetManager.GetUserTweets(User);
@@ -74,7 +74,7 @@ namespace Twitter.Blazor.Server.Data
             await Task.Run(() =>
             {
                 TweetManager tweetManager = new TweetManager();
-                IEnumerable<Tweet> Tweets = tweetManager.GetTweets(50);
+                IEnumerable<Tweet> Tweets = tweetManager.GetTweets();
                 IEnumerable<Tweet> UserTweets = new List<Tweet>();
                 if (User != null)
                 {

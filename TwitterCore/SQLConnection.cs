@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
@@ -44,6 +45,14 @@ namespace TwitterCore
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Execute("INSERT INTO [User] (Username, Password) values (@username, @password)", user);
+            }
+        }
+
+        public IEnumerable<Tweet> GetOthersTweetsFromDb(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Tweet>("SELECT Tweet.Id, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
             }
         }
 

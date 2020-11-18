@@ -29,15 +29,27 @@ namespace TwitterCore
             return userTweets;
         }
 
-        public List<Tweet> GetTweets(int top)
+        public List<Tweet> GetTweets()
         {
 
             List<Tweet> tweets = new List<Tweet>();
 
-            // IEnumerable<Tweet> tweetsable = db.GetTweetsFromDb();
-            IEnumerable<Tweet> tweetsable = dbControl.GetMenyEntitys<Tweet>(top, "Tweet.ID, CreateDate, Message, Username", Table.TweetUser, null, "CreateDate");
+            IEnumerable<Tweet> tweetsable = db.GetTweetsFromDb();
 
             foreach (var tweet in tweetsable)
+            {
+                tweets.Add(tweet);
+            }
+            return tweets;
+
+        }
+
+        public List<Tweet> GetOthersTweets(User user)
+        {
+            List<Tweet> tweets = new List<Tweet>();
+            IEnumerable<Tweet> othersTweets = db.GetOthersTweetsFromDb(user.Id);
+
+            foreach (Tweet tweet in othersTweets)
             {
                 tweets.Add(tweet);
             }
