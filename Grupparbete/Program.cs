@@ -155,6 +155,20 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
+
+            System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
+            int idChoiche = int.Parse(Console.ReadLine());
+            
+            foreach (Tweet tweet in userTweets)
+            {
+                if(tweet.ID == idChoiche && tweet.UserID == user.Id)
+                {
+                    tweetManager.Delete(idChoiche, user);
+                    break;
+                }
+              
+            }
+          
         }
 
         public static void SearchTweets(User loggedInUser)
