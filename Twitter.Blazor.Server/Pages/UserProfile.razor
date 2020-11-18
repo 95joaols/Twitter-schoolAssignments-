@@ -1,0 +1,24 @@
+﻿@page "/UserProfile"
+
+@if (DataAccess.User != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><b>@DataAccess.User.Username</b></h5>
+            <p class="card-text"><i>@FullName</i></p>
+            <p class="card-text">@DataAccess.User.Biography</p>
+        </div>
+    </div>
+}
+
+@if (DataAccess.UrerTweets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var Tweet in DataAccess.UrerTweets)
+    {
+        <TweetC TweetP=Tweet></TweetC>
+    }
+}
