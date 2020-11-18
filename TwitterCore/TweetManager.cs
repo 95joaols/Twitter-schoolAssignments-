@@ -54,7 +54,12 @@ namespace TwitterCore
                 tweets.Add(tweet);
             }
             return tweets;
+        }
 
+        public void Retweet(int userId, int tweetId)
+        {
+            UserToRetweet retweet = new UserToRetweet(userId, tweetId);
+            db.RetweetToDb(retweet);
         }
 
         public bool Delete(int tweetId, User user)

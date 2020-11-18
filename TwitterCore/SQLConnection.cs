@@ -56,6 +56,14 @@ namespace TwitterCore
             }
         }
 
+        internal void RetweetToDb(UserToRetweet retweet)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("INSERT INTO UserToRetweet (UserId, TweetId) values (@userId, @tweetId)", retweet);
+            }
+        }
+
         public void AddTweetToDb(Tweet tweet)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
