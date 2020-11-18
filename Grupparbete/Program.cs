@@ -166,15 +166,27 @@ namespace Grupparbete
 
             System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
             int idChoiche = int.Parse(Console.ReadLine());
-
+            bool skip = false;
             foreach (Tweet tweet in userTweets)
             {
-                if (tweet.ID == idChoiche && tweet.UserID == user.Id)
-                {
-                    tweetManager.Delete(idChoiche, user);
-                    break;
-                }
 
+               
+                if (tweet.ID != idChoiche)
+                {
+                    continue;
+                }
+                else if(tweet.ID == idChoiche)
+                {
+                    skip = true;
+                    tweetManager.Delete(idChoiche, user);
+                    System.Console.WriteLine("Tweet raderad!");
+                    break;   
+                }
+               
+            }
+            if(skip == false)
+            {
+                System.Console.WriteLine("error");
             }
 
         }
