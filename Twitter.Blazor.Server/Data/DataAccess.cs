@@ -17,6 +17,16 @@ namespace Twitter.Blazor.Server.Data
         public User User { get; set; }
 
         public bool Runing { get; private set; }
+        public bool Loading
+        {
+            get { return loading; }
+            set
+            {
+                loading = value;
+                NotifyDataChanged.Invoke();
+            }
+        }
+        private bool loading;
 
         public event Func<Task> NotifyDataChanged;
         public event Func<Task> LoggedIn;
@@ -72,6 +82,14 @@ namespace Twitter.Blazor.Server.Data
             LoggedOut.Invoke();
             NotifyDataChanged.Invoke();
         }
+        public void RemoveTweet(Tweet tweet)
+        {
+            TweetManager tweetManager = new TweetManager();
+            tweetManager.Delete(tweet.ID, User);
+            TopTweets.ToList().Remove(tweet);
+            UrerTweets.ToList().Remove(tweet);
+            Loading = false;
+        }
 
         public async void OnSyncTweet(object source, ElapsedEventArgs e)
         {
@@ -92,7 +110,7 @@ namespace Twitter.Blazor.Server.Data
                     TopTweets = Tweets;
                     NotifyDataChanged.Invoke();
                 }
-                if(UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
+                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
                 {
                     UrerTweets = UserTweets;
                     NotifyDataChanged.Invoke();

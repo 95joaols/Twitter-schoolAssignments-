@@ -5,7 +5,7 @@
         <a href="#" class="card-link">Retweet</a>
         @if (TweetP.UserID == DataAccess?.User?.Id)
         {
-            <a class="btn btn-outline-primary" @onclick="@Remove">Remove</a>
+            <a type="button" class="btn btn-danger" @onclick="@Remove">Remove</a>
         }
     </div>
 </div>

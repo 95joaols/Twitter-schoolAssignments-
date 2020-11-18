@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 using TwitterCore;
 
@@ -12,10 +13,13 @@ namespace Twitter.Blazor.Server.Components
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
-        private void Remove()
+         private async Task Remove()
         {
-            TweetManager tweetManager = new TweetManager();
-            tweetManager.Delete(TweetP.ID, DataAccess.User);
+            DataAccess.Loading = true;
+             await Task.Run(() =>
+            {
+                DataAccess.RemoveTweet(TweetP);
+            });
         }
     }
 }
