@@ -19,13 +19,14 @@ namespace Twitter.Blazor.Server.Components
 
         protected override async Task OnInitializedAsync()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 DataAccess.NotifyDataChanged += OnNotifyDataChanged;
                 DataAccess.LoggedIn += OnLoggedIn;
                 DataAccess.LoggedOut += OnLoggedOut;
 
             });
-            
+
 
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,7 +34,7 @@ namespace Twitter.Blazor.Server.Components
             User t = DataAccess.User;
             DataAccess.User = await SessionStorage.GetItemAsync<User>("CurentUser");
 
-            if(t?.Id != DataAccess.User?.Id)
+            if (t?.Id != DataAccess.User?.Id)
             {
                 await OnNotifyDataChanged();
             }
