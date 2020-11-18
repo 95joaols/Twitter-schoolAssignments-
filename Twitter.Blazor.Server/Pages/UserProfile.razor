@@ -2,11 +2,12 @@
 
 @if (DataAccess.User != null)
 {
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"><b>@DataAccess.User.Username</b></h5>
-            <p class="card-text"><i>@FullName</i></p>
-            <p class="card-text">@DataAccess.User.Biography</p>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">@DataAccess.User.Username</h1>
+            <p class="lead"><i>@FullName</i></p>
+            <p class="lead">@DataAccess.User.Biography</p>
         </div>
     </div>
 }
