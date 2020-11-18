@@ -11,6 +11,9 @@ namespace Twitter.Blazor.Server.Components
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
+        [Inject]
+        NavigationManager NavigationManager { get; set; }
+
         public void Show()
         {
             ShowDialog = true;
@@ -25,7 +28,11 @@ namespace Twitter.Blazor.Server.Components
 
         protected async Task LogOut()
         {
-            await Task.Run(() => DataAccess.LogingOut());
+            await Task.Run(() =>
+            {
+                DataAccess.LogingOut();
+                NavigationManager.NavigateTo("/");
+            });
         }
     }
 }

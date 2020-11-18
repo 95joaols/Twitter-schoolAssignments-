@@ -8,10 +8,14 @@ namespace Twitter.Blazor.Server.Data
 {
     interface IDataAccess
     {
-        IEnumerable<Tweet> TopTweets { get;}
+        IEnumerable<Tweet> TopTweets { get; }
         IEnumerable<Tweet> UrerTweets { get; }
         User User { get; set; }
         bool Runing { get; }
+        bool Loading { get; set; }
+
+        void Update();
+        void RemoveTweet(Tweet tweet);
 
         void Start();
 

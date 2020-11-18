@@ -31,9 +31,7 @@ a,
 .validation-message {
   color: red;
 }
-.card {
-  z-index: -1;
-}
+
 
 #blazor-error-ui {
   background: lightyellow;

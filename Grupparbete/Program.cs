@@ -50,8 +50,10 @@ namespace Grupparbete
                 Console.WriteLine("[1] Add Twitter Post");
                 Console.WriteLine("[2] Lägg till Bio info");
                 Console.WriteLine("[3] Logga ut");
-                Console.WriteLine("[4] Remove tweet");
+                //Console.WriteLine("[4] Remove tweet");
 //                Console.WriteLine("[5] Search Post");
+                Console.WriteLine("[4] Show all tweets");
+                Console.WriteLine("[5] Search Post");
                 Console.WriteLine("[6] My profile");
                 Console.WriteLine("[7] Search X");
 
@@ -81,8 +83,8 @@ namespace Grupparbete
                         System.Console.WriteLine("Logged out");
                         break;
                     case ConsoleKey.D4:
-                        tweetManager.Delete(2, user);
-                        // söka användare
+                        //Visa alla tweets
+                        PrintOthersTweets(user);
                         break;
 /*                    case ConsoleKey.D5:
                         //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
@@ -98,6 +100,32 @@ namespace Grupparbete
                         System.Console.WriteLine("Invalid menu input");
                         break;
                 }
+            }
+        }
+
+        private static void PrintOthersTweets(User user)
+        {
+            List<Tweet> tweets = tweetManager.GetOthersTweets(user);
+            foreach (Tweet tweet in tweets)
+            {
+                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
+            }
+
+            Console.WriteLine("Välj tweet att retweeta: ");
+            int idChoice = int.Parse(Console.ReadLine());
+            bool skip = false;
+
+            foreach (Tweet tweet in tweets)
+            {
+                if (tweet.ID == idChoice)
+                {
+                    tweetManager.Retweet(user.Id, idChoice);
+                    skip = true;
+                }
+            }
+            if (!skip)
+            {
+                Console.WriteLine("Du valde felaktigt");
             }
         }
 
@@ -140,7 +168,7 @@ namespace Grupparbete
 
         public static void PrintTweets()
         {
-            List<Tweet> tweets = tweetManager.GetTweets(10);
+            List<Tweet> tweets = tweetManager.GetTweets();
 
             foreach (Tweet tweet in tweets)
             {
@@ -166,15 +194,27 @@ namespace Grupparbete
 
             System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
             int idChoiche = int.Parse(Console.ReadLine());
-
+            bool skip = false;
             foreach (Tweet tweet in userTweets)
             {
-                if (tweet.ID == idChoiche && tweet.UserID == user.Id)
+
+
+                if (tweet.ID != idChoiche)
                 {
+                    continue;
+                }
+                else if (tweet.ID == idChoiche)
+                {
+                    skip = true;
                     tweetManager.Delete(idChoiche, user);
+                    System.Console.WriteLine("Tweet raderad!");
                     break;
                 }
 
+            }
+            if (skip == false)
+            {
+                System.Console.WriteLine("error");
             }
 
         }

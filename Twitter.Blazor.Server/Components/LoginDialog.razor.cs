@@ -32,6 +32,8 @@ namespace Twitter.Blazor.Server.Components
 
         protected async Task HandleValidSubmit()
         {
+            StateHasChanged();
+            DataAccess.Loading = true;
             HasError = false;
             await Task.Run(() =>
             {
@@ -39,11 +41,13 @@ namespace Twitter.Blazor.Server.Components
                 {
                     HasError = false;
                     ShowDialog = false;
+                    DataAccess.Loading = false;
                 }
                 else
                 {
                     HasError = true;
                     Messege = "Unable to login";
+                    DataAccess.Loading = false;
                 }
             });
         }

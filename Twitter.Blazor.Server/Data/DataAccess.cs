@@ -17,6 +17,16 @@ namespace Twitter.Blazor.Server.Data
         public User User { get; set; }
 
         public bool Runing { get; private set; }
+        public bool Loading
+        {
+            get { return loading; }
+            set
+            {
+                loading = value;
+                NotifyDataChanged.Invoke();
+            }
+        }
+        private bool loading;
 
         public event Func<Task> NotifyDataChanged;
         public event Func<Task> LoggedIn;
@@ -31,7 +41,7 @@ namespace Twitter.Blazor.Server.Data
             if (!Runing)
             {
                 TweetManager tweetManager = new TweetManager();
-                TopTweets = tweetManager.GetTweets(50);
+                TopTweets = tweetManager.GetTweets();
                 if (User != null)
                 {
                     UrerTweets = tweetManager.GetUserTweets(User);
@@ -44,6 +54,10 @@ namespace Twitter.Blazor.Server.Data
 
                 Runing = true;
             }
+        }
+        public void Update()
+        {
+            NotifyDataChanged.Invoke();
         }
 
         public bool LogingIn(string username, string password)
@@ -68,13 +82,21 @@ namespace Twitter.Blazor.Server.Data
             LoggedOut.Invoke();
             NotifyDataChanged.Invoke();
         }
+        public void RemoveTweet(Tweet tweet)
+        {
+            TweetManager tweetManager = new TweetManager();
+            tweetManager.Delete(tweet.ID, User);
+            TopTweets.ToList().Remove(tweet);
+            UrerTweets.ToList().Remove(tweet);
+            Loading = false;
+        }
 
         public async void OnSyncTweet(object source, ElapsedEventArgs e)
         {
             await Task.Run(() =>
             {
                 TweetManager tweetManager = new TweetManager();
-                IEnumerable<Tweet> Tweets = tweetManager.GetTweets(50);
+                IEnumerable<Tweet> Tweets = tweetManager.GetTweets();
                 IEnumerable<Tweet> UserTweets = new List<Tweet>();
                 if (User != null)
                 {
@@ -88,7 +110,7 @@ namespace Twitter.Blazor.Server.Data
                     TopTweets = Tweets;
                     NotifyDataChanged.Invoke();
                 }
-                if(UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
+                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
                 {
                     UrerTweets = UserTweets;
                     NotifyDataChanged.Invoke();
