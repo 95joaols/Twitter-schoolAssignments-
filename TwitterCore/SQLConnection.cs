@@ -56,6 +56,14 @@ namespace TwitterCore
             }
         }
 
+        internal void DeleteTweetDb(int tweetId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("delete from Tweet where Id = " + tweetId);
+            }
+        }
+
         internal void RetweetToDb(UserToRetweet retweet)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

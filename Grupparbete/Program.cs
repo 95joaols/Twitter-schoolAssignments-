@@ -51,7 +51,7 @@ namespace Grupparbete
                 Console.WriteLine("[2] Lägg till Bio info");
                 Console.WriteLine("[3] Logga ut");
                 //Console.WriteLine("[4] Remove tweet");
-//                Console.WriteLine("[5] Search Post");
+                //                Console.WriteLine("[5] Search Post");
                 Console.WriteLine("[4] Show all tweets");
                 Console.WriteLine("[5] Search Post");
                 Console.WriteLine("[6] My profile");
@@ -86,10 +86,10 @@ namespace Grupparbete
                         //Visa alla tweets
                         PrintOthersTweets(user);
                         break;
-/*                    case ConsoleKey.D5:
-                        //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
-                        SearchTweets(user);
-                        break; */
+                    /*                    case ConsoleKey.D5:
+                                            //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
+                                            SearchTweets(user);
+                                            break; */
                     case ConsoleKey.D6:
                         PrintYourBioAndTweets(user);
                         break;
@@ -192,30 +192,52 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
 
-            System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
-            int idChoiche = int.Parse(Console.ReadLine());
-            bool skip = false;
-            foreach (Tweet tweet in userTweets)
-            {
+            System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
+            // int idChoiche = int.Parse(Console.ReadLine());
 
-
-                if (tweet.ID != idChoiche)
+            // while (true)
+            // {
+                string foo = Console.ReadLine();
+                int idChoiche;
+                bool success = Int32.TryParse(foo, out idChoiche);
+                if(foo == string.Empty)
                 {
-                    continue;
+                    System.Console.WriteLine("tillbaka till meny");
                 }
-                else if (tweet.ID == idChoiche)
+                else if (success)
                 {
-                    skip = true;
-                    tweetManager.Delete(idChoiche, user);
-                    System.Console.WriteLine("Tweet raderad!");
-                    break;
-                }
+                    bool skip = false;
+                    foreach (Tweet tweet in userTweets)
+                    {
 
-            }
-            if (skip == false)
-            {
-                System.Console.WriteLine("error");
-            }
+
+                        if (tweet.ID != idChoiche)
+                        {
+                            continue;
+                        }
+                        else if (tweet.ID == idChoiche)
+                        {
+                            skip = true;
+                            tweetManager.Delete(idChoiche, user);
+                            System.Console.WriteLine("Tweet raderad!");
+                            break;
+                        }
+
+                    }
+                    if (skip == false)
+                    {
+                        System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Du skrev inte in en siffra!");
+                    
+                }
+            // }
+
+
+
 
         }
 
@@ -252,10 +274,10 @@ namespace Grupparbete
                         Console.Write(Environment.NewLine + "Choose an \"User Id\" to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("userKeyInt: " + userKeyInt);
-                        //userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
+                        userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
                     }
 
-/*                    else if (userKey == ConsoleKey.Escape)
+                    /*                    else if (userKey == ConsoleKey.Escape)
                     {
                     } */
 
@@ -302,120 +324,120 @@ namespace Grupparbete
 
 
 
-/*        public static void SearchTweets(User loggedInUser)
-        {
-            Console.Write("Search: ");
-            string searchString = Console.ReadLine();               // What to search for.
-
-            Console.WriteLine();
-            List<Search> fetchedSearchProc = tweetManager.SearchUsersAndTweets(searchString) as List<Search>;           // TODO: Overkill to use a List?
-            foreach (Search x in fetchedSearchProc)
-            {
-                Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id, x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
-            }
-
-            bool searchMenuRunning = true;
-
-            while (searchMenuRunning)
-            {
-                Console.WriteLine(Environment.NewLine + "[1] Sort by users");
-                Console.WriteLine("[2] Sort by tweets");
-                Console.WriteLine("[3] Default view");
-                Console.WriteLine("[Esc] Return to main menu.");
-                Console.Write("Option: ");
-                userKey = Console.ReadKey(false).Key;
-
-                switch (userKey)
+        /*        public static void SearchTweets(User loggedInUser)
                 {
-                    // --------------------------------------------------- SORT BY USERS
-                    case ConsoleKey.D1:
+                    Console.Write("Search: ");
+                    string searchString = Console.ReadLine();               // What to search for.
+
+                    Console.WriteLine();
+                    List<Search> fetchedSearchProc = tweetManager.SearchUsersAndTweets(searchString) as List<Search>;           // TODO: Overkill to use a List?
+                    foreach (Search x in fetchedSearchProc)
+                    {
+                        Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id, x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
+                    }
+
+                    bool searchMenuRunning = true;
+
+                    while (searchMenuRunning)
+                    {
+                        Console.WriteLine(Environment.NewLine + "[1] Sort by users");
+                        Console.WriteLine("[2] Sort by tweets");
+                        Console.WriteLine("[3] Default view");
+                        Console.WriteLine("[Esc] Return to main menu.");
+                        Console.Write("Option: ");
+                        userKey = Console.ReadKey(false).Key;
+
+                        switch (userKey)
                         {
-                            var uniqueUsers = fetchedSearchProc.GroupBy(x => new { x.Id, x.Username, x.Biography });              // The type for uniqueUsers is an IEnumerable that holds an IGrouping (seems to be similar to a Dictionary). Not fun to work with!
-                            Console.WriteLine(Environment.NewLine);
-                            foreach (var x in uniqueUsers)
-                            {
-                                Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}", x.Key.Id, x.Key.Username, x.Key.Biography);
-                            }
-                            Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
-                            Console.WriteLine("[Esc] Return to search");
-                            Console.Write("Option: ");
-                            userKey = Console.ReadKey(false).Key;
-                            if (userKey == ConsoleKey.D1)
-                            {
-                                Console.Write(Environment.NewLine + "Choose an \"User Id\" to follow: ");
-                                int userKeyInt = Convert.ToInt32(Console.ReadLine());
-
-                                if (uniqueUsers.Any(x => x.Key.Id == userKeyInt))               // TODO: Fult. Det man får ut är en PK, hade varit snyggare ifall användaren såg en lista med "1 > x" istället. Problemet är att jag har väldigt dålig koll på hur man arbetar med typen som uniqueUsers har.
+                            // --------------------------------------------------- SORT BY USERS
+                            case ConsoleKey.D1:
                                 {
-                                    Console.WriteLine("You followed/unfollowed: " + userKeyInt);
-                                    userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
-                                    // TODO: TOGGLE FOLLOW METHOD HERE.
-                                }
-                                else
-                                    Console.WriteLine("Not a valid User Id (" + userKeyInt + ")");
-                            }
-                            else if (userKey == ConsoleKey.Escape)
-                                break;
-                            break;
-                        }
-                    // --------------------------------------------------- SORT BY TWEETS
-                    case ConsoleKey.D2:
-                        {
-                            Console.WriteLine(Environment.NewLine);
-                            foreach (Search x in fetchedSearchProc)
-                            {
-                                if (x.IdTweet != 0)
-                                    Console.WriteLine("IdTweet: {0}, Username: {1}, Message: {2}, CreateDate: {3}", x.IdTweet, x.Username, x.Message, x.CreateDate);
-                            }
-
-                            Console.WriteLine(Environment.NewLine + "[1] Retweet");
-                            Console.WriteLine("[Esc] Return to search");
-                            Console.Write("Option: ");
-                            userKey = Console.ReadKey(false).Key;
-                            if (userKey == ConsoleKey.D1)
-                            {
-                                Console.Write(Environment.NewLine + "Choose an \"IdTweet\" to retweet: ");
-                                int userKeyInt = Convert.ToInt32(Console.ReadLine());
-
-                                foreach (Search x in fetchedSearchProc)
-                                {
-                                    if (x.IdTweet == userKeyInt)
+                                    var uniqueUsers = fetchedSearchProc.GroupBy(x => new { x.Id, x.Username, x.Biography });              // The type for uniqueUsers is an IEnumerable that holds an IGrouping (seems to be similar to a Dictionary). Not fun to work with!
+                                    Console.WriteLine(Environment.NewLine);
+                                    foreach (var x in uniqueUsers)
                                     {
-                                        Console.WriteLine("You retweeted (" + userKeyInt + ")");
-                                        // TODO: RETWEET METHOD HERE.
+                                        Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}", x.Key.Id, x.Key.Username, x.Key.Biography);
                                     }
+                                    Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
+                                    Console.WriteLine("[Esc] Return to search");
+                                    Console.Write("Option: ");
+                                    userKey = Console.ReadKey(false).Key;
+                                    if (userKey == ConsoleKey.D1)
+                                    {
+                                        Console.Write(Environment.NewLine + "Choose an \"User Id\" to follow: ");
+                                        int userKeyInt = Convert.ToInt32(Console.ReadLine());
+
+                                        if (uniqueUsers.Any(x => x.Key.Id == userKeyInt))               // TODO: Fult. Det man får ut är en PK, hade varit snyggare ifall användaren såg en lista med "1 > x" istället. Problemet är att jag har väldigt dålig koll på hur man arbetar med typen som uniqueUsers har.
+                                        {
+                                            Console.WriteLine("You followed/unfollowed: " + userKeyInt);
+                                            userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
+                                            // TODO: TOGGLE FOLLOW METHOD HERE.
+                                        }
+                                        else
+                                            Console.WriteLine("Not a valid User Id (" + userKeyInt + ")");
+                                    }
+                                    else if (userKey == ConsoleKey.Escape)
+                                        break;
+                                    break;
                                 }
-                            }
-                            else if (userKey == ConsoleKey.Escape)
+                            // --------------------------------------------------- SORT BY TWEETS
+                            case ConsoleKey.D2:
+                                {
+                                    Console.WriteLine(Environment.NewLine);
+                                    foreach (Search x in fetchedSearchProc)
+                                    {
+                                        if (x.IdTweet != 0)
+                                            Console.WriteLine("IdTweet: {0}, Username: {1}, Message: {2}, CreateDate: {3}", x.IdTweet, x.Username, x.Message, x.CreateDate);
+                                    }
+
+                                    Console.WriteLine(Environment.NewLine + "[1] Retweet");
+                                    Console.WriteLine("[Esc] Return to search");
+                                    Console.Write("Option: ");
+                                    userKey = Console.ReadKey(false).Key;
+                                    if (userKey == ConsoleKey.D1)
+                                    {
+                                        Console.Write(Environment.NewLine + "Choose an \"IdTweet\" to retweet: ");
+                                        int userKeyInt = Convert.ToInt32(Console.ReadLine());
+
+                                        foreach (Search x in fetchedSearchProc)
+                                        {
+                                            if (x.IdTweet == userKeyInt)
+                                            {
+                                                Console.WriteLine("You retweeted (" + userKeyInt + ")");
+                                                // TODO: RETWEET METHOD HERE.
+                                            }
+                                        }
+                                    }
+                                    else if (userKey == ConsoleKey.Escape)
+                                        break;
+                                    break;
+                                }
+
+                            // --------------------------------------------------- DEFAULT SORT
+                            case ConsoleKey.D3:
+                                {
+                                    Console.WriteLine(Environment.NewLine);
+                                    foreach (Search x in fetchedSearchProc)
+                                    {
+                                        Console.WriteLine("User Id: {0}, Username: {1}, Bioagraphy: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id, x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
+                                    }
+                                    break;
+                                }
+
+                            // --------------------------------------------------- ESCAPE
+                            case ConsoleKey.Escape:
+                                {
+                                    // TweetMenu(new User { Id = 777, Username = "Ghost" });                 // TODO: Sneaky solution! :)
+                                    // break;
+                                    searchMenuRunning = false;
+                                    break;
+                                }
+
+                            default:
+                                Console.WriteLine("Not a valid option.");
                                 break;
-                            break;
                         }
-
-                    // --------------------------------------------------- DEFAULT SORT
-                    case ConsoleKey.D3:
-                        {
-                            Console.WriteLine(Environment.NewLine);
-                            foreach (Search x in fetchedSearchProc)
-                            {
-                                Console.WriteLine("User Id: {0}, Username: {1}, Bioagraphy: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id, x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
-                            }
-                            break;
-                        }
-
-                    // --------------------------------------------------- ESCAPE
-                    case ConsoleKey.Escape:
-                        {
-                            // TweetMenu(new User { Id = 777, Username = "Ghost" });                 // TODO: Sneaky solution! :)
-                            // break;
-                            searchMenuRunning = false;
-                            break;
-                        }
-
-                    default:
-                        Console.WriteLine("Not a valid option.");
-                        break;
-                }
-            }
-        } */
+                    }
+                } */
     }
 }
