@@ -81,7 +81,7 @@ namespace TwitterCore
             //                    return null;
         }
 
-        public IEnumerable<User> SearchTweets(string search)
+        public IEnumerable<Tweet> SearchTweets(string search)
         {
 
 
