@@ -111,21 +111,52 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
 
-            Console.WriteLine("Välj tweet att retweeta: ");
-            int idChoice = int.Parse(Console.ReadLine());
-            bool skip = false;
+            // Console.WriteLine("Välj tweet att retweeta: ");
+            // int idChoice = int.Parse(Console.ReadLine());
+            // bool skip = false;
 
-            foreach (Tweet tweet in tweets)
+            // foreach (Tweet tweet in tweets)
+            // {
+            //     if (tweet.ID == idChoice)
+            //     {
+            //         tweetManager.Retweet(user.Id, idChoice);
+            //         skip = true;
+            //     }
+            // }
+            // if (!skip)
+            // {
+            //     Console.WriteLine("Du valde felaktigt");
+            // }
+
+            System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
+            string foo = Console.ReadLine();
+            int idChoiche;
+            bool success = Int32.TryParse(foo, out idChoiche);
+            if (foo == string.Empty)
             {
-                if (tweet.ID == idChoice)
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool print = false;
+                foreach (Tweet tweet in tweets)
                 {
-                    tweetManager.Retweet(user.Id, idChoice);
-                    skip = true;
+                    if (tweet.ID == idChoiche)
+                    {
+                        print = true;
+                        tweetManager.Retweet(user.Id, idChoiche);
+                        System.Console.WriteLine("Tweeten finns nu även på din profil");
+                        break;
+                    }
+                }
+                if (print == false)
+                {
+                    System.Console.WriteLine("Detta TweetId finns inte tillgängligt att retweeta");
                 }
             }
-            if (!skip)
+            else
             {
-                Console.WriteLine("Du valde felaktigt");
+                Console.WriteLine("Du skrev inte in en siffra!");
             }
         }
 
@@ -179,66 +210,51 @@ namespace Grupparbete
         private static void PrintYourBioAndTweets(User user)
         {
             System.Console.WriteLine("Bio: ");
-            Console.WriteLine();
             System.Console.WriteLine(user.Biography);
             Console.WriteLine();
 
             IEnumerable<Tweet> userTweets = tweetManager.GetUserTweets(user);
             Console.WriteLine("Tweets:");
-            Console.WriteLine();
-
             foreach (Tweet tweet in userTweets)
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
 
             System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
-            // int idChoiche = int.Parse(Console.ReadLine());
-
-            // while (true)
-            // {
-                string foo = Console.ReadLine();
-                int idChoiche;
-                bool success = Int32.TryParse(foo, out idChoiche);
-                if(foo == string.Empty)
+            string foo = Console.ReadLine();
+            int idChoiche;
+            bool success = Int32.TryParse(foo, out idChoiche);
+            if (foo == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool skip = false;
+                foreach (Tweet tweet in userTweets)
                 {
-                    System.Console.WriteLine("tillbaka till meny");
-                }
-                else if (success)
-                {
-                    bool skip = false;
-                    foreach (Tweet tweet in userTweets)
+                    if (tweet.ID != idChoiche)
                     {
-
-
-                        if (tweet.ID != idChoiche)
-                        {
-                            continue;
-                        }
-                        else if (tweet.ID == idChoiche)
-                        {
-                            skip = true;
-                            tweetManager.Delete(idChoiche, user);
-                            System.Console.WriteLine("Tweet raderad!");
-                            break;
-                        }
-
+                        continue;
                     }
-                    if (skip == false)
+                    else if (tweet.ID == idChoiche)
                     {
-                        System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                        skip = true;
+                        tweetManager.Delete(idChoiche, user);
+                        System.Console.WriteLine("Tweet raderad!");
+                        break;
                     }
+
                 }
-                else
+                if (skip == false)
                 {
-                    Console.WriteLine("Du skrev inte in en siffra!");
-                    
+                    System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
                 }
-            // }
-
-
-
-
+            }
+            else
+            {
+                Console.WriteLine("Du skrev inte in en siffra!");
+            }
         }
 
         public static void SearchTweetsVersion2(User loggedInUser)
