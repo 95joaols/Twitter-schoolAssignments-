@@ -8,7 +8,7 @@ namespace TwitterCore
     // den skulle inte kunna heta UserService?
     public class TweetManager
     {
-        //SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
+        SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
 
         IFullControl dbControl;
 
@@ -19,10 +19,8 @@ namespace TwitterCore
         public void CreateTweet(string message, int UserID)
         {
             Tweet tweet = new Tweet(message, UserID);
-            // add user to DB
-            //db.CreateUserToDB() typ
-            //db.AddTweetToDb(tweet);
-            dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
+            db.AddTweetToDb(tweet);
+            // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
         public List<Tweet> GetTweets(int top)
@@ -59,10 +57,10 @@ namespace TwitterCore
 
         public IEnumerable<Search> SearchUsersAndTweets(string search)
           {
-              SQLConnection sqlconn = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020");    // TODO: Should use dbControl instead. Not sure how.
+                 
 
 //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
-                    return sqlconn.SearchUsersAndTweets(search);
+                    return db.SearchUsersAndTweets(search);
 //                else
 //                    return null;
           }

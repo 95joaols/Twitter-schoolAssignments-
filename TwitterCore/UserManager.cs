@@ -18,12 +18,13 @@ namespace TwitterCore
         {
 
             user.Biography = bio;
-            dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
+            db.UpdateBioToUserInDb(user);
+            // dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
         }
 
-        public void AddFollwingOfUser(User loggdInUser,User userToFollow) 
+        public void AddFollwingOfUser(User loggdInUser,int followId) 
         {
-            UserToUser userToUser = new UserToUser(loggdInUser.Id,userToFollow.Id);
+            UserToUser userToUser = new UserToUser(loggdInUser.Id,followId);
             db.AddUserFollowingToDb(userToUser);
  
         }
