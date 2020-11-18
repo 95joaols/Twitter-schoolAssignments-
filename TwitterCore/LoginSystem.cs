@@ -6,7 +6,7 @@ namespace TwitterCore
 {
     public class LoginSystem
     {
-        //SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
+        SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
 
         private readonly IFullControl dbControl;
 
@@ -18,39 +18,33 @@ namespace TwitterCore
         public void CreateUser(string username, string password)
         {
             User user = new User(username, password);
-            // add user to DB
-            //db.CreateUserToDB() typ
-
-            dbControl.Add<int>(user, Table.User, "Id",new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount" });
-            //db.AddUserToDb(user);
+            // dbControl.Add<int>(user, Table.User, "Id",new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount" });
+            db.AddUserToDb(user);
         }
 
         public (bool, User) LogInUser(string username, string password)
         {
             int userID = -1;
             bool LoginSuccessful = false;
-
-            //get users from db
-
-            Dictionary<string, string> where = new Dictionary<string, string>();
-            where.Add("Username", username);
-            //IEnumerable<User> usersable = db.GetUsers();
-            User user = dbControl.GetSingel<User>("*", Table.User, where);
-
-            // foreach (User user in usersable)
-            // {
+            // Dictionary<string, string> where = new Dictionary<string, string>();
+            // where.Add("Username", username);
+            IEnumerable<User> usersable = db.GetUsers();
+            // User user = dbControl.GetSingel<User>("*", Table.User, where);
             User loggedInUser = null;
-            if (password == user?.Password && username == user?.Username)
+            foreach (User user in usersable)
             {
-                user.IsLoggedIn = true;
-                LoginSuccessful = user.IsLoggedIn;
+                
+                if (password == user?.Password && username == user?.Username)
+                {
+                    user.IsLoggedIn = true;
+                    LoginSuccessful = user.IsLoggedIn;
 
-                userID = user.Id;
+                    userID = user.Id;
 
-                loggedInUser = user;
-                // break;
+                    loggedInUser = user;
+                    // break;
+                }
             }
-            // }
             return (LoginSuccessful, loggedInUser);
         }
 

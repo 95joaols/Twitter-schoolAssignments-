@@ -77,7 +77,7 @@ namespace Grupparbete
                         break;
                     case ConsoleKey.D5:
                         //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
-                        SearchTweets();
+                        SearchTweets(user);
                         break;
                     default:
                         System.Console.WriteLine("error");
@@ -137,7 +137,7 @@ namespace Grupparbete
         {
         }
 
-        public static void SearchTweets()
+        public static void SearchTweets(User loggedInUser)
         {
             Console.Write("Search: ");
             string searchString = Console.ReadLine();               // What to search for.
@@ -181,6 +181,8 @@ namespace Grupparbete
                             if (uniqueUsers.Any(x => x.Key.Id == userKeyInt))               // TODO: Fult. Det man får ut är en PK, hade varit snyggare ifall användaren såg en lista med "1 > x" istället. Problemet är att jag har väldigt dålig koll på hur man arbetar med typen som uniqueUsers har.
                             {
                                 Console.WriteLine("You followed/unfollowed: " + userKeyInt);
+                                
+                                userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
                                 // TODO: TOGGLE FOLLOW METHOD HERE.
                             }
                             else
