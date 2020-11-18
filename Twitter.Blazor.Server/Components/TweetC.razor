@@ -3,5 +3,9 @@
         <h5 class="card-title">@TweetP.Username</h5>
         <p class="card-text">@TweetP.Message</p>
         <a href="#" class="card-link">Retweet</a>
+        @if (TweetP.UserID == DataAccess?.User?.Id)
+        {
+            <a class="btn btn-outline-primary" @onclick="@Remove">Remove</a>
+        }
     </div>
 </div>

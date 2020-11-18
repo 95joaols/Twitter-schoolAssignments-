@@ -45,6 +45,10 @@ namespace Twitter.Blazor.Server.Data
                 Runing = true;
             }
         }
+        public void Update()
+        {
+            NotifyDataChanged.Invoke();
+        }
 
         public bool LogingIn(string username, string password)
         {

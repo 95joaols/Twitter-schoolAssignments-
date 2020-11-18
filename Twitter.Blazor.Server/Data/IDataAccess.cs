@@ -12,6 +12,7 @@ namespace Twitter.Blazor.Server.Data
         IEnumerable<Tweet> UrerTweets { get; }
         User User { get; set; }
         bool Runing { get; }
+        void Update();
 
         void Start();
 
