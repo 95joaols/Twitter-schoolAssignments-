@@ -88,14 +88,6 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Search> SearchUsersAndTweets(string search)      // Old garbage. Delete later.
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                return connection.Query<Search>("EXEC SearchProcedure3 @SearchString = @Search", new { @Search = search });
-            }
-        }
-
         public IEnumerable<User> SearchUsers(string search)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

@@ -78,21 +78,11 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Search> SearchUsersAndTweets(string search)         // TODO: Old garbage! Remove later.
-        {
-
-
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
-            return db.SearchUsersAndTweets(search);
-            //                else
-            //                    return null;
-        }
-
         public IEnumerable<User> SearchUsers(string search)
         {
 
 
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
             return db.SearchUsers(search);
             //                else
             //                    return null;
@@ -102,7 +92,7 @@ namespace TwitterCore
         {
 
 
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
             return db.SearchTweets(search);
             //                else
             //                    return null;
