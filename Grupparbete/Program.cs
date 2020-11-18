@@ -108,6 +108,23 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
+
+            Console.WriteLine("Välj tweet att retweeta: ");
+            int idChoice = int.Parse(Console.ReadLine());
+            bool skip = false;
+
+            foreach (Tweet tweet in tweets)
+            {
+                if (tweet.ID == idChoice)
+                {
+                    tweetManager.Retweet(user.Id, idChoice);
+                    skip = true;
+                }
+            }
+            if (!skip)
+            {
+                Console.WriteLine("Du valde felaktigt");
+            }
         }
 
         private static void CreateUserMenu()
