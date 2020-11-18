@@ -34,7 +34,7 @@ namespace TwitterCore
             foreach (User user in usersable)
             {
                 
-                if (password == user?.Password && username == user?.Username)
+                if (password == user?.Password && username.ToLower() == user?.Username)
                 {
                     user.IsLoggedIn = true;
                     LoginSuccessful = user.IsLoggedIn;

@@ -46,6 +46,7 @@ namespace Grupparbete
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("[1] Add Twitter Post");
                 Console.WriteLine("[2] Lägg till Bio info");
                 Console.WriteLine("[3] Logga ut");
@@ -146,15 +147,32 @@ namespace Grupparbete
         private static void PrintYourBioAndTweets(User user)
         {
             System.Console.WriteLine("Bio: ");
+            Console.WriteLine();
             System.Console.WriteLine(user.Biography);
+            Console.WriteLine();
 
             IEnumerable<Tweet> userTweets = tweetManager.GetUserTweets(user);
             Console.WriteLine("Tweets:");
+            Console.WriteLine();
 
             foreach (Tweet tweet in userTweets)
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
+
+            System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
+            int idChoiche = int.Parse(Console.ReadLine());
+            
+            foreach (Tweet tweet in userTweets)
+            {
+                if(tweet.ID == idChoiche && tweet.UserID == user.Id)
+                {
+                    tweetManager.Delete(idChoiche, user);
+                    break;
+                }
+              
+            }
+          
         }
 
         public static void SearchTweets(User loggedInUser)

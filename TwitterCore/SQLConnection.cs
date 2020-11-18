@@ -35,7 +35,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Tweet>("SELECT Tweet.Id, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
+                return connection.Query<Tweet>("SELECT Tweet.Id, Tweet.UserId, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
             }
         }
 
@@ -71,11 +71,27 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Search> SearchUsersAndTweets(string search)
+        public IEnumerable<Search> SearchUsersAndTweets(string search)      // Old garbage
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Query<Search>("EXEC SearchProcedure3 @SearchString = @Search", new { @Search = search });
+            }
+        }
+
+        public IEnumerable<Search> SearchUsers(string search)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Search>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
+            }
+        }
+
+        public IEnumerable<Search> SearchTweets(string search)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Search>("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
             }
         }
     }
