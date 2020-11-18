@@ -105,29 +105,12 @@ namespace Grupparbete
 
         private static void PrintOthersTweets(User user)
         {
-            List<Tweet> tweets = tweetManager.GetOthersTweets(user);
-            foreach (Tweet tweet in tweets)
+            List < Tuple<string, Tweet> > tweets = tweetManager.GetOthersTweets(user);
+            foreach (var tweet in tweets)
             {
-                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
+                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
-
-            // Console.WriteLine("Välj tweet att retweeta: ");
-            // int idChoice = int.Parse(Console.ReadLine());
-            // bool skip = false;
-
-            // foreach (Tweet tweet in tweets)
-            // {
-            //     if (tweet.ID == idChoice)
-            //     {
-            //         tweetManager.Retweet(user.Id, idChoice);
-            //         skip = true;
-            //     }
-            // }
-            // if (!skip)
-            // {
-            //     Console.WriteLine("Du valde felaktigt");
-            // }
-
+            
             System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
             string foo = Console.ReadLine();
             int idChoiche;
@@ -139,9 +122,9 @@ namespace Grupparbete
             else if (success)
             {
                 bool print = false;
-                foreach (Tweet tweet in tweets)
+                foreach (var tweet in tweets)
                 {
-                    if (tweet.ID == idChoiche)
+                    if (tweet.Item2.ID == idChoiche)
                     {
                         print = true;
                         tweetManager.Retweet(user.Id, idChoiche);
@@ -199,11 +182,11 @@ namespace Grupparbete
 
         public static void PrintTweets()
         {
-            List<Tweet> tweets = tweetManager.GetTweets();
+            List<Tuple<string,Tweet>> tweets = tweetManager.GetTweets();
 
-            foreach (Tweet tweet in tweets)
+            foreach (var tweet in tweets)
             {
-                Console.WriteLine("{0}: {1}, {2}", tweet.Username, tweet.Message, tweet.CreateDate);
+                Console.WriteLine("{0}: {1}, {2}", tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
         }
 
@@ -213,11 +196,11 @@ namespace Grupparbete
             System.Console.WriteLine(user.Biography);
             Console.WriteLine();
 
-            IEnumerable<Tweet> userTweets = tweetManager.GetUserTweets(user);
+            List<Tuple<string, Tweet>> userTweets = tweetManager.GetUserTweets(user);
             Console.WriteLine("Tweets:");
-            foreach (Tweet tweet in userTweets)
+            foreach (var tweet in userTweets)
             {
-                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
+                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
 
             System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
@@ -231,13 +214,13 @@ namespace Grupparbete
             else if (success)
             {
                 bool skip = false;
-                foreach (Tweet tweet in userTweets)
+                foreach (var tweet in userTweets)
                 {
-                    if (tweet.ID != idChoiche)
+                    if (tweet.Item2.ID != idChoiche)
                     {
                         continue;
                     }
-                    else if (tweet.ID == idChoiche)
+                    else if (tweet.Item2.ID == idChoiche)
                     {
                         skip = true;
                         tweetManager.Delete(idChoiche, user);
@@ -321,7 +304,7 @@ namespace Grupparbete
                         Console.Write(Environment.NewLine + "Choose an \"Tweet Id\" to retweet: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("userKeyInt: " + userKeyInt);
-                        // TODO: RETWEET METHOD HERE!
+                        tweetManager.Retweet(loggedInUser.Id, userKeyInt);
                     }
                 }
 

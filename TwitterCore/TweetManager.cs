@@ -23,37 +23,20 @@ namespace TwitterCore
             // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
-        public IEnumerable<Tweet> GetUserTweets(User user)
+        public List<Tuple<string, Tweet>> GetUserTweets(User user)
         {
-            IEnumerable<Tweet> userTweets = db.GetUserTweetsFromDb(user.Id);
-            return userTweets;
+            return db.GetUserTweetsFromDb(user.Id);
+            
         }
 
-        public List<Tweet> GetTweets()
+        public List<Tuple<string,Tweet>> GetTweets()
         {
-
-            List<Tweet> tweets = new List<Tweet>();
-
-            IEnumerable<Tweet> tweetsable = db.GetTweetsFromDb();
-
-            foreach (var tweet in tweetsable)
-            {
-                tweets.Add(tweet);
-            }
-            return tweets;
-
+            return db.GetTweetsFromDb();
         }
 
-        public List<Tweet> GetOthersTweets(User user)
+        public List<Tuple<string, Tweet>> GetOthersTweets(User user)
         {
-            List<Tweet> tweets = new List<Tweet>();
-            IEnumerable<Tweet> othersTweets = db.GetOthersTweetsFromDb(user.Id);
-
-            foreach (Tweet tweet in othersTweets)
-            {
-                tweets.Add(tweet);
-            }
-            return tweets;
+           return db.GetOthersTweetsFromDb(user.Id);  
         }
 
         public void Retweet(int userId, int tweetId)
