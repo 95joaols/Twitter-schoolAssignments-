@@ -71,7 +71,7 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Search> SearchUsersAndTweets(string search)      // Old garbage
+        public IEnumerable<Search> SearchUsersAndTweets(string search)      // Old garbage. Delete later.
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -79,19 +79,19 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Search> SearchUsers(string search)
+        public IEnumerable<User> SearchUsers(string search)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Search>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
+                return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
             }
         }
 
-        public IEnumerable<Search> SearchTweets(string search)
+        public IEnumerable<Tweet> SearchTweets(string search)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Search>("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
+                return connection.Query<Tweet>("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
             }
         }
     }

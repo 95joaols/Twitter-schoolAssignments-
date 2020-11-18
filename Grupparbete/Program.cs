@@ -162,18 +162,45 @@ namespace Grupparbete
 
             System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
             int idChoiche = int.Parse(Console.ReadLine());
-            
+
             foreach (Tweet tweet in userTweets)
             {
-                if(tweet.ID == idChoiche && tweet.UserID == user.Id)
+                if (tweet.ID == idChoiche && tweet.UserID == user.Id)
                 {
                     tweetManager.Delete(idChoiche, user);
                     break;
                 }
-              
+
             }
-          
+
         }
+
+        public static void SearchTweetsVersion2(User loggedInUser)
+        {
+            Console.WriteLine(Environment.NewLine + "[1] Search users");
+            Console.WriteLine("[2] Search tweets");
+            Console.WriteLine("[Esc] Return to main menu.");
+            Console.Write("Option: ");
+            userKey = Console.ReadKey(false).Key;
+
+            if (userKey == ConsoleKey.D1)
+            {
+                Console.Write("Search: ");
+                string searchString = Console.ReadLine();               // What to search for.
+
+                IEnumerable<User> fetchedUsers = tweetManager.SearchUsers(searchString);
+
+                Console.WriteLine(fetchedUsers.Count());
+            }
+        }
+
+
+
+
+
+
+
+
 
         public static void SearchTweets(User loggedInUser)
         {
