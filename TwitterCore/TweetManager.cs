@@ -62,20 +62,22 @@ namespace TwitterCore
             db.RetweetToDb(retweet);
         }
 
-        public bool Delete(int tweetId, User user)
+        public void Delete(int tweetId, User user)
         {
-            Dictionary<string, string> where = new Dictionary<string, string>();
-            where.Add("ID", tweetId.ToString());
+            db.DeleteTweetDb(tweetId);
 
-            Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
-            if (tweet != null && tweet.UserID == user.Id)
-            {
-                return dbControl.Delete(Table.Tweet, "ID", tweetId);
-            }
-            else
-            {
-                return false;
-            }
+            // Dictionary<string, string> where = new Dictionary<string, string>();
+            // where.Add("ID", tweetId.ToString());
+
+            // Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
+            // if (tweet != null && tweet.UserID == user.Id)
+            // {
+            //     return dbControl.Delete(Table.Tweet, "ID", tweetId);
+            // }
+            // else
+            // {
+            //     return false;
+            // }
         }
 
         public IEnumerable<User> SearchUsers(string search)

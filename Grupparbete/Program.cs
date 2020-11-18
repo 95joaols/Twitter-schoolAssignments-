@@ -187,30 +187,52 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
             }
 
-            System.Console.Write("Tryck enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
-            int idChoiche = int.Parse(Console.ReadLine());
-            bool skip = false;
-            foreach (Tweet tweet in userTweets)
-            {
+            System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
+            // int idChoiche = int.Parse(Console.ReadLine());
 
-
-                if (tweet.ID != idChoiche)
+            // while (true)
+            // {
+                string foo = Console.ReadLine();
+                int idChoiche;
+                bool success = Int32.TryParse(foo, out idChoiche);
+                if(foo == string.Empty)
                 {
-                    continue;
+                    System.Console.WriteLine("tillbaka till meny");
                 }
-                else if (tweet.ID == idChoiche)
+                else if (success)
                 {
-                    skip = true;
-                    tweetManager.Delete(idChoiche, user);
-                    System.Console.WriteLine("Tweet raderad!");
-                    break;
-                }
+                    bool skip = false;
+                    foreach (Tweet tweet in userTweets)
+                    {
 
-            }
-            if (skip == false)
-            {
-                System.Console.WriteLine("error");
-            }
+
+                        if (tweet.ID != idChoiche)
+                        {
+                            continue;
+                        }
+                        else if (tweet.ID == idChoiche)
+                        {
+                            skip = true;
+                            tweetManager.Delete(idChoiche, user);
+                            System.Console.WriteLine("Tweet raderad!");
+                            break;
+                        }
+
+                    }
+                    if (skip == false)
+                    {
+                        System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Du skrev inte in en siffra!");
+                    
+                }
+            // }
+
+
+
 
         }
 
