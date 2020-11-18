@@ -53,6 +53,7 @@ namespace Grupparbete
                 Console.WriteLine("[4] Remove tweet");
                 Console.WriteLine("[5] Search Post");
                 Console.WriteLine("[6] My profile");
+                Console.WriteLine("[7] Search X");
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
@@ -89,6 +90,9 @@ namespace Grupparbete
                         break;
                     case ConsoleKey.D6:
                         PrintYourBioAndTweets(user);
+                        break;
+                    case ConsoleKey.D7:
+                        SearchTweetsVersion2(user);
                         break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
@@ -202,7 +206,9 @@ namespace Grupparbete
 
                 IEnumerable<User> fetchedUsers = tweetManager.SearchUsers(searchString);
 
-                Console.WriteLine(fetchedUsers.Count());
+                Console.WriteLine("Count: " + fetchedUsers.Count());
+                foreach (var x in fetchedUsers)
+                    Console.WriteLine(x);
             }
         }
 

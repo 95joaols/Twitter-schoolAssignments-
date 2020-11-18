@@ -11,12 +11,14 @@ namespace Twitter.Blazor.Server.Pages
     {
         [Inject]
         private IDataAccess DataAccess { get; set; }
+        [Inject]
+        NavigationManager NavigationManager { get; set; }
 
         public string FullName
         {
             get
             {
-                if (DataAccess.User != null && !string.IsNullOrWhiteSpace(DataAccess.User.Firstname)|| !string.IsNullOrWhiteSpace(DataAccess.User.Lastname))
+                if (DataAccess.User != null && !string.IsNullOrWhiteSpace(DataAccess.User.Firstname) || !string.IsNullOrWhiteSpace(DataAccess.User.Lastname))
                 {
                     return $"({DataAccess.User.Firstname}  {DataAccess.User.Lastname})";
                 }
@@ -30,10 +32,22 @@ namespace Twitter.Blazor.Server.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
-            return;
+            await Task.Run(() =>
+            {
+                DataAccess.NotifyDataChanged += OnNotifyDataChanged;
+            });
         }
-
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await Task.Run(() =>
+            {
+                if (DataAccess.User == null)
+                {
+                    DataAccess.NotifyDataChanged += OnNotifyDataChanged;
+                    NavigationManager.NavigateTo("/");
+                }
+            });
+        }
 
         public async Task OnNotifyDataChanged()
         {
