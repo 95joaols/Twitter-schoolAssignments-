@@ -46,6 +46,7 @@ namespace Grupparbete
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("[1] Add Twitter Post");
                 Console.WriteLine("[2] Lägg till Bio info");
                 Console.WriteLine("[3] Logga ut");
@@ -146,10 +147,13 @@ namespace Grupparbete
         private static void PrintYourBioAndTweets(User user)
         {
             System.Console.WriteLine("Bio: ");
+            Console.WriteLine();
             System.Console.WriteLine(user.Biography);
+            Console.WriteLine();
 
             IEnumerable<Tweet> userTweets = tweetManager.GetUserTweets(user);
             Console.WriteLine("Tweets:");
+            Console.WriteLine();
 
             foreach (Tweet tweet in userTweets)
             {
