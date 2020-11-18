@@ -34,13 +34,13 @@ namespace TwitterCore
 
             Dictionary<string, string> where = new Dictionary<string, string>();
             where.Add("Username", username);
-            //IEnumerable<User> usersable = db.GetUsers();
+            //IEnumerable<User> users = db.GetUsers();
             User user = dbControl.GetSingel<User>("*", Table.User, where);
 
-            // foreach (User user in usersable)
+            // foreach (User user in users)
             // {
             User loggedInUser = null;
-            if (password == user?.Password && username == user?.Username)
+            if (password == user?.Password && username.ToLower() == user?.Username)
             {
                 user.IsLoggedIn = true;
                 LoginSuccessful = user.IsLoggedIn;
