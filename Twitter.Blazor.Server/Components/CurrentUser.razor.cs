@@ -36,7 +36,7 @@ namespace Twitter.Blazor.Server.Components
 
             if (t?.Id != DataAccess.User?.Id)
             {
-                await OnNotifyDataChanged();
+                DataAccess.Update();
             }
         }
 
