@@ -156,9 +156,9 @@ namespace Grupparbete
                 Console.WriteLine("User Id: {0}, Username: {1}, Biography: {2}, Message: {3}, CreateDate: {4}, IdTweet: {5}", x.Id, x.Username, x.Biography, x.Message, x.CreateDate, x.IdTweet);
             }
 
-            bool searchMenu = true;
+            bool searchMenuRunning = true;
 
-            while (searchMenu)
+            while (searchMenuRunning)
             {
                 Console.WriteLine(Environment.NewLine + "[1] Sort by users");
                 Console.WriteLine("[2] Sort by tweets");
@@ -248,7 +248,7 @@ namespace Grupparbete
                         {
                             // TweetMenu(new User { Id = 777, Username = "Ghost" });                 // TODO: Sneaky solution! :)
                             // break;
-                            searchMenu = false;
+                            searchMenuRunning = false;
                             break;
                         }
 
