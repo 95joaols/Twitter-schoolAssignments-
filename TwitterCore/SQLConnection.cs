@@ -31,6 +31,14 @@ namespace TwitterCore
             }
         }
 
+        public IEnumerable<Tweet> GetUserTweetsFromDb(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Tweet>("SELECT Tweet.Id, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
+            }
+        }
+
         public void AddUserToDb(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

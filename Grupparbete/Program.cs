@@ -51,7 +51,7 @@ namespace Grupparbete
                 Console.WriteLine("[3] Logga ut");
                 Console.WriteLine("[4] Remove tweet");
                 Console.WriteLine("[5] Search Post");
-                Console.WriteLine("[6] ?");
+                Console.WriteLine("[6] My profile");
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
@@ -85,6 +85,9 @@ namespace Grupparbete
                     case ConsoleKey.D5:
                         //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
                         SearchTweets(user);
+                        break;
+                    case ConsoleKey.D6:
+                        PrintYourBioAndTweets(user);
                         break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
@@ -140,8 +143,18 @@ namespace Grupparbete
             }
         }
 
-        public static void foo()
+        private static void PrintYourBioAndTweets(User user)
         {
+            System.Console.WriteLine("Bio: ");
+            System.Console.WriteLine(user.Biography);
+
+            IEnumerable<Tweet> userTweets = tweetManager.GetUserTweets(user);
+            Console.WriteLine("Tweets:");
+
+            foreach (Tweet tweet in userTweets)
+            {
+                Console.WriteLine("{0}: {1}, {2}, {3}", tweet.ID, tweet.Username, tweet.Message, tweet.CreateDate);
+            }
         }
 
         public static void SearchTweets(User loggedInUser)

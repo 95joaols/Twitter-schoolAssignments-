@@ -23,6 +23,12 @@ namespace TwitterCore
             // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
+        public IEnumerable<Tweet> GetUserTweets(User user)
+        {
+            IEnumerable<Tweet> userTweets = db.GetUserTweetsFromDb(user.Id);
+            return userTweets;
+        }
+
         public List<Tweet> GetTweets(int top)
         {
 
@@ -56,14 +62,14 @@ namespace TwitterCore
         }
 
         public IEnumerable<Search> SearchUsersAndTweets(string search)
-          {
-                 
+        {
 
-//                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
-                    return db.SearchUsersAndTweets(search);
-//                else
-//                    return null;
-          }
+
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
+            return db.SearchUsersAndTweets(search);
+            //                else
+            //                    return null;
+        }
 
         // public void AddBioToUser(string bio, User user)
         // {
