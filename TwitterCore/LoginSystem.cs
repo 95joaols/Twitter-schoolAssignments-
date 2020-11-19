@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Repository;
-using Repository.Enums;
 
 namespace TwitterCore
 {

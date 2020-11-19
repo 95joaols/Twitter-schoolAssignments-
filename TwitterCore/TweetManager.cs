@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Repository;
-using Repository.Enums;
 using System;
 
 namespace TwitterCore
@@ -10,11 +8,8 @@ namespace TwitterCore
     {
         SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
 
-        IFullControl dbControl;
-
         public TweetManager()
         {
-            dbControl = Faktorio.GetRepository();
         }
         public void CreateTweet(string message, int UserID)
         {

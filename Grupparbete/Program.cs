@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TwitterCore;
-using System.Linq;
 
 namespace Grupparbete
 {
