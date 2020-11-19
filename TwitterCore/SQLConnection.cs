@@ -2,22 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
+using System.Text.Json;
+using System.IO;
 
 namespace TwitterCore
 {
+    public class JsonLoginClass                 // Used for json-file.
+    {
+        public string Connection {get;set;}
+    }
 
     class SQLConnection
     {
-        private readonly string connectionString;
+        private const string jsonFile = "appsettings2.json";            // json file to use.
+        private JsonLoginClass connectionJson;
 
-        public SQLConnection(string connectionString)
+        public SQLConnection()
         {
-            this.connectionString = connectionString;
+            string readJsonFile = File.ReadAllText(jsonFile);
+            connectionJson = JsonSerializer.Deserialize<JsonLoginClass>(readJsonFile);
         }
 
         public IEnumerable<User> GetUsers()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 return connection.Query<User>("SELECT Id, Username, Password, Biography FROM [User]");
             }
@@ -26,7 +34,7 @@ namespace TwitterCore
         public List<Tuple<string, Tweet>> GetTweetsFromDb()
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 var foo = connection.Query("SELECT TOP 10 t.Id, t.CreateDate, t.Message, u.Username FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
                 foreach (var item in foo)
@@ -42,7 +50,7 @@ namespace TwitterCore
         public List<Tuple<string, Tweet>> GetUserTweetsFromDb(int id)
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 dynamic foo = connection.Query("SELECT Tweet.Id, Tweet.UserId, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
                 foreach (var item in foo)
@@ -59,7 +67,7 @@ namespace TwitterCore
         public List<Tuple<string, Tweet, UserToRetweet>> GetUserRetweetsFromDb(int id)
         {
             List<Tuple<string, Tweet, UserToRetweet>> tweetsFromDb = new List<Tuple<string, Tweet, UserToRetweet>>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 dynamic foo = connection.Query(@"SELECT oginal.Username, UserToRetweet.Id , CreateDate, Tweet.Message 
                 FROM [User] as retweet INNER JOIN UserToRetweet ON UserToRetweet.UserId = retweet.Id
@@ -80,7 +88,7 @@ namespace TwitterCore
 
         public void AddUserToDb(User user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("INSERT INTO [User] (Username, Password) values (@username, @password)", user);
             }
@@ -89,7 +97,7 @@ namespace TwitterCore
         public List<Tuple<string, Tweet>> GetOthersTweetsFromDb(int id)
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 var foo =  connection.Query("SELECT Tweet.Id, CreateDate, Message, [User].Username, Tweet.UserId FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
                 foreach (var item in foo)
@@ -105,7 +113,7 @@ namespace TwitterCore
 
         internal void DeleteTweetDb(int tweetId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("delete from Tweet where Id = " + tweetId);
             }
@@ -113,7 +121,7 @@ namespace TwitterCore
 
         internal void DeleteReTweetDb(int reTweetId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("delete from UserToRetweet where id = " + reTweetId);
             }
@@ -121,7 +129,7 @@ namespace TwitterCore
 
         internal void RetweetToDb(UserToRetweet retweet)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("INSERT INTO UserToRetweet (UserId, TweetId) values (@userId, @tweetId)", retweet);
             }
@@ -129,7 +137,7 @@ namespace TwitterCore
 
         public void AddTweetToDb(Tweet tweet)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("INSERT INTO Tweet (UserId, Message) values (@userId, @message)", tweet);
             }
@@ -137,7 +145,7 @@ namespace TwitterCore
 
         public void UpdateBioToUserInDb(User user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute($"UPDATE [User] SET Biography = @Biography WHERE Id = @Id;", user);
             }
@@ -145,7 +153,7 @@ namespace TwitterCore
 
         public void UpdateFirstnameToUserInDb(User user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute($"UPDATE [User] SET Firstname = @Firstname WHERE Id = @Id;", user);
             }
@@ -153,7 +161,7 @@ namespace TwitterCore
 
         public void UpdateLastnameToUserInDb(User user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute($"UPDATE [User] SET Lastname = @Lastname WHERE Id = @Id;", user);
             }
@@ -161,7 +169,7 @@ namespace TwitterCore
         
         public void AddUserFollowingToDb(UserToUser userToUser)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
             }
@@ -169,7 +177,7 @@ namespace TwitterCore
 
         public IEnumerable<User> SearchUsers(string search)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
             }
@@ -178,7 +186,7 @@ namespace TwitterCore
         public List<Tuple<string,Tweet>> SearchTweets(string search)
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 var foo = connection.Query("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
                 foreach (var item in foo)
