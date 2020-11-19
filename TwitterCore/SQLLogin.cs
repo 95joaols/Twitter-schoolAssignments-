@@ -14,9 +14,9 @@ namespace TwitterCore
             string readfile = File.ReadAllText("appsettings.json");
             System.Console.WriteLine("Readfile: " + readfile);
             JSONClass jsonnn = new JSONClass();
-            jsonnn = JsonSerializer.Deserialize<JSONClass>(readfile);
+            //jsonnn = JsonSerializer.Deserialize<JSONClass>(readfile);
             
-            System.Console.WriteLine(jsonnn.Connection);
+            //System.Console.WriteLine(jsonnn.Connection);
         }
         //private readonly string connectionString;
         /* public SQLAccess(string ConnectionStringName)
