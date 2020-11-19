@@ -11,6 +11,7 @@ namespace TwitterCore
             this.UserId = userId;
             this.TweetId = tweetId;
         }
+        public UserToRetweet(){}
 
     }
 }

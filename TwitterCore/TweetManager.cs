@@ -29,6 +29,10 @@ namespace TwitterCore
             return db.GetTweetsFromDb();
         }
 
+        public List<Tuple<string, Tweet, UserToRetweet>> GetRetweets(User user)
+        {
+            return db.GetUserRetweetsFromDb(user.Id);
+        }
         public List<Tuple<string, Tweet>> GetOthersTweets(User user)
         {
            return db.GetOthersTweetsFromDb(user.Id);  
