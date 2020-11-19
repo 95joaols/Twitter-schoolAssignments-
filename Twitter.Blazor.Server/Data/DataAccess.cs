@@ -44,7 +44,7 @@ namespace Twitter.Blazor.Server.Data
                 TopTweets = tweetManager.GetTweets();
                 if (User != null)
                 {
-                     UrerTweets = tweetManager.GetUserTweets(User);
+                    UrerTweets = tweetManager.GetUserTweets(User);
                 }
 
                 Timer timer = new Timer(5000);
@@ -71,7 +71,7 @@ namespace Twitter.Blazor.Server.Data
                 NotifyDataChanged.Invoke();
 
                 TweetManager tweetManager = new TweetManager();
-                // UrerTweets = tweetManager.GetUserTweets(User);
+                UrerTweets = tweetManager.GetUserTweets(User);
             }
             return UserReturn.Item1;
         }
@@ -100,26 +100,25 @@ namespace Twitter.Blazor.Server.Data
         {
             await Task.Run(() =>
             {
-            //     TweetManager tweetManager = new TweetManager();
-            //   //  IEnumerable<Tweet> Tweets = tweetManager.GetTweets();
-            //     IEnumerable<Tweet> UserTweets = new List<Tweet>();
-            //     if (User != null)
-            //     {
-            //         UserTweets = tweetManager.GetUserTweets(User);
-            //     }
-
-            //  //   HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.ID));
-            //     HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.ID));
-            //     if (!TopComper.SetEquals(TopTweets.Select(x => x.ID)))
-            //     {
-            //   //      TopTweets = Tweets;
-            //         NotifyDataChanged.Invoke();
-            //     }
-            //     if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
-            //     {
-            //         UrerTweets = UserTweets;
-            //         NotifyDataChanged.Invoke();
-            //     }
+                TweetManager tweetManager = new TweetManager();
+                IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
+                IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
+                if (User != null)
+                {
+                    UserTweets = tweetManager.GetUserTweets(User);
+                }
+                HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
+                HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
+                if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
+                {
+                    TopTweets = Tweets;
+                    NotifyDataChanged.Invoke();
+                }
+                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
+                {
+                    UrerTweets = UserTweets;
+                    NotifyDataChanged.Invoke();
+                }
             });
         }
 

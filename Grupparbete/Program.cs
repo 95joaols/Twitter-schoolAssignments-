@@ -196,14 +196,22 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
+            System.Console.WriteLine("");
+        
 
-            System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
+            System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
+            System.Console.WriteLine("Skriv [R] för att se dina retweets");
+            System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
             string foo = Console.ReadLine();
             int idChoiche;
             bool success = Int32.TryParse(foo, out idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("tillbaka till meny");
+            }
+            else if(foo.ToLower() == "r")
+            {
+                RetweetMenue(user);
             }
             else if (success)
             {
@@ -300,6 +308,52 @@ namespace Grupparbete
                 {
                     isSearching = false;
                 }
+            }
+        }
+
+        public static void RetweetMenue(User user)
+        {
+            List<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
+            System.Console.WriteLine("My ReTweets: ");
+            foreach (var reTweet in reTweets)
+            {
+                Console.WriteLine("{0}: {1}, {2}, {3}", reTweet.Item3.Id, reTweet.Item1, reTweet.Item2.Message, reTweet.Item2.CreateDate);
+            }
+            System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
+            System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
+            string foo = Console.ReadLine();
+            int idChoiche;
+            bool success = Int32.TryParse(foo, out idChoiche);
+            if (foo == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool skip = false;
+                foreach (var tweet in reTweets)
+                {
+                    if (tweet.Item3.Id != idChoiche)
+                    {
+                        continue;
+                    }
+                    else if (tweet.Item3.Id == idChoiche)
+                    {
+                        skip = true;
+                        tweetManager.DeleteReTweet(idChoiche);
+                        System.Console.WriteLine("ReTweet raderad!");
+                        System.Console.WriteLine("");
+                        break;
+                    }
+                }
+                if (skip == false)
+                {
+                    System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Du skrev inte in en siffra!");
             }
         }
     }
