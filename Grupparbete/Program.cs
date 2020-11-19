@@ -281,11 +281,11 @@ namespace Grupparbete
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What tweet to search for.
 
-                    IEnumerable<Tweet> fetchedTweets = tweetManager.SearchTweets(searchString);
+                    List<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
 
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
-                        Console.WriteLine("Tweet Id: {0}, Message: {1}, CreateDate: {2}, UserId: {3}", x.ID, x.Message, x.CreateDate, x.UserID);
+                        Console.WriteLine("Tweet Id: {0}, Message: {1}, CreateDate: {2}, UserId: {3}", x.Item2.ID, x.Item2.Message, x.Item2.CreateDate, x.Item2.UserID);
 
                     Console.WriteLine(Environment.NewLine + "[1] Retweet");
                     Console.WriteLine("[Anything else] Return to search.");

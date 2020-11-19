@@ -67,7 +67,7 @@ namespace TwitterCore
             db.DeleteReTweetDb(reTweetId);
         }
 
-        public IEnumerable<Tweet> SearchTweets(string search)
+        public List<Tuple<string, Tweet>> SearchTweets(string search)
         {
 
 

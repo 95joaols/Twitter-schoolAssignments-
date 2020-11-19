@@ -61,7 +61,11 @@ namespace TwitterCore
             List<Tuple<string, Tweet, UserToRetweet>> tweetsFromDb = new List<Tuple<string, Tweet, UserToRetweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                dynamic foo = connection.Query("SELECT oginal.Username, UserToRetweet.Id , CreateDate, Tweet.Message FROM [User] as retweet INNER JOIN UserToRetweet ON UserToRetweet.UserId = retweet.Id INNER JOIN Tweet on Tweet.Id = UserToRetweet.TweetId INNER JOIN [User] as oginal on oginal.Id = Tweet.UserId where retweet.Id = " + id);
+                dynamic foo = connection.Query(@"SELECT oginal.Username, UserToRetweet.Id , CreateDate, Tweet.Message 
+                FROM [User] as retweet INNER JOIN UserToRetweet ON UserToRetweet.UserId = retweet.Id
+                INNER JOIN Tweet on Tweet.Id = UserToRetweet.TweetId
+                INNER JOIN [User] as oginal on oginal.Id = Tweet.UserId
+                WHERE retweet.Id = " + id);
                 foreach (var item in foo)
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet,UserToRetweet>(
@@ -171,12 +175,21 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Tweet> SearchTweets(string search)
+        public List<Tuple<string,Tweet>> SearchTweets(string search)
         {
+            List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Tweet>("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
+                var foo = connection.Query("EXEC SearchProcedureTweets @SearchString = @Search", new { @Search = search });
+                foreach (var item in foo)
+                {
+                    tweetsFromDb.Add(new Tuple<string, Tweet>(
+                        (string)item.Username,
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id, UserID = item.UserId }));
+                }
             }
+
+            return tweetsFromDb;
         }
     }
 }
