@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterCore", "TwitterCore\TwitterCore.csproj", "{5BDB26EF-4150-421F-8554-5C3FCDD4EA72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCore", "TwitterCore\TwitterCore.csproj", "{5BDB26EF-4150-421F-8554-5C3FCDD4EA72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitter.Blazor.Server", "Twitter.Blazor.Server\Twitter.Blazor.Server.csproj", "{690B4311-ADF4-4FCB-B5EE-43A91605DF53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twitter.Blazor.Server", "Twitter.Blazor.Server\Twitter.Blazor.Server.csproj", "{690B4311-ADF4-4FCB-B5EE-43A91605DF53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grupparbete", "Grupparbete\Grupparbete.csproj", "{0460AC26-FDFB-444E-B6C1-7C0471089DC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grupparbete", "Grupparbete\Grupparbete.csproj", "{0460AC26-FDFB-444E-B6C1-7C0471089DC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,9 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5BDB26EF-4150-421F-8554-5C3FCDD4EA72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,5 +55,11 @@ Global
 		{0460AC26-FDFB-444E-B6C1-7C0471089DC1}.Release|x64.Build.0 = Release|Any CPU
 		{0460AC26-FDFB-444E-B6C1-7C0471089DC1}.Release|x86.ActiveCfg = Release|Any CPU
 		{0460AC26-FDFB-444E-B6C1-7C0471089DC1}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {958F4881-49DD-4F3B-BC7F-8567702B4454}
 	EndGlobalSection
 EndGlobal
