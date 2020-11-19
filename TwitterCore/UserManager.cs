@@ -28,5 +28,15 @@ namespace TwitterCore
             db.AddUserFollowingToDb(userToUser);
  
         }
+
+        public IEnumerable<User> SearchUsers(string search)
+        {
+
+
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
+            return db.SearchUsers(search);
+            //                else
+            //                    return null;
+        }
     }
 }

@@ -24,20 +24,37 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Tweet> GetTweetsFromDb()
+        public List<Tuple<string, Tweet>> GetTweetsFromDb()
         {
+            List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Tweet>("SELECT TOP 10 CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id ORDER BY CreateDate DESC");
+                var foo = connection.Query("SELECT TOP 10 t.CreateDate, t.Message, u.Username FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
+                foreach (var item in foo)
+                {
+                    tweetsFromDb.Add(new Tuple<string, Tweet>(
+                        (string)item.Username,
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message }));
+                }
             }
+            return tweetsFromDb;
         }
 
-        public IEnumerable<Tweet> GetUserTweetsFromDb(int id)
+        public List<Tuple<string, Tweet>> GetUserTweetsFromDb(int id)
         {
+            List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Tweet>("SELECT Tweet.Id, Tweet.UserId, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
+                dynamic foo = connection.Query("SELECT Tweet.Id, Tweet.UserId, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id =" + id + "ORDER BY CreateDate DESC");
+                foreach (var item in foo)
+                {
+                    tweetsFromDb.Add(new Tuple<string, Tweet>(
+                        (string)item.Username,
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id }));
+                }
             }
+
+            return tweetsFromDb;
         }
 
         public void AddUserToDb(User user)
@@ -48,11 +65,28 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<Tweet> GetOthersTweetsFromDb(int id)
+        public List<Tuple<string, Tweet>> GetOthersTweetsFromDb(int id)
+        {
+            List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var foo =  connection.Query("SELECT Tweet.Id, CreateDate, Message, [User].Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
+                foreach (var item in foo)
+                {
+                    tweetsFromDb.Add(new Tuple<string, Tweet>(
+                        (string)item.Username,
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id }));
+                }
+            }
+
+            return tweetsFromDb;
+        }
+
+        internal void DeleteTweetDb(int tweetId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Tweet>("SELECT Tweet.Id, CreateDate, Message, Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
+                connection.Execute("delete from Tweet where Id = " + tweetId);
             }
         }
 
@@ -85,14 +119,6 @@ namespace TwitterCore
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
-            }
-        }
-
-        public IEnumerable<Search> SearchUsersAndTweets(string search)      // Old garbage. Delete later.
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                return connection.Query<Search>("EXEC SearchProcedure3 @SearchString = @Search", new { @Search = search });
             }
         }
 

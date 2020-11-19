@@ -23,37 +23,20 @@ namespace TwitterCore
             // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
-        public IEnumerable<Tweet> GetUserTweets(User user)
+        public List<Tuple<string, Tweet>> GetUserTweets(User user)
         {
-            IEnumerable<Tweet> userTweets = db.GetUserTweetsFromDb(user.Id);
-            return userTweets;
+            return db.GetUserTweetsFromDb(user.Id);
+            
         }
 
-        public List<Tweet> GetTweets()
+        public List<Tuple<string,Tweet>> GetTweets()
         {
-
-            List<Tweet> tweets = new List<Tweet>();
-
-            IEnumerable<Tweet> tweetsable = db.GetTweetsFromDb();
-
-            foreach (var tweet in tweetsable)
-            {
-                tweets.Add(tweet);
-            }
-            return tweets;
-
+            return db.GetTweetsFromDb();
         }
 
-        public List<Tweet> GetOthersTweets(User user)
+        public List<Tuple<string, Tweet>> GetOthersTweets(User user)
         {
-            List<Tweet> tweets = new List<Tweet>();
-            IEnumerable<Tweet> othersTweets = db.GetOthersTweetsFromDb(user.Id);
-
-            foreach (Tweet tweet in othersTweets)
-            {
-                tweets.Add(tweet);
-            }
-            return tweets;
+           return db.GetOthersTweetsFromDb(user.Id);  
         }
 
         public void Retweet(int userId, int tweetId)
@@ -62,47 +45,29 @@ namespace TwitterCore
             db.RetweetToDb(retweet);
         }
 
-        public bool Delete(int tweetId, User user)
+        public void Delete(int tweetId, User user)
         {
-            Dictionary<string, string> where = new Dictionary<string, string>();
-            where.Add("ID", tweetId.ToString());
+            db.DeleteTweetDb(tweetId);
 
-            Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
-            if (tweet != null && tweet.UserID == user.Id)
-            {
-                return dbControl.Delete(Table.Tweet, "ID", tweetId);
-            }
-            else
-            {
-                return false;
-            }
-        }
+            // Dictionary<string, string> where = new Dictionary<string, string>();
+            // where.Add("ID", tweetId.ToString());
 
-        public IEnumerable<Search> SearchUsersAndTweets(string search)         // TODO: Old garbage! Remove later.
-        {
-
-
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
-            return db.SearchUsersAndTweets(search);
-            //                else
-            //                    return null;
-        }
-
-        public IEnumerable<User> SearchUsers(string search)
-        {
-
-
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
-            return db.SearchUsers(search);
-            //                else
-            //                    return null;
+            // Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
+            // if (tweet != null && tweet.UserID == user.Id)
+            // {
+            //     return dbControl.Delete(Table.Tweet, "ID", tweetId);
+            // }
+            // else
+            // {
+            //     return false;
+            // }
         }
 
         public IEnumerable<Tweet> SearchTweets(string search)
         {
 
 
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Want to check this! The problem is that something has to be returned; would like to return an empty IEnumerable<Search>. At least it's easier to debug right now.. :)
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
             return db.SearchTweets(search);
             //                else
             //                    return null;
