@@ -139,6 +139,22 @@ namespace TwitterCore
             }
         }
 
+        public void UpdateFirstnameToUserInDb(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute($"UPDATE [User] SET Firstname = @Firstname WHERE Id = @Id;", user);
+            }
+        }
+
+        public void UpdateLastnameToUserInDb(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute($"UPDATE [User] SET Lastname = @Lastname WHERE Id = @Id;", user);
+            }
+        }
+        
         public void AddUserFollowingToDb(UserToUser userToUser)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
