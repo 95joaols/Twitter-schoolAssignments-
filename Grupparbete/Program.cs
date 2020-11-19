@@ -52,6 +52,7 @@ namespace Grupparbete
                 Console.WriteLine("[4] Show all tweets");
                 Console.WriteLine("[5] Search tweets or users");
                 Console.WriteLine("[6] My profile");
+                Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
@@ -102,6 +103,7 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
 
+            Console.WriteLine();
             System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
             string foo = Console.ReadLine();
             int idChoiche;
