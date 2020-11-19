@@ -32,7 +32,7 @@ namespace Twitter.Blazor.Server.Components
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             User t = DataAccess.User;
-            DataAccess.User = await SessionStorage.GetItemAsync<User>("CurentUser");
+            //DataAccess.User = await SessionStorage.GetItemAsync<User>("CurentUser");
 
             if (t?.Id != DataAccess.User?.Id)
             {

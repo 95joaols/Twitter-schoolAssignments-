@@ -32,6 +32,25 @@ a,
   color: red;
 }
 
+.table-btn {
+    background-color: #23cfa7;
+    border-color: #23cfa7;
+    border-radius: 50%;
+}
+
+    .table-btn:hover, .table-btn:active {
+        color: #fff;
+        background-color: #a593c2 !important;
+        border-color: #a593c2 !important;
+    }
+
+.quick-add-btn {
+    font-size: 36px;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+}
+
 
 #blazor-error-ui {
   background: lightyellow;
@@ -52,24 +71,7 @@ a,
   top: 0.5rem;
 }
 
-.table-btn {
-    background-color: #23cfa7;
-    border-color: #23cfa7;
-    border-radius: 50%;
-}
 
-    .table-btn:hover, .table-btn:active {
-        color: #fff;
-        background-color: #a593c2 !important;
-        border-color: #a593c2 !important;
-    }
-
-.quick-add-btn {
-    font-size: 36px;
-    position: fixed;
-    right: 30px;
-    bottom: 30px;
-}
 
 
 

@@ -22,9 +22,10 @@ namespace Twitter.Blazor.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; }); ;
             services.AddBlazoredSessionStorage();
             services.AddScoped<IDataAccess, DataAccess>();
+            
             //services.AddSingleton<IDataAccess, DataAccess>();
         }
 
