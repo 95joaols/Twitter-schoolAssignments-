@@ -11,8 +11,8 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
-        public IEnumerable<Tweet> TopTweets { get; private set; }
-        public IEnumerable<Tweet> UrerTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> TopTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> UrerTweets { get; private set; }
 
         public User User { get; set; }
 
@@ -41,10 +41,10 @@ namespace Twitter.Blazor.Server.Data
             if (!Runing)
             {
                 TweetManager tweetManager = new TweetManager();
-                // TopTweets = tweetManager.GetTweets();
+                TopTweets = tweetManager.GetTweets();
                 if (User != null)
                 {
-                    // UrerTweets = tweetManager.GetUserTweets(User);
+                     UrerTweets = tweetManager.GetUserTweets(User);
                 }
 
                 Timer timer = new Timer(5000);
@@ -86,8 +86,13 @@ namespace Twitter.Blazor.Server.Data
         {
             TweetManager tweetManager = new TweetManager();
             tweetManager.Delete(tweet.ID, User);
-            TopTweets.ToList().Remove(tweet);
-            UrerTweets.ToList().Remove(tweet);
+            List<Tuple<string, Tweet>> tweets = TopTweets.ToList();
+            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
+            TopTweets = tweets;
+
+            tweets = UrerTweets.ToList();
+            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
+            UrerTweets = tweets;
             Loading = false;
         }
 

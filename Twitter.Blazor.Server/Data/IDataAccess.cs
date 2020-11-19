@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Timers;
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Data
 {
     interface IDataAccess
     {
-        IEnumerable<Tweet> TopTweets { get; }
-        IEnumerable<Tweet> UrerTweets { get; }
+        IEnumerable<Tuple<string, Tweet>> TopTweets { get; }
+        IEnumerable<Tuple<string, Tweet>> UrerTweets { get; }
         User User { get; set; }
         bool Runing { get; }
         bool Loading { get; set; }

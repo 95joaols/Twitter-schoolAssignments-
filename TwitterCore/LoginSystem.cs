@@ -1,19 +1,10 @@
 using System.Collections.Generic;
-using Repository;
-using Repository.Enums;
 
 namespace TwitterCore
 {
     public class LoginSystem
     {
         SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
-
-        private readonly IFullControl dbControl;
-
-        public LoginSystem()
-        {
-            dbControl = Faktorio.GetRepository();
-        }
 
         public void CreateUser(string username, string password)
         {

@@ -1,19 +1,11 @@
 using System.Collections.Generic;
-using Repository;
-using Repository.Enums;
-using System.Linq;
 
 namespace TwitterCore
 {
     public class UserManager
     {
         SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
-        private readonly IFullControl dbControl;
 
-        public UserManager()
-        {
-            dbControl = Faktorio.GetRepository();
-        }
         public void AddBioToUser(string bio, User user)
         {
 
