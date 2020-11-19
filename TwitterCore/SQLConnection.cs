@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
-using Microsoft.CSharp;
 
 namespace TwitterCore
 {
@@ -29,12 +28,12 @@ namespace TwitterCore
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var foo = connection.Query("SELECT TOP 10 t.CreateDate, t.Message, u.Username FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
+                var foo = connection.Query("SELECT TOP 10 t.Id, t.CreateDate, t.Message, u.Username FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
                 foreach (var item in foo)
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet>(
                         (string)item.Username,
-                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message }));
+                        new Tweet {ID = item.Id, CreateDate = (DateTime)item.CreateDate, Message = item.Message }));
                 }
             }
             return tweetsFromDb;
@@ -50,7 +49,7 @@ namespace TwitterCore
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet>(
                         (string)item.Username,
-                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id }));
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id, UserID = item.UserId }));
                 }
             }
 
