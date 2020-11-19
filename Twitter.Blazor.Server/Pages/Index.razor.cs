@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
+using Twitter.Blazor.Server.Components;
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Pages
@@ -8,6 +9,8 @@ namespace Twitter.Blazor.Server.Pages
     {
         [Inject]
         private IDataAccess DataAccess { get; set; }
+
+        protected AddtweetDialog AddtweetDialog { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -19,6 +22,12 @@ namespace Twitter.Blazor.Server.Pages
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() => StateHasChanged());
+        }
+
+        protected void Addtweet()
+        {
+
+            AddtweetDialog.Show();
         }
     }
 }

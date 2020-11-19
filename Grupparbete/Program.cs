@@ -47,12 +47,11 @@ namespace Grupparbete
             {
                 Console.WriteLine();
                 Console.WriteLine("[1] Add Twitter Post");
-                Console.WriteLine("[2] Lägg till Bio info");
+                Console.WriteLine("[2] User settings");
                 Console.WriteLine("[3] Logga ut");
                 Console.WriteLine("[4] Show all tweets");
                 Console.WriteLine("[5] Search tweets or users");
                 Console.WriteLine("[6] My profile");
-                
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
@@ -70,9 +69,7 @@ namespace Grupparbete
                         }
                         break;
                     case ConsoleKey.D2:
-                        Console.Write("Write your bio: ");
-                        string bio = Console.ReadLine();
-                        userManager.AddBioToUser(bio, user);
+                        UserSettingsMenu(user);
                         break;
                     case ConsoleKey.D3:
                         loginSystem.LogOutUser(user);
@@ -99,12 +96,12 @@ namespace Grupparbete
 
         private static void PrintOthersTweets(User user)
         {
-            List < Tuple<string, Tweet> > tweets = tweetManager.GetOthersTweets(user);
+            List<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
             foreach (var tweet in tweets)
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
-            
+
             System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
             string foo = Console.ReadLine();
             int idChoiche;
@@ -176,7 +173,7 @@ namespace Grupparbete
 
         public static void PrintTweets()
         {
-            List<Tuple<string,Tweet>> tweets = tweetManager.GetTweets();
+            List<Tuple<string, Tweet>> tweets = tweetManager.GetTweets();
 
             foreach (var tweet in tweets)
             {
@@ -197,7 +194,7 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
             System.Console.WriteLine("");
-        
+
 
             System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
             System.Console.WriteLine("Skriv [R] för att se dina retweets");
@@ -209,7 +206,7 @@ namespace Grupparbete
             {
                 System.Console.WriteLine("tillbaka till meny");
             }
-            else if(foo.ToLower() == "r")
+            else if (foo.ToLower() == "r")
             {
                 RetweetMenue(user);
             }
@@ -308,6 +305,35 @@ namespace Grupparbete
                 {
                     isSearching = false;
                 }
+            }
+        }
+
+        public static void UserSettingsMenu(User user)
+        {
+            Console.WriteLine("Ange menyval: ");
+            Console.WriteLine("[1] Ange/ändra förnamn");
+            Console.WriteLine("[2] Ange/ändra efternamn");
+            Console.WriteLine("[3] Ange/ändra biografi");
+
+            userKey = Console.ReadKey(true).Key;
+
+            switch (userKey)
+            {
+                case ConsoleKey.D1:
+                    Console.WriteLine("Ange förnamn: ");
+                    string input = Console.ReadLine();
+                    userManager.UpdateFirstnameUser(user, input);
+                    break;
+                case ConsoleKey.D2:
+                    Console.WriteLine("Ange efternamn: ");
+                    input = Console.ReadLine();
+                    userManager.UpdateLastnameUser(user, input);
+                    break;
+                case ConsoleKey.D3:
+                    Console.Write("Write your bio: ");
+                    input = Console.ReadLine();
+                    userManager.AddBioToUser(input, user);
+                    break;
             }
         }
 
