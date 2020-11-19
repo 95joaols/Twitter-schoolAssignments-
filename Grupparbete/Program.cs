@@ -197,6 +197,14 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
+            System.Console.WriteLine("");
+            // skriv ut retweets med en unik grej från databasen
+            List<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
+            System.Console.WriteLine("My ReTweets: ");
+            foreach (var reTweet in reTweets)
+            {
+                Console.WriteLine("{0}: {1}, {2}, {3}", reTweet.Item3.Id, reTweet.Item1, reTweet.Item2.Message, reTweet.Item2.CreateDate);
+            }
 
             System.Console.Write("Tryck på Enter för att fortsätta. Eller skriv in ett id på Tweet att ta bort: ");
             string foo = Console.ReadLine();

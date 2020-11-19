@@ -57,6 +57,24 @@ namespace TwitterCore
             return tweetsFromDb;
         }
 
+        public List<Tuple<string, Tweet, UserToRetweet>> GetUserRetweetsFromDb(int id)
+        {
+            List<Tuple<string, Tweet, UserToRetweet>> tweetsFromDb = new List<Tuple<string, Tweet, UserToRetweet>>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                dynamic foo = connection.Query("select UserToRetweet.Id ,[User].Username, CreateDate, Tweet.Message from [User] inner join UserToRetweet on UserToRetweet.UserId = [User].Id inner join Tweet on Tweet.Id = UserToRetweet.TweetId where [User].Id = " + id);
+                foreach (var item in foo)
+                {
+                    tweetsFromDb.Add(new Tuple<string, Tweet,UserToRetweet>(
+                        (string)item.Username,
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message },
+                        new UserToRetweet{Id = item.Id}));
+                }
+            }
+
+            return tweetsFromDb;
+        }
+
         public void AddUserToDb(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
