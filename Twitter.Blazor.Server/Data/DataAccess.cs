@@ -11,8 +11,8 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
-        public IEnumerable<Tweet> TopTweets { get; private set; }
-        public IEnumerable<Tweet> UrerTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> TopTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> UrerTweets { get; private set; }
 
         public User User { get; set; }
 
@@ -86,8 +86,13 @@ namespace Twitter.Blazor.Server.Data
         {
             TweetManager tweetManager = new TweetManager();
             tweetManager.Delete(tweet.ID, User);
-            TopTweets.ToList().Remove(tweet);
-            UrerTweets.ToList().Remove(tweet);
+            List<Tuple<string, Tweet>> tweets = TopTweets.ToList();
+            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
+            TopTweets = tweets;
+
+            tweets = UrerTweets.ToList();
+            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
+            UrerTweets = tweets;
             Loading = false;
         }
 
@@ -96,21 +101,20 @@ namespace Twitter.Blazor.Server.Data
             await Task.Run(() =>
             {
                 TweetManager tweetManager = new TweetManager();
-                IEnumerable<Tweet> Tweets = tweetManager.GetTweets();
-                IEnumerable<Tweet> UserTweets = new List<Tweet>();
+                IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
+                IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
                 if (User != null)
                 {
                     UserTweets = tweetManager.GetUserTweets(User);
                 }
-
-                HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.ID));
-                HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.ID));
-                if (!TopComper.SetEquals(TopTweets.Select(x => x.ID)))
+                HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
+                HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
+                if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
                 {
                     TopTweets = Tweets;
                     NotifyDataChanged.Invoke();
                 }
-                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.ID)))
+                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
                 {
                     UrerTweets = UserTweets;
                     NotifyDataChanged.Invoke();

@@ -1,19 +1,17 @@
 using System.Collections.Generic;
-using Repository;
-using Repository.Enums;
-using System.Linq;
 
 namespace TwitterCore
 {
     public class UserManager
     {
         SQLConnection db = new SQLConnection("Server=40.85.84.155;Database=OOPGroup1;User=Student11;Password=zombie-virus@2020;");
-        private readonly IFullControl dbControl;
 
-        public UserManager()
+        public void AddFollwingOfUser(User loggdInUser, int followId)
         {
-            dbControl = Faktorio.GetRepository();
+            UserToUser userToUser = new UserToUser(loggdInUser.Id, followId);
+            db.AddUserFollowingToDb(userToUser);
         }
+
         public void AddBioToUser(string bio, User user)
         {
 
@@ -22,11 +20,27 @@ namespace TwitterCore
             // dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
         }
 
-        public void AddFollwingOfUser(User loggdInUser,int followId) 
+        public void UpdateFirstnameUser(User user, string firstname)
         {
-            UserToUser userToUser = new UserToUser(loggdInUser.Id,followId);
-            db.AddUserFollowingToDb(userToUser);
- 
+            user.Firstname = firstname;
+            db.UpdateFirstnameToUserInDb(user);
+
+        }
+
+        public void UpdateLastnameUser(User user, string lastname)
+        {
+            user.Lastname = lastname;
+            db.UpdateLastnameToUserInDb(user);
+        }
+
+        public IEnumerable<User> SearchUsers(string search)
+        {
+
+
+            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
+            return db.SearchUsers(search);
+            //                else
+            //                    return null;
         }
     }
 }

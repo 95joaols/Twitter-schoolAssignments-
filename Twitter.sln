@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{BBC40925-8318-4977-92A1-E5C7326087CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCore", "TwitterCore\TwitterCore.csproj", "{5BDB26EF-4150-421F-8554-5C3FCDD4EA72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCore", "TwitterCore\TwitterCore.csproj", "{8D01315D-9D93-4A70-8109-2071EA83AC8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twitter.Blazor.Server", "Twitter.Blazor.Server\Twitter.Blazor.Server.csproj", "{690B4311-ADF4-4FCB-B5EE-43A91605DF53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grupparbete", "Grupparbete\Grupparbete.csproj", "{5CF2868B-B4FD-4671-860E-E6B12CA9D64B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twitter.Blazor.Server", "Twitter.Blazor.Server\Twitter.Blazor.Server.csproj", "{49D8DD1E-DAD6-476C-A832-BC173039FF97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grupparbete", "Grupparbete\Grupparbete.csproj", "{0460AC26-FDFB-444E-B6C1-7C0471089DC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entety", "Entety\Entety.csproj", "{2258CF5E-A919-4373-A153-A298E3E50FCA}"
 EndProject
@@ -88,6 +86,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {89F03FF5-3CF2-4FEA-B290-2F00F57CA3B5}
+		SolutionGuid = {958F4881-49DD-4F3B-BC7F-8567702B4454}
 	EndGlobalSection
 EndGlobal
