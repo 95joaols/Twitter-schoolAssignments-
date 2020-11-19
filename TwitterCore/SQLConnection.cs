@@ -87,7 +87,7 @@ namespace TwitterCore
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var foo =  connection.Query("SELECT Tweet.Id, CreateDate, Message, [User].Username FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
+                var foo =  connection.Query("SELECT Tweet.Id, CreateDate, Message, [User].Username, Tweet.UserId FROM Tweet INNER JOIN [User] on Tweet.UserId = [User].Id WHERE [User].Id !=" + id + "ORDER BY CreateDate DESC");
                 foreach (var item in foo)
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet>(
