@@ -62,6 +62,11 @@ namespace TwitterCore
             // }
         }
 
+        public void DeleteReTweet(int reTweetId)
+        {
+            db.DeleteReTweetDb(reTweetId);
+        }
+
         public IEnumerable<Tweet> SearchTweets(string search)
         {
 
