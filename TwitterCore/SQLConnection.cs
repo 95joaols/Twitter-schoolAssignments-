@@ -9,7 +9,7 @@ namespace TwitterCore
 {
     public class JsonLoginClass                 // Used for json-file.
     {
-        public string Connection {get;set;}
+        public string Connection { get; set; }
     }
 
     class SQLConnection

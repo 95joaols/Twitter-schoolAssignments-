@@ -84,7 +84,7 @@ namespace Grupparbete
                         break;
                     case ConsoleKey.D5:
                         //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
-                        SearchTweetsVersion2(user);
+                        SearchTweets(user);
                         break;
                     case ConsoleKey.D6:
                         PrintYourBioAndTweets(user);
@@ -307,28 +307,32 @@ namespace Grupparbete
             }
         }
 
-        public static void SearchTweetsVersion2(User loggedInUser)
+        public static void SearchTweets(User loggedInUser)
         {
             bool isSearching = true;
 
             while (isSearching)
             {
-                Console.WriteLine(Environment.NewLine + "[1] Search users");
+                Console.WriteLine("[1] Search users");
                 Console.WriteLine("[2] Search tweets");
                 Console.WriteLine("[Esc] Return to main menu.");
                 Console.Write("Option: ");
                 userKey = Console.ReadKey(false).Key;
 
-                if (userKey == ConsoleKey.D1)
+                if (userKey == ConsoleKey.D1)                               // Search user.
                 {
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What user to search for.
 
-                    IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
+                    //IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
+                    List<User> fetchedUsers = userManager.SearchUsers(searchString) as List<User>;
 
                     Console.WriteLine();
-                    foreach (var x in fetchedUsers)
-                        Console.WriteLine("User Id: {0}, Username: {1}, Firstname: {2}, Lastname: {3}, Biography: {4}", x.Id, x.Username, x.Firstname, x.Lastname, x.Biography);
+                   foreach (var x in fetchedUsers)
+                   {
+                        Console.WriteLine("- {0} ------- {1} {2}", x.Username, x.Firstname, x.Lastname);
+                        Console.WriteLine("  Biography: {0}", x.Biography);
+                   }
 
                     Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
                     Console.WriteLine("[Anything else] Return to search.");
@@ -337,10 +341,16 @@ namespace Grupparbete
 
                     if (userKey == ConsoleKey.D1)
                     {
-                        Console.Write(Environment.NewLine + "Choose an \"User Id\" to follow: ");
+                        Console.WriteLine(Environment.NewLine);
+                        for (int i = 0; i < fetchedUsers.Count; i++)
+                        {
+                            Console.WriteLine("[{0}] Username: {1}", i, fetchedUsers[i].Username);
+                        }
+                        Console.Write(Environment.NewLine + "Choose an index to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("userKeyInt: " + userKeyInt);
-                        userManager.AddFollwingOfUser(loggedInUser, userKeyInt);
+                        //Console.WriteLine("userKeyInt: " + userKeyInt + " index: " + fetchedUsers[userKeyInt].Id);      // Debug.
+                        Console.WriteLine("You follow \"" + fetchedUsers[userKeyInt].Username + "\" (Id: " + fetchedUsers[userKeyInt].Id + ").");
+                        userManager.AddFollwingOfUser(loggedInUser, fetchedUsers[userKeyInt].Id);
                     }
                 }
 
@@ -353,7 +363,7 @@ namespace Grupparbete
 
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
-                        Console.WriteLine("Tweet Id: {0}, Message: {1}, CreateDate: {2}, UserId: {3}", x.Item2.ID, x.Item2.Message, x.Item2.CreateDate, x.Item2.UserID);
+                        Console.WriteLine("{0} : \"{1}\" CreateDate: {2}", x.Item2.UserID, x.Item2.Message, x.Item2.CreateDate);
 
                     Console.WriteLine(Environment.NewLine + "[1] Retweet");
                     Console.WriteLine("[Anything else] Return to search.");
@@ -362,10 +372,14 @@ namespace Grupparbete
 
                     if (userKey == ConsoleKey.D1)
                     {
-                        Console.Write(Environment.NewLine + "Choose an \"Tweet Id\" to retweet: ");
+                        for (int i = 0; i < fetchedTweets.Count; i++)
+                        {
+                            Console.WriteLine("[{0}] UserId: {1} \"{2}\"", i, fetchedTweets[i].Item2.UserID, fetchedTweets[i].Item2.Message);
+                        }
+                        Console.Write(Environment.NewLine + "Choose an index to retweet: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("userKeyInt: " + userKeyInt);
-                        tweetManager.Retweet(loggedInUser.Id, userKeyInt);
+                        Console.WriteLine("You retweeted \"" + fetchedTweets[userKeyInt].Item2.Message + "\" (Tweet Id: " + fetchedTweets[userKeyInt].Item2.ID + ").");
+                        tweetManager.Retweet(loggedInUser.Id, fetchedTweets[userKeyInt].Item2.ID);
                     }
                 }
 
