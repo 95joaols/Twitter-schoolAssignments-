@@ -52,6 +52,7 @@ namespace Grupparbete
                 Console.WriteLine("[4] Show all tweets");
                 Console.WriteLine("[5] Search tweets or users");
                 Console.WriteLine("[6] My profile");
+                Console.WriteLine("[7] My InBox");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
@@ -88,6 +89,9 @@ namespace Grupparbete
                     case ConsoleKey.D6:
                         PrintYourBioAndTweets(user);
                         break;
+                    case ConsoleKey.D7:
+                        PrintUserInBox(user);
+                        break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
                         break;
@@ -95,6 +99,68 @@ namespace Grupparbete
             }
         }
 
+        private static void PrintUserInBox(User user)
+        {
+            Console.WriteLine("[1] Se Bios of those I follow ");
+            Console.WriteLine("[2] Send Mail to one I follow");
+            Console.WriteLine("[3] My InBox");
+            Console.WriteLine();
+            userKey = Console.ReadKey(true).Key;
+            switch (userKey)
+            {
+                case ConsoleKey.D1:
+                    break;
+                case ConsoleKey.D2:
+                    PrintSendMailMenue(user);
+                    break;
+                case ConsoleKey.D3:
+                    break;
+
+                default:
+                    System.Console.WriteLine("Invalid Choice");
+                    break;
+            }
+        }
+
+        private static void PrintSendMailMenue(User user)
+        {
+            List<Tuple<string, int>> following = userManager.GetFollowing(user);
+            System.Console.WriteLine("This is the user you Follows:");
+            foreach (var idAndName in following)
+            {
+                Console.WriteLine("{0}: {1}", idAndName.Item2, idAndName.Item1);
+            }
+            System.Console.Write("Press enter to countinue or write an Id of the person to send a mail: ");
+            string foo = Console.ReadLine();
+            int idChoiche;
+            bool success = Int32.TryParse(foo, out idChoiche);
+            if (foo == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool print = false;
+                foreach (var idAndName in following)
+                {
+                    if (idAndName.Item2 == idChoiche)
+                    {
+                        print = true;
+                        System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
+                        break;
+                    }
+                }
+                if (print == false)
+                {
+                    System.Console.WriteLine("Du skrev in ett Id du inte följer än..");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Du skrev inte in en siffra!");
+            }
+            
+        }
         private static void PrintOthersTweets(User user)
         {
             List<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);

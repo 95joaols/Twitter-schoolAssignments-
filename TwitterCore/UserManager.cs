@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace TwitterCore
 {
@@ -41,6 +42,11 @@ namespace TwitterCore
             return db.SearchUsers(search);
             //                else
             //                    return null;
+        }
+
+        public List<Tuple<string, int>> GetFollowing(User user)
+        {
+            return db.GetFollowersFromDb(user);
         }
     }
 }
