@@ -61,7 +61,7 @@ namespace TwitterCore
             List<Tuple<string, Tweet, UserToRetweet>> tweetsFromDb = new List<Tuple<string, Tweet, UserToRetweet>>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                dynamic foo = connection.Query("select UserToRetweet.Id ,[User].Username, CreateDate, Tweet.Message from [User] inner join UserToRetweet on UserToRetweet.UserId = [User].Id inner join Tweet on Tweet.Id = UserToRetweet.TweetId where [User].Id = " + id);
+                dynamic foo = connection.Query("SELECT oginal.Username, UserToRetweet.Id , CreateDate, Tweet.Message FROM [User] as retweet INNER JOIN UserToRetweet ON UserToRetweet.UserId = retweet.Id INNER JOIN Tweet on Tweet.Id = UserToRetweet.TweetId INNER JOIN [User] as oginal on oginal.Id = Tweet.UserId where retweet.Id = " + id);
                 foreach (var item in foo)
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet,UserToRetweet>(
