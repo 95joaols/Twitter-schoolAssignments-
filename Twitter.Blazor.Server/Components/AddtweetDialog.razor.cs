@@ -10,7 +10,7 @@ namespace Twitter.Blazor.Server.Components
 {
     public partial class AddtweetDialog
     {
-        public User User { get; set; } = new User();
+        public Tweet Tweet { get; set; } = new Tweet();
 
         public bool ShowDialog { get; set; }
 
@@ -20,6 +20,27 @@ namespace Twitter.Blazor.Server.Components
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
+        protected async Task HandleValidSubmit()
+        {
+            StateHasChanged();
+            DataAccess.Loading = true;
+            HasError = false;
+            await Task.Run(() =>
+            {
+                if (string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.User != null)
+                {
+                    TweetManager tweetManager = new TweetManager();
+                    tweetManager.CreateTweet(Tweet.Message, DataAccess.User.Id);
+                    HasError = false;
+                }
+                else
+                {
+                    HasError = true;
+                    Messege = "Unable to crate tweet";
+                }
+            });
+
+            }
         public void Show()
         {
             ShowDialog = true;
