@@ -86,8 +86,13 @@ namespace Twitter.Blazor.Server.Data
         {
             TweetManager tweetManager = new TweetManager();
             tweetManager.Delete(tweet.ID, User);
-            TopTweets.ToList().Remove(tweet);
-            UrerTweets.ToList().Remove(tweet);
+           List<Tweet> tweets = TopTweets.ToList();
+            tweets.RemoveAll(x => x.ID == tweet.ID);
+            TopTweets = tweets;
+
+            tweets = UrerTweets.ToList();
+            tweets.RemoveAll(x => x.ID == tweet.ID);
+            UrerTweets = tweets;
             Loading = false;
         }
 
