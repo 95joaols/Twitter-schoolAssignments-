@@ -93,7 +93,7 @@ namespace TwitterCore
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet>(
                         (string)item.Username,
-                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id }));
+                        new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id, UserID = item.UserId }));
                 }
             }
 
@@ -105,6 +105,14 @@ namespace TwitterCore
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Execute("delete from Tweet where Id = " + tweetId);
+            }
+        }
+
+        internal void DeleteReTweetDb(int reTweetId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("delete from UserToRetweet where id = " + reTweetId);
             }
         }
 
