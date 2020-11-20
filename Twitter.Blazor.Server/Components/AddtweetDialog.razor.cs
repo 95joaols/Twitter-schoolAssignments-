@@ -27,7 +27,7 @@ namespace Twitter.Blazor.Server.Components
             HasError = false;
             await Task.Run(() =>
             {
-                if (string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.User != null)
+                if (!string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.User != null)
                 {
                     TweetManager tweetManager = new TweetManager();
                     tweetManager.CreateTweet(Tweet.Message, DataAccess.User.Id);
