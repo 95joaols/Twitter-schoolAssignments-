@@ -54,5 +54,10 @@ namespace TwitterCore
             PrivateMessage privateMessage = new PrivateMessage(user.Id,userToId,message);
             db.PrivateMessageToDb(privateMessage);
         }
+
+        public List<Tuple<string, string, int>> GetUserMail(User user)
+        {
+            return db.GetUserMailFromDb(user);
+        }
     }
 }

@@ -167,7 +167,11 @@ namespace Grupparbete
 
         private static void PrintMyInbox(User user)
         {
-
+            List<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
+            foreach (var mail in myMail)
+            {
+                Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
+            }
         }
         private static void PrintOthersTweets(User user)
         {
