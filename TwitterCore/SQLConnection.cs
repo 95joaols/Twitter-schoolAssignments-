@@ -249,5 +249,22 @@ namespace TwitterCore
 
             return following;
         }
+
+        public IEnumerable<User> GetFriendsBioFromDb(User user)
+        {
+            //List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                return connection.Query<User>("select distinct Friend.Id ,Friend.Username, Friend.Firstname, Friend.Lastname,Friend.Biography from [User] as I inner join UserToUser on UserToUser.UserId = I.Id inner join [User] as Friend on Friend.Id = UserToUser.FollowingId where I.Id = " + user.Id);
+                // foreach (var item in foo)
+                // {
+                //     tweetsFromDb.Add(new Tuple<string, Tweet>(
+                //         (string)item.Username,
+                //         new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id, UserID = item.UserId }));
+                // }
+            }
+
+            // return tweetsFromDb;
+        }
     }
 }

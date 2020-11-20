@@ -52,7 +52,7 @@ namespace Grupparbete
                 Console.WriteLine("[4] Show all tweets");
                 Console.WriteLine("[5] Search tweets or users");
                 Console.WriteLine("[6] My profile");
-                Console.WriteLine("[7] My InBox");
+                Console.WriteLine("[7] My Friends and Mail");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
@@ -109,6 +109,7 @@ namespace Grupparbete
             switch (userKey)
             {
                 case ConsoleKey.D1:
+                    PrintBiosOfFriends(user);
                     break;
                 case ConsoleKey.D2:
                     PrintSendMailMenue(user);
@@ -126,7 +127,7 @@ namespace Grupparbete
         private static void PrintSendMailMenue(User user)
         {
             List<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
-            System.Console.WriteLine("This is the user you Follows:");
+            System.Console.WriteLine("This is the users you Follow:");
             foreach (var idAndName in following)
             {
                 Console.WriteLine("{0}: {1}", idAndName.Item2, idAndName.Item1);
@@ -137,7 +138,7 @@ namespace Grupparbete
             bool success = Int32.TryParse(foo, out idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Tillbaka till meny");
             }
             else if (success)
             {
@@ -150,6 +151,7 @@ namespace Grupparbete
                         System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
                         userManager.SendMassage(message, user, idAndName.Item2);
+                        System.Console.WriteLine("Meddelandet skickat!");
                         break;
                     }
                 }
@@ -205,6 +207,21 @@ namespace Grupparbete
             {
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
+        }
+
+        private static void PrintBiosOfFriends(User user)
+        {
+            IEnumerable<User> friends = userManager.GetFriendsBio(user);
+            System.Console.WriteLine("This is all your friends bio!\n");
+            foreach (var friend in friends)
+            {
+                System.Console.WriteLine("Username: " + friend.Username);
+                System.Console.WriteLine("Fristname: " + friend.Firstname);
+                System.Console.WriteLine("Lastname: " + friend.Lastname);
+                System.Console.WriteLine("Bio: " + friend.Biography + "\n");
+            }
+            System.Console.WriteLine("Perss any key to countinue..");
+            userKey = Console.ReadKey(true).Key;
         }
         
         private static void PrintOthersTweets(User user)

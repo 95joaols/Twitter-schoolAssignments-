@@ -59,5 +59,10 @@ namespace TwitterCore
         {
             return db.GetUserMailFromDb(user);
         }
+
+        public IEnumerable<User> GetFriendsBio(User user)
+        {
+            return db.GetFriendsBioFromDb(user);
+        }
     }
 }
