@@ -172,7 +172,41 @@ namespace Grupparbete
             {
                 Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
             }
+            Console.WriteLine();
+            System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett Id för att svara på mail: ");
+            string foo = Console.ReadLine();
+            int idChoiche;
+            bool success = Int32.TryParse(foo, out idChoiche);
+            if (foo == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool print = true;
+                foreach (var mail in myMail)
+                {
+                    if (mail.Item3 == idChoiche)
+                    {
+                        print = false;
+                        System.Console.Write("Skriv ett meddelande till " + mail.Item1 + ": ");
+                        string message = Console.ReadLine();
+                        userManager.SendMassage(message,user,mail.Item3);
+                        System.Console.WriteLine("Meddelandet skickat");
+                        break;
+                    }
+                }
+                if (print == true)
+                {
+                    System.Console.WriteLine("Detta Id fanns inte in din inbox");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Du skrev inte in en siffra!");
+            }
         }
+        
         private static void PrintOthersTweets(User user)
         {
             List<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
