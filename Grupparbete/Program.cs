@@ -114,6 +114,7 @@ namespace Grupparbete
                     PrintSendMailMenue(user);
                     break;
                 case ConsoleKey.D3:
+                    PrintMyInbox(user);
                     break;
 
                 default:
@@ -124,7 +125,7 @@ namespace Grupparbete
 
         private static void PrintSendMailMenue(User user)
         {
-            List<Tuple<string, int, int>> following = userManager.GetFollowing(user); // int1 = UserToUser.FollowingId, int2 =userToSendId
+            List<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("This is the user you Follows:");
             foreach (var idAndName in following)
             {
@@ -148,7 +149,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message, user, idAndName.Item3);
+                        userManager.SendMassage(message, user, idAndName.Item2);
                         break;
                     }
                 }
@@ -162,6 +163,11 @@ namespace Grupparbete
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
             
+        }
+
+        private static void PrintMyInbox(User user)
+        {
+
         }
         private static void PrintOthersTweets(User user)
         {

@@ -44,7 +44,7 @@ namespace TwitterCore
             //                    return null;
         }
 
-        public List<Tuple<string, int, int>> GetFollowing(User user)
+        public List<Tuple<string, int>> GetFollowing(User user)
         {
             return db.GetFollowersFromDb(user);
         }

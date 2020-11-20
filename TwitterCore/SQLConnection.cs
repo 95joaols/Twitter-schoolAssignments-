@@ -200,9 +200,9 @@ namespace TwitterCore
             return tweetsFromDb;
         }
 
-        public List<Tuple<string, int, int>> GetFollowersFromDb(User user)
+        public List<Tuple<string, int>> GetFollowersFromDb(User user)
         {
-            List<Tuple<string, int,int>> following = new List<Tuple<string, int, int>>();
+            List<Tuple<string, int>> following = new List<Tuple<string, int>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 var foo = connection.Query(@"select distinct FollowingId, x.Username, Orginal.Id
@@ -212,10 +212,9 @@ namespace TwitterCore
                                             where Orginal.Id = " + user.Id);
                 foreach (var item in foo)
                 {
-                    following.Add(new Tuple<string, int, int>(
+                    following.Add(new Tuple<string, int>(
                         (string)item.Username,
-                        (int)item.FollowingId,
-                        (int)item.Id));
+                        (int)item.FollowingId));
                 }
             }
 
