@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TwitterCore;
+using System.Collections.ObjectModel;
 
 namespace Grupparbete
 {
@@ -126,7 +127,7 @@ namespace Grupparbete
 
         private static void PrintSendMailMenue(User user)
         {
-            List<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
+            ReadOnlyCollection<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("This is the users you Follow:");
             foreach (var idAndName in following)
             {
@@ -169,7 +170,7 @@ namespace Grupparbete
 
         private static void PrintMyInbox(User user)
         {
-            List<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
+            ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
             foreach (var mail in myMail)
             {
                 Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
@@ -226,7 +227,7 @@ namespace Grupparbete
         
         private static void PrintOthersTweets(User user)
         {
-            List<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
+            ReadOnlyCollection<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
             foreach (var tweet in tweets)
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
@@ -304,7 +305,7 @@ namespace Grupparbete
 
         public static void PrintTweets()
         {
-            List<Tuple<string, Tweet>> tweets = tweetManager.GetTweets();
+            ReadOnlyCollection<Tuple<string, Tweet>> tweets = tweetManager.GetTweets();
 
             foreach (var tweet in tweets)
             {
@@ -318,7 +319,7 @@ namespace Grupparbete
             System.Console.WriteLine(user.Biography);
             Console.WriteLine();
 
-            List<Tuple<string, Tweet>> userTweets = tweetManager.GetUserTweets(user);
+            ReadOnlyCollection<Tuple<string, Tweet>> userTweets = tweetManager.GetUserTweets(user);
             Console.WriteLine("Tweets:");
             foreach (var tweet in userTweets)
             {
@@ -422,7 +423,7 @@ namespace Grupparbete
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What tweet to search for.
 
-                    List<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
+                    ReadOnlyCollection<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
 
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
@@ -484,7 +485,7 @@ namespace Grupparbete
 
         public static void RetweetMenue(User user)
         {
-            List<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
+            ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
             System.Console.WriteLine("My ReTweets: ");
             foreach (var reTweet in reTweets)
             {

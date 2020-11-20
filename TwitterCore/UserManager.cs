@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System;
 
 namespace TwitterCore
@@ -36,17 +37,17 @@ namespace TwitterCore
 
         public IEnumerable<User> SearchUsers(string search)
         {
-
-
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
-            return db.SearchUsers(search);
-            //                else
-            //                    return null;
+            
+           IEnumerable<User> foo = db.SearchUsers(search);
+           List<User> foos = new List<User>(foo);
+           return new ReadOnlyCollection<User>(foos);
         }
 
-        public List<Tuple<string, int>> GetFollowing(User user)
+        public ReadOnlyCollection<Tuple<string, int>> GetFollowing(User user)
         {
-            return db.GetFollowersFromDb(user);
+            List < Tuple<string, int> > foo = db.GetFollowersFromDb(user);
+            return new ReadOnlyCollection<Tuple<string, int>>(foo);
+
         }
 
         public void SendMassage(string message, User user, int userToId)
@@ -55,14 +56,17 @@ namespace TwitterCore
             db.PrivateMessageToDb(privateMessage);
         }
 
-        public List<Tuple<string, string, int>> GetUserMail(User user)
+        public ReadOnlyCollection<Tuple<string, string, int>> GetUserMail(User user)
         {
-            return db.GetUserMailFromDb(user);
+            List < Tuple<string, string, int> > foo = db.GetUserMailFromDb(user);
+            return new ReadOnlyCollection<Tuple<string, string, int>>(foo);
         }
 
-        public IEnumerable<User> GetFriendsBio(User user)
+        public ReadOnlyCollection<User> GetFriendsBio(User user)
         {
-            return db.GetFriendsBioFromDb(user);
+            IEnumerable<User> foo = db.GetFriendsBioFromDb(user);
+            List<User> fooo = new List<User>(foo);
+            return new ReadOnlyCollection<User>(fooo);
         }
     }
 }

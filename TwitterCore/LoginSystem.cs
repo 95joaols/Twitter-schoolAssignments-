@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace TwitterCore
 {
@@ -42,8 +43,6 @@ namespace TwitterCore
         public void LogOutUser(User user)
         {
             user.IsLoggedIn = false;
-            //Program.PrintHeadMenu();
-            //Utloggad
         }
     }
 }
