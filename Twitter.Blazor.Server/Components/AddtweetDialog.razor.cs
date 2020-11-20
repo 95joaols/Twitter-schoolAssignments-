@@ -32,12 +32,14 @@ namespace Twitter.Blazor.Server.Components
                     TweetManager tweetManager = new TweetManager();
                     tweetManager.CreateTweet(Tweet.Message, DataAccess.User.Id);
                     HasError = false;
+                    ShowDialog = false;
                 }
                 else
                 {
                     HasError = true;
                     Messege = "Unable to crate tweet";
                 }
+                DataAccess.Loading = false;
             });
 
             }
