@@ -114,6 +114,7 @@ namespace Grupparbete
                     PrintSendMailMenue(user);
                     break;
                 case ConsoleKey.D3:
+                    PrintMyInbox(user);
                     break;
 
                 default:
@@ -124,7 +125,7 @@ namespace Grupparbete
 
         private static void PrintSendMailMenue(User user)
         {
-            List<Tuple<string, int>> following = userManager.GetFollowing(user);
+            List<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("This is the user you Follows:");
             foreach (var idAndName in following)
             {
@@ -140,17 +141,19 @@ namespace Grupparbete
             }
             else if (success)
             {
-                bool print = false;
+                bool print = true;
                 foreach (var idAndName in following)
                 {
                     if (idAndName.Item2 == idChoiche)
                     {
-                        print = true;
+                        print = false;
                         System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
+                        string message = Console.ReadLine();
+                        userManager.SendMassage(message, user, idAndName.Item2);
                         break;
                     }
                 }
-                if (print == false)
+                if (print == true)
                 {
                     System.Console.WriteLine("Du skrev in ett Id du inte följer än..");
                 }
@@ -160,6 +163,15 @@ namespace Grupparbete
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
             
+        }
+
+        private static void PrintMyInbox(User user)
+        {
+            List<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
+            foreach (var mail in myMail)
+            {
+                Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
+            }
         }
         private static void PrintOthersTweets(User user)
         {

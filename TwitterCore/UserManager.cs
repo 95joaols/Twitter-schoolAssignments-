@@ -48,5 +48,16 @@ namespace TwitterCore
         {
             return db.GetFollowersFromDb(user);
         }
+
+        public void SendMassage(string message, User user, int userToId)
+        {
+            PrivateMessage privateMessage = new PrivateMessage(user.Id,userToId,message);
+            db.PrivateMessageToDb(privateMessage);
+        }
+
+        public List<Tuple<string, string, int>> GetUserMail(User user)
+        {
+            return db.GetUserMailFromDb(user);
+        }
     }
 }
