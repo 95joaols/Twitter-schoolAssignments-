@@ -124,7 +124,7 @@ namespace Grupparbete
 
         private static void PrintSendMailMenue(User user)
         {
-            List<Tuple<string, int>> following = userManager.GetFollowing(user);
+            List<Tuple<string, int, int>> following = userManager.GetFollowing(user); // int1 = UserToUser.FollowingId, int2 =userToSendId
             System.Console.WriteLine("This is the user you Follows:");
             foreach (var idAndName in following)
             {
@@ -140,17 +140,19 @@ namespace Grupparbete
             }
             else if (success)
             {
-                bool print = false;
+                bool print = true;
                 foreach (var idAndName in following)
                 {
                     if (idAndName.Item2 == idChoiche)
                     {
-                        print = true;
+                        print = false;
                         System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
+                        string message = Console.ReadLine();
+                        userManager.SendMassage(message, user, idAndName.Item3);
                         break;
                     }
                 }
-                if (print == false)
+                if (print == true)
                 {
                     System.Console.WriteLine("Du skrev in ett Id du inte följer än..");
                 }

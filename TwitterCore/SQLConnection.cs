@@ -200,25 +200,34 @@ namespace TwitterCore
             return tweetsFromDb;
         }
 
-        public List<Tuple<string, int>> GetFollowersFromDb(User user)
+        public List<Tuple<string, int, int>> GetFollowersFromDb(User user)
         {
-            List<Tuple<string, int>> following = new List<Tuple<string, int>>();
+            List<Tuple<string, int,int>> following = new List<Tuple<string, int, int>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                var foo = connection.Query(@"select distinct FollowingId, x.Username
+                var foo = connection.Query(@"select distinct FollowingId, x.Username, Orginal.Id
                                             from[User] as Orginal
                                             full join UserToUser on UserToUser.UserId = Orginal.Id
                                             full join[User] as x on x.Id = UserToUser.FollowingId
                                             where Orginal.Id = " + user.Id);
                 foreach (var item in foo)
                 {
-                    following.Add(new Tuple<string, int>(
+                    following.Add(new Tuple<string, int, int>(
                         (string)item.Username,
-                        (int)item.FollowingId));
+                        (int)item.FollowingId,
+                        (int)item.Id));
                 }
             }
 
             return following;
+        }
+
+        public void PrivateMessageToDb(PrivateMessage privateMessage)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                connection.Execute("INSERT INTO PrivateMessage (UserFromId,UserToId,Message) values (@UserFromId, @UserToId, @Message)", privateMessage);
+            }
         }
     }
 }

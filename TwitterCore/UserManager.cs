@@ -44,9 +44,15 @@ namespace TwitterCore
             //                    return null;
         }
 
-        public List<Tuple<string, int>> GetFollowing(User user)
+        public List<Tuple<string, int, int>> GetFollowing(User user)
         {
             return db.GetFollowersFromDb(user);
+        }
+
+        public void SendMassage(string message, User user, int userToId)
+        {
+            PrivateMessage privateMessage = new PrivateMessage(user.Id,userToId,message);
+            db.PrivateMessageToDb(privateMessage);
         }
     }
 }
