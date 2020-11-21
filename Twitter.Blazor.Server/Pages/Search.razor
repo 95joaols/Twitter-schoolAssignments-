@@ -1,0 +1,58 @@
+﻿@page "/Search"
+
+    <div class="row">
+        <div class="col-1"><p>Search</p></div>
+        <div class="col-11">
+            <input type="text" @bind="@DataAccess.Searching" @bind:event="oninput" />
+        </div>
+
+    </div>
+
+
+    @switch (SearchTypeP)
+    {
+        case SearchType.Tweet:
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary btn-sm ">
+                    <input type="radio" name="options" @onclick="@ChangeToUser"> User
+                </label>
+                <label class="btn btn-secondary btn-sm active">
+                    <input type="radio" name="options" checked> Tweet
+                </label>
+            </div>
+            if (DataAccess.Tweets == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                foreach (var Tweet in DataAccess.Tweets)
+                {
+                    <TweetC TweetP=Tweet></TweetC>
+                }
+            }
+            break;
+        case SearchType.User:
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary btn-sm active">
+                    <input type="radio" name="options" checked> User
+                </label>
+                <label class="btn btn-secondary btn-sm">
+                    <input type="radio" name="options" @onclick="@ChangeToTweet"> Tweet
+                </label>
+            </div>
+            if (DataAccess.UserSearch == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                foreach (var user in DataAccess.UserSearch)
+                {
+                    <UserC UserP=user></UserC>
+                }
+            }
+            break;
+
+
+    }

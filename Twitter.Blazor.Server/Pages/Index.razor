@@ -1,14 +1,17 @@
 @page "/"
 
-<button @onclick="Addtweet" class="btn btn-dark table-btn quick-add-btn">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
-<AddtweetDialog @ref="AddtweetDialog"></AddtweetDialog>
-@if (DataAccess.TopTweets == null)
+@if (DataAccess.User != null)
+{
+    <button @onclick="Addtweet" class="btn btn-dark table-btn quick-add-btn">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+    <AddtweetDialog @ref="AddtweetDialog"></AddtweetDialog>
+}
+@if (DataAccess.Tweets == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @foreach (var Tweet in DataAccess.TopTweets)
+    @foreach (var Tweet in DataAccess.Tweets)
     {
         <TweetC TweetP=Tweet></TweetC>
     }
