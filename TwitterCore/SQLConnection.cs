@@ -23,11 +23,11 @@ namespace TwitterCore
             connectionJson = JsonSerializer.Deserialize<JsonLoginClass>(readJsonFile);
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetUsersFromDb()
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("SELECT Id, Username, Password, Biography FROM [User]");
+                return connection.Query<User>("SELECT Id, Username, Password, Biography, BINARYBITDEFAULTZERO FROM [User]");
             }
         }
 
@@ -45,6 +45,22 @@ namespace TwitterCore
                 }
             }
             return tweetsFromDb;
+        }
+
+        internal void SetUserLogdIn(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 1 where [User].Id = " + user.Id);
+            }
+        }
+
+        internal void SetUserLogout(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 0 where [User].Id = " + user.Id);
+            }
         }
 
         public List<Tuple<string, Tweet>> GetUserTweetsFromDb(int id)
@@ -171,7 +187,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
+                connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);                 
             }
         }
 
@@ -252,19 +268,14 @@ namespace TwitterCore
 
         public IEnumerable<User> GetFriendsBioFromDb(User user)
         {
-            //List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("select distinct Friend.Id ,Friend.Username, Friend.Firstname, Friend.Lastname,Friend.Biography from [User] as I inner join UserToUser on UserToUser.UserId = I.Id inner join [User] as Friend on Friend.Id = UserToUser.FollowingId where I.Id = " + user.Id);
-                // foreach (var item in foo)
-                // {
-                //     tweetsFromDb.Add(new Tuple<string, Tweet>(
-                //         (string)item.Username,
-                //         new Tweet { CreateDate = (DateTime)item.CreateDate, Message = item.Message, ID = item.Id, UserID = item.UserId }));
-                // }
+                return connection.Query<User>(@"select distinct Friend.Id ,Friend.Username, Friend.Firstname, Friend.Lastname,Friend.Biography
+                from [User] as I
+                inner join UserToUser on UserToUser.UserId = I.Id
+                inner join [User] as Friend on Friend.Id = UserToUser.FollowingId
+                where I.Id = " + user.Id);
             }
-
-            // return tweetsFromDb;
         }
     }
 }
