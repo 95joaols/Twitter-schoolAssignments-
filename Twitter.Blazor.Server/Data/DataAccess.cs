@@ -100,25 +100,32 @@ namespace Twitter.Blazor.Server.Data
         {
             await Task.Run(() =>
             {
-                TweetManager tweetManager = new TweetManager();
-                IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
-                IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
-                if (User != null)
+                try
                 {
-                    UserTweets = tweetManager.GetUserTweets(User);
+                    TweetManager tweetManager = new TweetManager();
+                    IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
+                    IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
+                    if (User != null)
+                    {
+                        UserTweets = tweetManager.GetUserTweets(User);
+                    }
+                    HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
+                    HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
+                    if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
+                    {
+                        TopTweets = Tweets;
+                        NotifyDataChanged.Invoke();
+                    }
+                    if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
+                    {
+                        UrerTweets = UserTweets;
+                        NotifyDataChanged.Invoke();
+                    }
                 }
-                HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
-                HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
-                if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
+                catch (Exception)
                 {
-                    TopTweets = Tweets;
-                    NotifyDataChanged.Invoke();
                 }
-                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
-                {
-                    UrerTweets = UserTweets;
-                    NotifyDataChanged.Invoke();
-                }
+                
             });
         }
 
