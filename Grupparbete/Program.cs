@@ -100,25 +100,18 @@ namespace Grupparbete
                 Console.WriteLine();
                 Console.WriteLine("[1] Add Twitter Post");
                 Console.WriteLine("[2] User settings");
-                Console.WriteLine("[3] Logga ut");
-                Console.WriteLine("[4] Show all tweets");
-                Console.WriteLine("[5] Search tweets or users");
-                Console.WriteLine("[6] My profile");
-                Console.WriteLine("[7] My Friends and Mail");
-                Console.WriteLine("[8] See all how are online now");
+                Console.WriteLine("[3] Show all tweets");
+                Console.WriteLine("[4] Search tweets or users");
+                Console.WriteLine("[5] My profile");
+                Console.WriteLine("[6] My Friends and Mail");
+                Console.WriteLine("[7] See all how are online now");
+                Console.WriteLine("[Esc] Logga ut");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
                 {
                     case ConsoleKey.D1:
-                        //Visa alla tweets
-                        PrintOthersTweets(user);
-                        break;
-                    case ConsoleKey.D2:
-                        SearchTweets(user);
-                        break;
-                    case ConsoleKey.D3:
                         Console.Write("Write Tweet: ");
                         string tweet = Console.ReadLine();
                         if (String.IsNullOrEmpty(tweet))
@@ -130,22 +123,29 @@ namespace Grupparbete
                             tweetManager.CreateTweet(tweet, user.Id);
                         }
                         break;
+                    case ConsoleKey.D2:
+                        UserSettingsMenu(user);
+                        break;
+                    case ConsoleKey.D3:
+                        //Visa alla tweets
+                        PrintOthersTweets(user);
+                        break;
                     case ConsoleKey.D4:
-                        PrintYourBioAndTweets(user);
+                        SearchTweets(user);
                         break;
                     case ConsoleKey.D5:
-                        PrintUserInBox(user);
+                        PrintYourBioAndTweets(user);
                         break;
                     case ConsoleKey.D6:
-                        UserSettingsMenu(user);
+                        PrintUserInBox(user);
+                        break;
+                    case ConsoleKey.D7:
+                        PrintAllLogdinNow(user);
                         break;
                     case ConsoleKey.Escape:
                         loginSystem.LogOutUser(user);
                         PrintHeadMenu();
                         System.Console.WriteLine("Logged out");
-                        break;
-                    case ConsoleKey.D8:
-                        PrintAllLogdinNow(user);
                         break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
