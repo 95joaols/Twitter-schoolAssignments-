@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 
-namespace Twitter.Blazor.Server.Components
+namespace Twitter.Blazor.Server.Components.Dialog
 {
     public partial class LogoutDialog
     {

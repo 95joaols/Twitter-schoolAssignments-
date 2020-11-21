@@ -50,6 +50,7 @@ namespace Twitter.Blazor.Server.Data
 
         public DataAccess()
         {
+            Searching = "";
             Start();
         }
         public void Start()

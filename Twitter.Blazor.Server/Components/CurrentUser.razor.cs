@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 using Blazored.SessionStorage;
+using Twitter.Blazor.Server.Components.Dialog;
 
 namespace Twitter.Blazor.Server.Components
 {

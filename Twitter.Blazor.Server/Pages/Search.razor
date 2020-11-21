@@ -1,1 +1,35 @@
 ﻿@page "/Search"
+
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary">User</button>
+    <button type="button" class="btn btn-secondary">Tweet</button>
+</div>
+
+@if (DataAccess.Tweets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    switch (SearchTypeP)
+    {
+        case SearchType.tweet:
+            @foreach (var Tweet in DataAccess.Tweets)
+            {
+                <TweetC TweetP=Tweet></TweetC>
+            }
+            break;
+        case SearchType.user:
+            @foreach (var user in DataAccess.UrersSearch)
+            {
+                <UserC UserP=user></UserC>
+            }
+            break;
+
+
+    }
+
+
+
+}
