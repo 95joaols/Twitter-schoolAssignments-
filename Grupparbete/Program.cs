@@ -19,25 +19,54 @@ namespace Grupparbete
 
         private static void LogginLogic()
         {
+            Console.Clear();
+            Console.Write("Username: ");
+            string username = Console.ReadLine();
+            Console.Write("Password: ");
+            string password = "";
+            string passwordDots = "";
             while (true)
             {
-                Console.Write("Write Username: ");
-                string username = Console.ReadLine();
-                Console.Write("Write Password: ");
-                string password = Console.ReadLine();
+                ConsoleKeyInfo inputKey = System.Console.ReadKey(true);
 
-                var value = loginSystem.LogInUser(username, password);
-                bool auth = value.Item1;
-                User user = value.Item2;
-                if (auth)
+                if (inputKey.Key == ConsoleKey.Enter)
+                    break;
+                
+                else if (inputKey.Key == ConsoleKey.Backspace && password.Length == 0)
                 {
-                    System.Console.WriteLine("Login successful");
-                    TweetMenu(user);
+                    Console.Clear();
+                    Console.WriteLine("Username: " + username);
+                    Console.Write("Password: " + passwordDots);
                 }
+
+                else if (inputKey.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Username: " + username);
+                    password = password.Remove (password.Length - 1);
+                    passwordDots = passwordDots.Remove (passwordDots.Length - 1);
+                    Console.Write("Password: " + passwordDots);
+                }
+
                 else
                 {
-                    System.Console.WriteLine("Access denied");
+                    passwordDots += '*';
+                    Console.Write("*");
+                    password += inputKey.KeyChar;
                 }
+            }
+
+            var value = loginSystem.LogInUser(username, password);
+            bool auth = value.Item1;
+            User user = value.Item2;
+            if (auth)
+            {
+                System.Console.WriteLine(Environment.NewLine + "Login successful!");
+                TweetMenu(user);
+            }
+            else
+            {
+                System.Console.WriteLine(Environment.NewLine + "Access denied.");
             }
         }
 
@@ -46,19 +75,26 @@ namespace Grupparbete
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("[1] Add Twitter Post");
-                Console.WriteLine("[2] User settings");
-                Console.WriteLine("[3] Logga ut");
-                Console.WriteLine("[4] Show all tweets");
-                Console.WriteLine("[5] Search tweets or users");
-                Console.WriteLine("[6] My profile");
-                Console.WriteLine("[7] My Friends and Mail");
+                Console.WriteLine("[1] Show all tweets");
+                Console.WriteLine("[2] Search tweets or users");
+                Console.WriteLine("[3] Add Twitter Post");
+                Console.WriteLine("[4] My profile");
+                Console.WriteLine("[5] My Friends and Mail");
+                Console.WriteLine("[6] User settings");
+                Console.WriteLine("[Esc] Log out");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
                 {
                     case ConsoleKey.D1:
+                        //Visa alla tweets
+                        PrintOthersTweets(user);
+                        break;
+                    case ConsoleKey.D2:
+                        SearchTweets(user);
+                        break;
+                    case ConsoleKey.D3:
                         Console.Write("Write Tweet: ");
                         string tweet = Console.ReadLine();
                         if (String.IsNullOrEmpty(tweet))
@@ -70,27 +106,19 @@ namespace Grupparbete
                             tweetManager.CreateTweet(tweet, user.Id);
                         }
                         break;
-                    case ConsoleKey.D2:
+                    case ConsoleKey.D4:
+                        PrintYourBioAndTweets(user);
+                        break;
+                    case ConsoleKey.D5:
+                        PrintUserInBox(user);
+                        break;
+                    case ConsoleKey.D6:
                         UserSettingsMenu(user);
                         break;
-                    case ConsoleKey.D3:
+                    case ConsoleKey.Escape:
                         loginSystem.LogOutUser(user);
                         PrintHeadMenu();
                         System.Console.WriteLine("Logged out");
-                        break;
-                    case ConsoleKey.D4:
-                        //Visa alla tweets
-                        PrintOthersTweets(user);
-                        break;
-                    case ConsoleKey.D5:
-                        //userManager.AddFollwingOfUser(user användaren, en till user från sökning);
-                        SearchTweets(user);
-                        break;
-                    case ConsoleKey.D6:
-                        PrintYourBioAndTweets(user);
-                        break;
-                    case ConsoleKey.D7:
-                        PrintUserInBox(user);
                         break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
@@ -101,7 +129,7 @@ namespace Grupparbete
 
         private static void PrintUserInBox(User user)
         {
-            Console.WriteLine("[1] Se Bios of those I follow ");
+            Console.WriteLine("[1] See Bios of those I follow");
             Console.WriteLine("[2] Send Mail to one I follow");
             Console.WriteLine("[3] My InBox");
             Console.WriteLine();
@@ -138,7 +166,7 @@ namespace Grupparbete
             bool success = Int32.TryParse(foo, out idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("Tillbaka till meny");
+                System.Console.WriteLine("Back to main menu");
             }
             else if (success)
             {
@@ -310,6 +338,7 @@ namespace Grupparbete
             {
                 Console.WriteLine("{0}: {1}, {2}", tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
+            Console.WriteLine();
         }
 
         private static void PrintYourBioAndTweets(User user)
@@ -391,11 +420,11 @@ namespace Grupparbete
                     List<User> fetchedUsers = userManager.SearchUsers(searchString) as List<User>;
 
                     Console.WriteLine();
-                   foreach (var x in fetchedUsers)
-                   {
+                    foreach (var x in fetchedUsers)
+                    {
                         Console.WriteLine("- {0} ------- {1} {2}", x.Username, x.Firstname, x.Lastname);
                         Console.WriteLine("  Biography: {0}", x.Biography);
-                   }
+                    }
 
                     Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
                     Console.WriteLine("[Anything else] Return to search.");
@@ -415,6 +444,9 @@ namespace Grupparbete
                         Console.WriteLine("You follow \"" + fetchedUsers[userKeyInt].Username + "\" (Id: " + fetchedUsers[userKeyInt].Id + ").");
                         userManager.AddFollwingOfUser(loggedInUser, fetchedUsers[userKeyInt].Id);
                     }
+
+                    else if (userKey == ConsoleKey.Escape)
+                        break;
                 }
 
                 else if (userKey == ConsoleKey.D2)
@@ -426,7 +458,7 @@ namespace Grupparbete
 
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
-                        Console.WriteLine("{0} : \"{1}\" CreateDate: {2}", x.Item2.UserID, x.Item2.Message, x.Item2.CreateDate);
+                        Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
 
                     Console.WriteLine(Environment.NewLine + "[1] Retweet");
                     Console.WriteLine("[Anything else] Return to search.");
@@ -437,7 +469,7 @@ namespace Grupparbete
                     {
                         for (int i = 0; i < fetchedTweets.Count; i++)
                         {
-                            Console.WriteLine("[{0}] UserId: {1} \"{2}\"", i, fetchedTweets[i].Item2.UserID, fetchedTweets[i].Item2.Message);
+                            Console.WriteLine("[{0}] {1} : \"{2}\"", i, fetchedTweets[i].Item1, fetchedTweets[i].Item2.Message);
                         }
                         Console.Write(Environment.NewLine + "Choose an index to retweet: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
