@@ -1,0 +1,14 @@
+﻿@page "/Message"
+
+
+@if (DataAccess.Messages == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var messages in DataAccess.Messages)
+    {
+        <MessageC MessageP="messages"></MessageC>
+    }
+}

@@ -1,0 +1,46 @@
+﻿
+<div class="modal fade @((ShowDialog? "show d-block" : ""))" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleLabel">Profile</h5>
+                <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <EditForm Model="@EditUser" OnValidSubmit="@HandleValidSubmit">
+
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    @if (HasError)
+                    {
+                        <div class="alert alert-danger" role="alert"> @Messege</div>
+                    }
+
+                    <div class="form-group">
+                        <label for="Username">First Name: </label>
+                        <InputText id="Username" class="form-control" @bind-Value="@EditUser.Firstname"
+                                   placeholder="Enter Username"></InputText>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Password">Last Name: </label>
+                        <InputText id="LastName" class="form-control" @bind-Value="@EditUser.Lastname"
+                                   placeholder="Last Name"></InputText>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Biography: </label>
+                        <InputTextArea id="Biography" class="form-control" @bind-Value="@EditUser.Biography"
+                                       placeholder="Biography"></InputTextArea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <a class="btn btn-outline-primary" @onclick="@Close">Close</a>
+                </EditForm>
+
+            </div>
+        </div>
+    </div>
+</div>

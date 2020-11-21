@@ -11,19 +11,46 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
-        public IEnumerable<Tuple<string, Tweet>> TopTweets { get; private set; }
-        public IEnumerable<Tuple<string, Tweet>> UrerTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> Tweets { get; private set; } = new List<Tuple<string, Tweet>>();
+
+        public IEnumerable<User> UserSearch { get; private set; } = new List<User>();
+
+        public IEnumerable<Tuple<string, string, int>> Messages { get; private set; } = new List<Tuple<string, string, int>>();
+
+        public TweetTyp TweetType
+        {
+            get { return tweetType; }
+            set
+            {
+                tweetType = value;
+                OnSync(null, null);
+                NotifyDataChanged?.Invoke();
+            }
+        }
+        private TweetTyp tweetType;
 
         public User User { get; set; }
 
         public bool Runing { get; private set; }
+
+        public string Searching
+        {
+            get { return searching; }
+            set
+            {
+                searching = value;
+                OnSync(null, null);
+                NotifyDataChanged?.Invoke();
+            }
+        }
+        private string searching;
         public bool Loading
         {
             get { return loading; }
             set
             {
                 loading = value;
-                NotifyDataChanged.Invoke();
+                NotifyDataChanged?.Invoke();
             }
         }
         private bool loading;
@@ -34,6 +61,7 @@ namespace Twitter.Blazor.Server.Data
 
         public DataAccess()
         {
+            Searching = "";
             Start();
         }
         public void Start()
@@ -41,14 +69,33 @@ namespace Twitter.Blazor.Server.Data
             if (!Runing)
             {
                 TweetManager tweetManager = new TweetManager();
-                TopTweets = tweetManager.GetTweets();
+                UserManager userManager = new UserManager();
+                switch (TweetType)
+                {
+                    case TweetTyp.Top:
+                        Tweets = tweetManager.GetTweets();
+                        break;
+                    case TweetTyp.User:
+                        if (User != null)
+                        {
+                            Tweets = tweetManager.GetUserTweets(User);
+                        }
+                        break;
+                    case TweetTyp.Search:
+                        Tweets = tweetManager.SearchTweets(Searching);
+                        UserSearch = userManager.SearchUsers(Searching);
+                        break;
+                    default:
+                        break;
+                }
                 if (User != null)
                 {
-                    UrerTweets = tweetManager.GetUserTweets(User);
+                    Messages = userManager.GetUserMail(User);
                 }
 
+
                 Timer timer = new Timer(5000);
-                timer.Elapsed += OnSyncTweet;
+                timer.Elapsed += OnSync;
                 timer.AutoReset = true;
                 timer.Enabled = true;
 
@@ -69,9 +116,6 @@ namespace Twitter.Blazor.Server.Data
                 User = UserReturn.Item2;
                 LoggedIn.Invoke();
                 NotifyDataChanged.Invoke();
-
-                TweetManager tweetManager = new TweetManager();
-                UrerTweets = tweetManager.GetUserTweets(User);
             }
             return UserReturn.Item1;
         }
@@ -86,39 +130,62 @@ namespace Twitter.Blazor.Server.Data
         {
             TweetManager tweetManager = new TweetManager();
             tweetManager.Delete(tweet.ID, User);
-            List<Tuple<string, Tweet>> tweets = TopTweets.ToList();
+            List<Tuple<string, Tweet>> tweets = Tweets.ToList();
             tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
-            TopTweets = tweets;
-
-            tweets = UrerTweets.ToList();
-            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
-            UrerTweets = tweets;
+            Tweets = tweets;
             Loading = false;
         }
 
-        public async void OnSyncTweet(object source, ElapsedEventArgs e)
+        public async void OnSync(object source, ElapsedEventArgs e)
         {
             await Task.Run(() =>
             {
-                TweetManager tweetManager = new TweetManager();
-                IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
-                IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
-                if (User != null)
+                try
                 {
-                    UserTweets = tweetManager.GetUserTweets(User);
+                    TweetManager tweetManager = new TweetManager();
+                    UserManager userManager = new UserManager();
+                    IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
+                    IEnumerable<User> NewUser = new List<User>();
+                    IEnumerable<Tuple<string, string, int>> newMessages = new List<Tuple<string, string, int>>();
+
+                    switch (TweetType)
+                    {
+                        case TweetTyp.Top:
+                            NewTweets = tweetManager.GetTweets();
+                            break;
+                        case TweetTyp.User:
+                            if (User != null)
+                            {
+                                NewTweets = tweetManager.GetUserTweets(User);
+                            }
+                            break;
+                        case TweetTyp.Search:
+                            NewTweets = tweetManager.SearchTweets(Searching);
+                            NewUser = new UserManager().SearchUsers(Searching);
+                            break;
+                        default:
+                            break;
+                    }
+                    if (User != null)
+                    {
+                        newMessages = userManager.GetUserMail(User);
+                    }
+
+                    HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
+                    HashSet<int> userComper = new HashSet<int>(UserSearch.Select(x => x.Id));
+                    HashSet<int> messageComper = new HashSet<int>(Messages.Select(x => x.Item3));
+                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item3)))
+                    {
+                        Tweets = NewTweets;
+                        UserSearch = NewUser;
+                        Messages = newMessages;
+                        NotifyDataChanged?.Invoke();
+                    }
                 }
-                HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
-                HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
-                if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
+                catch (Exception)
                 {
-                    TopTweets = Tweets;
-                    NotifyDataChanged.Invoke();
                 }
-                if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
-                {
-                    UrerTweets = UserTweets;
-                    NotifyDataChanged.Invoke();
-                }
+
             });
         }
 

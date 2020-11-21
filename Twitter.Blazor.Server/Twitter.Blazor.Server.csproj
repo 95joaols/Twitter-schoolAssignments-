@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>

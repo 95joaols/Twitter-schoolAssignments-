@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System;
 
 namespace TwitterCore
@@ -15,27 +16,29 @@ namespace TwitterCore
         {
             Tweet tweet = new Tweet(message, UserID);
             db.AddTweetToDb(tweet);
-            // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
-        public List<Tuple<string, Tweet>> GetUserTweets(User user)
+        public ReadOnlyCollection<Tuple<string, Tweet>> GetUserTweets(User user)
         {
-            return db.GetUserTweetsFromDb(user.Id);
-            
+            List < Tuple<string, Tweet> > foo = db.GetUserTweetsFromDb(user.Id);
+            return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
-        public List<Tuple<string,Tweet>> GetTweets()
+        public ReadOnlyCollection<Tuple<string, Tweet>> GetTweets()
         {
-            return db.GetTweetsFromDb();
+            List < Tuple<string, Tweet> > foo = db.GetTweetsFromDb();
+            return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
-        public List<Tuple<string, Tweet, UserToRetweet>> GetRetweets(User user)
+        public ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> GetRetweets(User user)
         {
-            return db.GetUserRetweetsFromDb(user.Id);
+            List < Tuple<string, Tweet, UserToRetweet> > foo = db.GetUserRetweetsFromDb(user.Id);
+            return new ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>>(foo);
         }
-        public List<Tuple<string, Tweet>> GetOthersTweets(User user)
+        public ReadOnlyCollection<Tuple<string, Tweet>> GetOthersTweets(User user)
         {
-           return db.GetOthersTweetsFromDb(user.Id);  
+            List<Tuple<string, Tweet>> foo = db.GetOthersTweetsFromDb(user.Id);  
+            return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
         public void Retweet(int userId, int tweetId)
@@ -47,19 +50,6 @@ namespace TwitterCore
         public void Delete(int tweetId, User user)
         {
             db.DeleteTweetDb(tweetId);
-
-            // Dictionary<string, string> where = new Dictionary<string, string>();
-            // where.Add("ID", tweetId.ToString());
-
-            // Tweet tweet = dbControl.GetSingel<Tweet>("*", Table.Tweet, where);
-            // if (tweet != null && tweet.UserID == user.Id)
-            // {
-            //     return dbControl.Delete(Table.Tweet, "ID", tweetId);
-            // }
-            // else
-            // {
-            //     return false;
-            // }
         }
 
         public void DeleteReTweet(int reTweetId)
@@ -67,22 +57,10 @@ namespace TwitterCore
             db.DeleteReTweetDb(reTweetId);
         }
 
-        public List<Tuple<string, Tweet>> SearchTweets(string search)
+        public ReadOnlyCollection<Tuple<string, Tweet>> SearchTweets(string search)
         {
-
-
-            //                if (!String.IsNullOrWhiteSpace(search))           // TODO: Add later when we don't need to debug any longer.
-            return db.SearchTweets(search);
-            //                else
-            //                    return null;
+            List < Tuple<string, Tweet> > foo = db.SearchTweets(search);
+            return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
-
-        // public void AddBioToUser(string bio, User user)
-        // {
-        //     user.Biography = bio;
-        //     //db.UpdateBioToUserInDb(user);
-        //     dbControl.Update<User>(user, Table.User, "Id", user.Id, new List<string>() { "Firstname", "Lastname", "IsLoggedIn" });
-        // }
-
     }
 }

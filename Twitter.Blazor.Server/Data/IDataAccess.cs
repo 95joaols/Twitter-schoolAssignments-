@@ -7,11 +7,16 @@ namespace Twitter.Blazor.Server.Data
 {
     interface IDataAccess
     {
-        IEnumerable<Tuple<string, Tweet>> TopTweets { get; }
-        IEnumerable<Tuple<string, Tweet>> UrerTweets { get; }
+        IEnumerable<Tuple<string, Tweet>> Tweets { get; }
+        IEnumerable<User> UserSearch { get; }
+        public IEnumerable<Tuple<string, string, int>> Messages {get;}
+        TweetTyp TweetType { get; set; }
         User User { get; set; }
         bool Runing { get; }
         bool Loading { get; set; }
+
+        string Searching { get; set; }
+
 
         void Update();
         void RemoveTweet(Tweet tweet);

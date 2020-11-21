@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
-using Twitter.Blazor.Server.Components;
+using Twitter.Blazor.Server.Components.Dialog;
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Pages
@@ -14,6 +14,7 @@ namespace Twitter.Blazor.Server.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            DataAccess.TweetType = TweetTyp.Top;
             await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
             return;
         }

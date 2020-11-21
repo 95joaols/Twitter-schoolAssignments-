@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 using Blazored.SessionStorage;
+using Twitter.Blazor.Server.Components.Dialog;
 
 namespace Twitter.Blazor.Server.Components
 {
@@ -31,10 +32,9 @@ namespace Twitter.Blazor.Server.Components
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            User t = DataAccess.User;
             DataAccess.User = await SessionStorage.GetItemAsync<User>("CurentUser");
 
-            if (t?.Id != DataAccess.User?.Id)
+            if (DataAccess.User?.Id != DataAccess.User?.Id)
             {
                 DataAccess.Update();
             }
