@@ -157,7 +157,7 @@ namespace Grupparbete
         private static void PrintAllLogdinNow(User user)
         {
             ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
-            if(onlineUsers.Count > 1)
+            if(onlineUsers.Count == 1)
             {
                 System.Console.WriteLine("Only you are online, press any key to countinue..");
                 Console.ReadKey(true);
