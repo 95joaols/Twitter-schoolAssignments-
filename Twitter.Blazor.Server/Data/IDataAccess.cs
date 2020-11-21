@@ -8,7 +8,7 @@ namespace Twitter.Blazor.Server.Data
     interface IDataAccess
     {
         IEnumerable<Tuple<string, Tweet>> Tweets { get; }
-        IEnumerable<User> UrersSearch { get; }
+        IEnumerable<User> UserSearch { get; }
         TweetTyp TweetType { get; set; }
         User User { get; set; }
         bool Runing { get; }

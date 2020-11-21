@@ -11,9 +11,9 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
-        public IEnumerable<Tuple<string, Tweet>> Tweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> Tweets { get; private set; } = new List<Tuple<string, Tweet>>();
 
-        public IEnumerable<User> UrersSearch { get; private set; }
+        public IEnumerable<User> UserSearch { get; private set; } = new List<User>();
 
         public TweetTyp TweetType
         {
@@ -21,25 +21,34 @@ namespace Twitter.Blazor.Server.Data
             set
             {
                 tweetType = value;
-                OnSyncTweet(null, null);
-                NotifyDataChanged.Invoke();
+                OnSync(null, null);
+                NotifyDataChanged?.Invoke();
             }
         }
-        public TweetTyp tweetType;
+        private TweetTyp tweetType;
 
         public User User { get; set; }
 
         public bool Runing { get; private set; }
 
-        public string Searching { get; set; }
-
+        public string Searching
+        {
+            get { return searching; }
+            set
+            {
+                searching = value;
+                OnSync(null, null);
+                NotifyDataChanged?.Invoke();
+            }
+        }
+        private string searching;
         public bool Loading
         {
             get { return loading; }
             set
             {
                 loading = value;
-                NotifyDataChanged.Invoke();
+                NotifyDataChanged?.Invoke();
             }
         }
         private bool loading;
@@ -71,6 +80,7 @@ namespace Twitter.Blazor.Server.Data
                         break;
                     case TweetTyp.Search:
                         Tweets = tweetManager.SearchTweets(Searching);
+                        UserSearch = new UserManager().SearchUsers(Searching);
                         break;
                     default:
                         break;
@@ -78,7 +88,7 @@ namespace Twitter.Blazor.Server.Data
 
 
                 Timer timer = new Timer(5000);
-                timer.Elapsed += OnSyncTweet;
+                timer.Elapsed += OnSync;
                 timer.AutoReset = true;
                 timer.Enabled = true;
 
@@ -119,7 +129,7 @@ namespace Twitter.Blazor.Server.Data
             Loading = false;
         }
 
-        public async void OnSyncTweet(object source, ElapsedEventArgs e)
+        public async void OnSync(object source, ElapsedEventArgs e)
         {
             await Task.Run(() =>
             {
@@ -127,6 +137,8 @@ namespace Twitter.Blazor.Server.Data
                 {
                     TweetManager tweetManager = new TweetManager();
                     IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
+                    IEnumerable<User> NewUser = new List<User>();
+
                     switch (TweetType)
                     {
                         case TweetTyp.Top:
@@ -140,15 +152,18 @@ namespace Twitter.Blazor.Server.Data
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
+                            NewUser = new UserManager().SearchUsers(Searching);
                             break;
                         default:
                             break;
                     }
-                    HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
-                    if (!TopComper.SetEquals(NewTweets.Select(x => x.Item2.ID)))
+                    HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
+                    HashSet<int> userComper = new HashSet<int>(UserSearch.Select(x => x.Id));
+                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)))
                     {
                         Tweets = NewTweets;
-                        NotifyDataChanged.Invoke();
+                        UserSearch = NewUser;
+                        NotifyDataChanged?.Invoke();
                     }
                 }
                 catch (Exception)

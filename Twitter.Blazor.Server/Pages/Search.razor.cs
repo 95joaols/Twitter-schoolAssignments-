@@ -9,8 +9,8 @@ namespace Twitter.Blazor.Server.Pages
 {
     public enum SearchType
     {
-        user,
-        tweet
+        User,
+        Tweet
     }
 
     public partial class Search
@@ -28,6 +28,16 @@ namespace Twitter.Blazor.Server.Pages
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() => StateHasChanged());
+        }
+        protected async Task ChangeToUser()
+        {
+            await Task.Run(() => SearchTypeP = SearchType.User);
+            await OnNotifyDataChanged();
+        }
+        protected async Task ChangeToTweet()
+        {
+            await Task.Run(() => SearchTypeP = SearchType.Tweet);
+            await OnNotifyDataChanged();
         }
     }
 }

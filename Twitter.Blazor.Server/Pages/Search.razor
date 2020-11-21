@@ -1,35 +1,58 @@
 ﻿@page "/Search"
 
+    <div class="row">
+        <div class="col-1"><p>Search</p></div>
+        <div class="col-11">
+            <input type="text" @bind="@DataAccess.Searching" @bind:event="oninput" />
+        </div>
 
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-secondary">User</button>
-    <button type="button" class="btn btn-secondary">Tweet</button>
-</div>
+    </div>
 
-@if (DataAccess.Tweets == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    switch (SearchTypeP)
+
+    @switch (SearchTypeP)
     {
-        case SearchType.tweet:
-            @foreach (var Tweet in DataAccess.Tweets)
+        case SearchType.Tweet:
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary btn-sm ">
+                    <input type="radio" name="options" @onclick="@ChangeToUser"> User
+                </label>
+                <label class="btn btn-secondary btn-sm active">
+                    <input type="radio" name="options" checked> Tweet
+                </label>
+            </div>
+            if (DataAccess.Tweets == null)
             {
-                <TweetC TweetP=Tweet></TweetC>
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                foreach (var Tweet in DataAccess.Tweets)
+                {
+                    <TweetC TweetP=Tweet></TweetC>
+                }
             }
             break;
-        case SearchType.user:
-            @foreach (var user in DataAccess.UrersSearch)
+        case SearchType.User:
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary btn-sm active">
+                    <input type="radio" name="options" checked> User
+                </label>
+                <label class="btn btn-secondary btn-sm">
+                    <input type="radio" name="options" @onclick="@ChangeToTweet"> Tweet
+                </label>
+            </div>
+            if (DataAccess.UserSearch == null)
             {
-                <UserC UserP=user></UserC>
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                foreach (var user in DataAccess.UserSearch)
+                {
+                    <UserC UserP=user></UserC>
+                }
             }
             break;
 
 
     }
-
-
-
-}
