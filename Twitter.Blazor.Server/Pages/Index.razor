@@ -2,7 +2,7 @@
 
 @if (DataAccess.User != null)
 {
-    <button @onclick="Addtweet" class="btn btn-dark table-btn quick-add-btn">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+    <button @onclick="Addtweet" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-paper-plane"></i></button>
     <AddtweetDialog @ref="AddtweetDialog"></AddtweetDialog>
 }
 @if (DataAccess.Tweets == null)
