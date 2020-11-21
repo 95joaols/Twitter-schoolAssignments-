@@ -1,16 +1,16 @@
 ﻿<div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-2">
+            <div>
                 <h5 class="card-title">@TweetP.Item1</h5>
             </div>
             <div class="col" style="float:left">
-                <h6 class="card-subtitle mb-2 text-muted">@TweetP.Item2.CreateDate.ToString("yyyy-MM-dd HH:mm")</h6>
+                <p class="mb-2 text-muted">@TweetP.Item2.CreateDate.ToString("yyyy-MM-dd HH:mm")</p>
             </div>
             <div class="col" >
                 @if (TweetP.Item2.UserID == DataAccess?.User?.Id)
                 {
-                    <a type="button" style="float: right" class="btn btn-danger" @onclick="@Remove">Remove</a>
+                    <a type="button" style="float: right" class="btn btn-danger" @onclick="@Remove"><i class="fas fa-trash-alt"></i></a>
                 }
             </div>
         </div>
