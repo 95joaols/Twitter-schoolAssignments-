@@ -1,34 +1,33 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Twitter.Blazor.Server.Components;
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Pages
 {
-    public partial class Index
+    public enum SearchType
+    {
+        user,
+        tweet
+    }
+
+    public partial class Search
     {
         [Inject]
         private IDataAccess DataAccess { get; set; }
-
-        protected AddtweetDialog AddtweetDialog { get; set; }
+        public SearchType SearchTypeP { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            DataAccess.TweetType = TweetTyp.Top;
+            DataAccess.TweetType = TweetTyp.Search;
             await Task.Run(() => DataAccess.NotifyDataChanged += OnNotifyDataChanged);
             return;
         }
-
-
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() => StateHasChanged());
-        }
-
-        protected void Addtweet()
-        {
-
-            AddtweetDialog.Show();
         }
     }
 }

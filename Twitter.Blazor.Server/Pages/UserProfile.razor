@@ -12,13 +12,13 @@
     </div>
 }
 
-@if (DataAccess.UrerTweets == null)
+@if (DataAccess.Tweets == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @foreach (var Tweet in DataAccess.UrerTweets)
+    @foreach (var Tweet in DataAccess.Tweets)
     {
         <TweetC TweetP=Tweet></TweetC>
     }

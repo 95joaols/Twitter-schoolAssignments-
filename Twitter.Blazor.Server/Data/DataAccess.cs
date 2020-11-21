@@ -11,12 +11,28 @@ namespace Twitter.Blazor.Server.Data
 {
     public class DataAccess : IDataAccess
     {
-        public IEnumerable<Tuple<string, Tweet>> TopTweets { get; private set; }
-        public IEnumerable<Tuple<string, Tweet>> UrerTweets { get; private set; }
+        public IEnumerable<Tuple<string, Tweet>> Tweets { get; private set; }
+
+        public IEnumerable<User> UrersSearch { get; private set; }
+
+        public TweetTyp TweetType
+        {
+            get { return tweetType; }
+            set
+            {
+                tweetType = value;
+                OnSyncTweet(null, null);
+                NotifyDataChanged.Invoke();
+            }
+        }
+        public TweetTyp tweetType;
 
         public User User { get; set; }
 
         public bool Runing { get; private set; }
+
+        public string Searching { get; set; }
+
         public bool Loading
         {
             get { return loading; }
@@ -41,11 +57,24 @@ namespace Twitter.Blazor.Server.Data
             if (!Runing)
             {
                 TweetManager tweetManager = new TweetManager();
-                TopTweets = tweetManager.GetTweets();
-                if (User != null)
+                switch (TweetType)
                 {
-                    UrerTweets = tweetManager.GetUserTweets(User);
+                    case TweetTyp.Top:
+                        Tweets = tweetManager.GetTweets();
+                        break;
+                    case TweetTyp.User:
+                        if (User != null)
+                        {
+                            Tweets = tweetManager.GetUserTweets(User);
+                        }
+                        break;
+                    case TweetTyp.Search:
+                        Tweets = tweetManager.SearchTweets(Searching);
+                        break;
+                    default:
+                        break;
                 }
+
 
                 Timer timer = new Timer(5000);
                 timer.Elapsed += OnSyncTweet;
@@ -69,9 +98,6 @@ namespace Twitter.Blazor.Server.Data
                 User = UserReturn.Item2;
                 LoggedIn.Invoke();
                 NotifyDataChanged.Invoke();
-
-                TweetManager tweetManager = new TweetManager();
-                UrerTweets = tweetManager.GetUserTweets(User);
             }
             return UserReturn.Item1;
         }
@@ -86,13 +112,9 @@ namespace Twitter.Blazor.Server.Data
         {
             TweetManager tweetManager = new TweetManager();
             tweetManager.Delete(tweet.ID, User);
-            List<Tuple<string, Tweet>> tweets = TopTweets.ToList();
+            List<Tuple<string, Tweet>> tweets = Tweets.ToList();
             tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
-            TopTweets = tweets;
-
-            tweets = UrerTweets.ToList();
-            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
-            UrerTweets = tweets;
+            Tweets = tweets;
             Loading = false;
         }
 
@@ -103,29 +125,35 @@ namespace Twitter.Blazor.Server.Data
                 try
                 {
                     TweetManager tweetManager = new TweetManager();
-                    IEnumerable<Tuple<string, Tweet>> Tweets = tweetManager.GetTweets();
-                    IEnumerable<Tuple<string, Tweet>> UserTweets = new List<Tuple<string, Tweet>>();
-                    if (User != null)
+                    IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
+                    switch (TweetType)
                     {
-                        UserTweets = tweetManager.GetUserTweets(User);
+                        case TweetTyp.Top:
+                            NewTweets = tweetManager.GetTweets();
+                            break;
+                        case TweetTyp.User:
+                            if (User != null)
+                            {
+                                NewTweets = tweetManager.GetUserTweets(User);
+                            }
+                            break;
+                        case TweetTyp.Search:
+                            NewTweets = tweetManager.SearchTweets(Searching);
+                            break;
+                        default:
+                            break;
                     }
                     HashSet<int> TopComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
-                    HashSet<int> UserComper = new HashSet<int>(UserTweets.Select(x => x.Item2.ID));
-                    if (!TopComper.SetEquals(TopTweets.Select(x => x.Item2.ID)))
+                    if (!TopComper.SetEquals(NewTweets.Select(x => x.Item2.ID)))
                     {
-                        TopTweets = Tweets;
-                        NotifyDataChanged.Invoke();
-                    }
-                    if (UrerTweets != null && !UserComper.SetEquals(UrerTweets.Select(x => x.Item2.ID)))
-                    {
-                        UrerTweets = UserTweets;
+                        Tweets = NewTweets;
                         NotifyDataChanged.Invoke();
                     }
                 }
                 catch (Exception)
                 {
                 }
-                
+
             });
         }
 

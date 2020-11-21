@@ -31,6 +31,7 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
+                DataAccess.TweetType = TweetTyp.User;
                 DataAccess.NotifyDataChanged += OnNotifyDataChanged;
             });
         }
