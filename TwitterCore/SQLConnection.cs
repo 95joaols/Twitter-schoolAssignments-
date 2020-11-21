@@ -31,6 +31,14 @@ namespace TwitterCore
             }
         }
 
+        public IEnumerable<User> GetOnlineUserFromDb()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                return connection.Query<User>("SELECT * From [User] WHERE BINARYBITDEFAULTZERO = 1;");
+            }
+        }
+
         public List<Tuple<string, Tweet>> GetTweetsFromDb()
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
