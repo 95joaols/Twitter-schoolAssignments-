@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
+using System.Linq;
 
 namespace TwitterCore
 {
@@ -34,9 +35,8 @@ namespace TwitterCore
 
         public ReadOnlyCollection<User> SearchUsers(string search)
         {
-            IEnumerable<User> foo = db.SearchUsers(search);
-            List<User> foos = new List<User>(foo);
-            return new ReadOnlyCollection<User>(foos);
+            IEnumerable<User> userFound = db.SearchUsers(search);
+            return new ReadOnlyCollection<User>(userFound.ToList());
         }
 
         public ReadOnlyCollection<Tuple<string, int>> GetFollowing(User user)
@@ -59,9 +59,14 @@ namespace TwitterCore
 
         public ReadOnlyCollection<User> GetFriendsBio(User user)
         {
-            IEnumerable<User> foo = db.GetFriendsBioFromDb(user);
-            List<User> fooo = new List<User>(foo);
-            return new ReadOnlyCollection<User>(fooo);
+            IEnumerable<User> friendsBio = db.GetFriendsBioFromDb(user);
+            return new ReadOnlyCollection<User>(friendsBio.ToList());
+        }
+
+        public ReadOnlyCollection<User> GetOnlineUser()
+        {
+            IEnumerable<User> onlineUser = db.GetOnlineUserFromDb();
+            return new ReadOnlyCollection<User>(onlineUser.ToList());
         }
     }
 }

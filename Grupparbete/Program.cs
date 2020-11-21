@@ -76,6 +76,7 @@ namespace Grupparbete
                 Console.WriteLine("[5] Search tweets or users");
                 Console.WriteLine("[6] My profile");
                 Console.WriteLine("[7] My Friends and Mail");
+                Console.WriteLine("[8] See all how are online now");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
@@ -115,11 +116,35 @@ namespace Grupparbete
                     case ConsoleKey.D7:
                         PrintUserInBox(user);
                         break;
+                    case ConsoleKey.D8:
+                        PrintAllLogdinNow(user);
+                        break;
                     default:
                         System.Console.WriteLine("Invalid menu input");
                         break;
                 }
             }
+        }
+
+        private static void PrintAllLogdinNow(User user)
+        {
+            ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
+            if(onlineUsers.Count > 1)
+            {
+                System.Console.WriteLine("Only you are online, press any key to countinue..");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                System.Console.WriteLine("Awsome people online bellow!\n");
+                foreach (var onlineUser in onlineUsers)
+                {
+                    Console.WriteLine("Id:{0} Name: {1}", onlineUser.Id, onlineUser.Username);
+                }
+                System.Console.WriteLine("press any key to countinue..");
+                Console.ReadKey(true);
+            }
+           
         }
 
         private static void PrintUserInBox(User user)
@@ -187,7 +212,7 @@ namespace Grupparbete
             {
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
-            
+
         }
 
         private static void PrintMyInbox(User user)
@@ -216,7 +241,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Skriv ett meddelande till " + mail.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message,user,mail.Item3);
+                        userManager.SendMassage(message, user, mail.Item3);
                         System.Console.WriteLine("Meddelandet skickat");
                         break;
                     }
@@ -246,7 +271,7 @@ namespace Grupparbete
             System.Console.WriteLine("Perss any key to countinue..");
             userKey = Console.ReadKey(true).Key;
         }
-        
+
         private static void PrintOthersTweets(User user)
         {
             ReadOnlyCollection<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
@@ -433,7 +458,7 @@ namespace Grupparbete
                         Console.Write(Environment.NewLine + "Choose an index to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
                         var selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
-                        Console.WriteLine("You follow " + "selectedUser.Username" 
+                        Console.WriteLine("You follow " + "selectedUser.Username"
                             + "(Id: " + selectedUser.Id + ").");
                         userManager.AddFollwingOfUser(loggedInUser, selectedUser.Id);
                     }
