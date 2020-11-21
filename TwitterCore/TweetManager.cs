@@ -16,7 +16,6 @@ namespace TwitterCore
         {
             Tweet tweet = new Tweet(message, UserID);
             db.AddTweetToDb(tweet);
-            // dbControl.Add<int>(tweet, Table.Tweet, "ID", new List<string>() { "CreateDate", "Username", "isRetweet", "retweetCount", "Retweet" });
         }
 
         public ReadOnlyCollection<Tuple<string, Tweet>> GetUserTweets(User user)

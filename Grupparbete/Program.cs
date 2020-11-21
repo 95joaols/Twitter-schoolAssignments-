@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TwitterCore;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Grupparbete
 {
@@ -14,8 +15,29 @@ namespace Grupparbete
 
         static void Main(string[] args)
         {
+            InitializeEventListener();
             PrintTweets();
             PrintHeadMenu();
+        }
+
+        static void InitializeEventListener()
+        {
+            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
+            {
+                handleLogOut();
+            };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                handleLogOut();
+            };
+
+            void handleLogOut()
+            {
+                if (loginSystem._user != null && loginSystem._user.IsLoggedIn)
+                {
+                    loginSystem.LogOutUser(loginSystem._user);
+                }
+            }
         }
 
         private static void LogginLogic()
@@ -388,15 +410,13 @@ namespace Grupparbete
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What user to search for.
 
-                    //IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
-                    List<User> fetchedUsers = userManager.SearchUsers(searchString) as List<User>;
-
+                    IReadOnlyCollection<User> fetchedUsers = userManager.SearchUsers(searchString);
                     Console.WriteLine();
-                   foreach (var x in fetchedUsers)
-                   {
+                    foreach (var x in fetchedUsers)
+                    {
                         Console.WriteLine("- {0} ------- {1} {2}", x.Username, x.Firstname, x.Lastname);
                         Console.WriteLine("  Biography: {0}", x.Biography);
-                   }
+                    }
 
                     Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
                     Console.WriteLine("[Anything else] Return to search.");
@@ -406,15 +426,16 @@ namespace Grupparbete
                     if (userKey == ConsoleKey.D1)
                     {
                         Console.WriteLine(Environment.NewLine);
-                        for (int i = 0; i < fetchedUsers.Count; i++)
+                        foreach (var item in fetchedUsers)
                         {
-                            Console.WriteLine("[{0}] Username: {1}", i, fetchedUsers[i].Username);
+                            Console.WriteLine($"{item.Id} Username: {item.Username}");
                         }
                         Console.Write(Environment.NewLine + "Choose an index to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        //Console.WriteLine("userKeyInt: " + userKeyInt + " index: " + fetchedUsers[userKeyInt].Id);      // Debug.
-                        Console.WriteLine("You follow \"" + fetchedUsers[userKeyInt].Username + "\" (Id: " + fetchedUsers[userKeyInt].Id + ").");
-                        userManager.AddFollwingOfUser(loggedInUser, fetchedUsers[userKeyInt].Id);
+                        var selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
+                        Console.WriteLine("You follow " + "selectedUser.Username" 
+                            + "(Id: " + selectedUser.Id + ").");
+                        userManager.AddFollwingOfUser(loggedInUser, selectedUser.Id);
                     }
                 }
 
@@ -527,6 +548,14 @@ namespace Grupparbete
             {
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
+        }
+
+        public void InitializeEventListener(User user)
+        {
+            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
+            {
+                user.IsLoggedIn = false;
+            };
         }
     }
 }

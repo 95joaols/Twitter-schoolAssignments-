@@ -23,11 +23,11 @@ namespace TwitterCore
             connectionJson = JsonSerializer.Deserialize<JsonLoginClass>(readJsonFile);
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetUsersFromDb()
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("SELECT Id, Username, Password, Biography FROM [User]");
+                return connection.Query<User>("SELECT Id, Username, Password, Biography, BINARYBITDEFAULTZERO FROM [User]");
             }
         }
 
@@ -45,6 +45,22 @@ namespace TwitterCore
                 }
             }
             return tweetsFromDb;
+        }
+
+        internal void SetUserLogdIn(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 1 where [User].Id = " + user.Id);
+            }
+        }
+
+        internal void SetUserLogout(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 0 where [User].Id = " + user.Id);
+            }
         }
 
         public List<Tuple<string, Tweet>> GetUserTweetsFromDb(int id)
