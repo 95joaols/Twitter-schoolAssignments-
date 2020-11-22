@@ -464,7 +464,8 @@ namespace Grupparbete
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What user to search for.
 
-                    IReadOnlyCollection<User> fetchedUsers = userManager.SearchUsers(searchString);
+                    //IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
+                    IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString, loggedInUser);
                     Console.WriteLine();
                     foreach (var x in fetchedUsers)
                     {
@@ -480,6 +481,11 @@ namespace Grupparbete
                     if (userKey == ConsoleKey.D1)
                     {
                         Console.WriteLine(Environment.NewLine);
+                        /*for (int i = 0; i < fetchedUsers.Count(); i++)
+                        {
+                            fetchedUsers[i].
+                            Console.WriteLine();
+                        } */
                         foreach (var item in fetchedUsers)
                         {
                             Console.WriteLine($"{item.Id} Username: {item.Username}");

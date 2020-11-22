@@ -199,13 +199,21 @@ namespace TwitterCore
             }
         }
 
-        public IEnumerable<User> SearchUsers(string search)
+        public IEnumerable<User> SearchUsers(string search, User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search, @IdToExclude = @Id", new { @Search = search, @Id = user.Id });
+            }
+        }
+
+        /*public IEnumerable<User> SearchUsers(string search)
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
             }
-        }
+        } */
 
         public List<Tuple<string,Tweet>> SearchTweets(string search)
         {
@@ -283,6 +291,14 @@ namespace TwitterCore
                 inner join UserToUser on UserToUser.UserId = I.Id
                 inner join [User] as Friend on Friend.Id = UserToUser.FollowingId
                 where I.Id = " + user.Id);
+            }
+        }
+        
+        public IEnumerable<User> SINGLEUSER(int user)
+        {
+        using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                return connection.Query<User>(@"SELECT * FROM User WHERE Id = @UserId", new { @UserId = user });
             }
         }
     }
