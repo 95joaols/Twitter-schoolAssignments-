@@ -29,7 +29,7 @@ namespace Twitter.Blazor.Server.Data
         }
         private TweetTyp tweetType;
 
-        public User LoginUser { get; set; }
+        public User LoginUser { get; } = new LoginSystem()._user;
 
         public User UserCheck { get; set; }
 
@@ -165,7 +165,7 @@ namespace Twitter.Blazor.Server.Data
             }
             if (UserReturn.Item1)
             {
-                LoginUser = UserReturn.Item2;
+                //LoginUser = UserReturn.Item2;
                 LoggedIn.Invoke();
                 NotifyDataChanged.Invoke();
             }
@@ -174,7 +174,7 @@ namespace Twitter.Blazor.Server.Data
 
         public void LogingOut()
         {
-            LoginUser = null;
+            //LoginUser = null;
             LoggedOut.Invoke();
             NotifyDataChanged.Invoke();
         }

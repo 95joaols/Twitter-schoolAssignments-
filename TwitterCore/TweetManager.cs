@@ -6,7 +6,7 @@ namespace TwitterCore
 {
     public class TweetManager
     {
-        SQLConnection db = new SQLConnection();
+        readonly SQLConnection db = new SQLConnection();
 
         public TweetManager()
         {

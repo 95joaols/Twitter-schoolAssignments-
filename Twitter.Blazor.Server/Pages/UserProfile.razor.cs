@@ -21,9 +21,9 @@ namespace Twitter.Blazor.Server.Pages
         {
             get
             {
-                if (DataAccess.LoginUser != null && !string.IsNullOrWhiteSpace(DataAccess.LoginUser.Firstname) || !string.IsNullOrWhiteSpace(DataAccess.LoginUser.Lastname))
+                if ((DataAccess.UserCheck != null && !string.IsNullOrWhiteSpace(DataAccess.UserCheck.Firstname)) || !string.IsNullOrWhiteSpace(DataAccess.UserCheck.Lastname))
                 {
-                    return $"({DataAccess.LoginUser.Firstname}  {DataAccess.LoginUser.Lastname})";
+                    return $"({DataAccess.UserCheck.Firstname}  {DataAccess.UserCheck.Lastname})";
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace Twitter.Blazor.Server.Pages
                     {
                         DataAccess.UserCheck = DataAccess.GetUser(id);
                     }
-                    catch (System.Exception e)
+                    catch (System.Exception)
                     {
                         NavigationManager.NavigateTo("/");
                     }
@@ -60,9 +60,23 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
-                if (DataAccess.LoginUser == null)
+                if (DataAccess.UserCheck == null)
                 {
-                    NavigationManager.NavigateTo("/");
+                    if (int.TryParse(UserId, out int id))
+                    {
+                        try
+                        {
+                            DataAccess.UserCheck = DataAccess.GetUser(id);
+                        }
+                        catch (System.Exception)
+                        {
+                            NavigationManager.NavigateTo("/");
+                        }
+                    }
+                    else
+                    {
+                        NavigationManager.NavigateTo("/");
+                    }
                 }
             });
         }

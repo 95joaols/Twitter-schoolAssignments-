@@ -15,7 +15,7 @@ namespace TwitterCore
     class SQLConnection
     {
         private const string jsonFile = "appsettings2.json";            // json file to use.
-        private JsonLoginClass connectionJson;
+        private readonly JsonLoginClass connectionJson;
 
         public SQLConnection()
         {

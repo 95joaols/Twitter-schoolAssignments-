@@ -1,6 +1,11 @@
 ﻿<div class="card">
     <div class="card-body">
-        <h5 class="card-title">@UserP.Username</h5>
+        <div>
+            <a href="@($"UserProfile/{UserP.Id}")">
+                <h5 class="card-title">@UserP.Username</h5>
+            </a>
+
+        </div>
         <h6 class="card-subtitle mb-2 text-muted">@UserP.Firstname @UserP.Lastname</h6>
         <p class="card-text">@UserP.Biography</p>
     </div>

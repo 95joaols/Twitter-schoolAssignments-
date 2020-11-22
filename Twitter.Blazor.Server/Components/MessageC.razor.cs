@@ -8,8 +8,5 @@ namespace Twitter.Blazor.Server.Components
     {
         [Parameter]
         public Tuple<string, string, int> MessageP { get; set; }
-
-        [Inject]
-        private IDataAccess DataAccess { get; set; }
     }
 }

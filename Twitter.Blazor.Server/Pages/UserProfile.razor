@@ -5,14 +5,16 @@
     if (DataAccess.LoginUser.Id == DataAccess.UserCheck?.Id)
     {
         <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
-        <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.LoginUser"></EditUserDialog>
+        <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.UserCheck"></EditUserDialog>
     }
-
+}
+@if (DataAccess.UserCheck != null)
+{
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">@DataAccess.LoginUser.Username</h1>
+            <h1 class="display-4">@DataAccess.UserCheck.Username</h1>
             <p class="lead"><i>@FullName</i></p>
-            <p class="lead">@DataAccess.LoginUser.Biography</p>
+            <p class="lead">@DataAccess.UserCheck.Biography</p>
         </div>
     </div>
 }

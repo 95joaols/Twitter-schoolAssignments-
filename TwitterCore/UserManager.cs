@@ -7,7 +7,7 @@ namespace TwitterCore
 {
     public class UserManager
     {
-        SQLConnection db = new SQLConnection();
+        readonly SQLConnection db = new SQLConnection();
 
         public void AddFollwingOfUser(User loggdInUser, int followId)
         {

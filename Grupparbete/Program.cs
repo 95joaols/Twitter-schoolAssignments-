@@ -8,9 +8,9 @@ namespace Grupparbete
 {
     class Program
     {
-        static LoginSystem loginSystem = new LoginSystem();
-        static TweetManager tweetManager = new TweetManager();
-        static UserManager userManager = new UserManager();
+        static readonly LoginSystem loginSystem = new LoginSystem();
+        static readonly TweetManager tweetManager = new TweetManager();
+        static readonly UserManager userManager = new UserManager();
         static ConsoleKey userKey;
 
         static void Main(string[] args)
@@ -31,7 +31,7 @@ namespace Grupparbete
                 handleLogOut();
             };
 
-            void handleLogOut()
+            static void handleLogOut()
             {
                 if (loginSystem._user != null && loginSystem._user.IsLoggedIn)
                 {
@@ -210,8 +210,7 @@ namespace Grupparbete
             }
             System.Console.Write("Press enter to countinue or write an Id of the person to send a mail: ");
             string foo = Console.ReadLine();
-            int idChoiche;
-            bool success = Int32.TryParse(foo, out idChoiche);
+            bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("Back to main menu");
@@ -253,8 +252,7 @@ namespace Grupparbete
             Console.WriteLine();
             System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett Id för att svara på mail: ");
             string foo = Console.ReadLine();
-            int idChoiche;
-            bool success = Int32.TryParse(foo, out idChoiche);
+            bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("tillbaka till meny");
@@ -311,8 +309,7 @@ namespace Grupparbete
             Console.WriteLine();
             System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
             string foo = Console.ReadLine();
-            int idChoiche;
-            bool success = Int32.TryParse(foo, out idChoiche);
+            bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("tillbaka till meny");
@@ -408,8 +405,7 @@ namespace Grupparbete
             System.Console.WriteLine("Skriv [R] för att se dina retweets");
             System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
             string foo = Console.ReadLine();
-            int idChoiche;
-            bool success = Int32.TryParse(foo, out idChoiche);
+            bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("tillbaka till meny");
@@ -578,8 +574,7 @@ namespace Grupparbete
             System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
             System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
             string foo = Console.ReadLine();
-            int idChoiche;
-            bool success = Int32.TryParse(foo, out idChoiche);
+            bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
                 System.Console.WriteLine("tillbaka till meny");
