@@ -33,9 +33,9 @@ namespace Grupparbete
 
             static void handleLogOut()
             {
-                if (loginSystem._user != null && loginSystem._user.IsLoggedIn)
+                if (loginSystem.loginUser != null && loginSystem.loginUser.IsLoggedIn)
                 {
-                    loginSystem.LogOutUser(loginSystem._user);
+                    loginSystem.LogOutUser(loginSystem.loginUser);
                 }
             }
         }

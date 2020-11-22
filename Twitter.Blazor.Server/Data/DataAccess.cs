@@ -29,7 +29,8 @@ namespace Twitter.Blazor.Server.Data
         }
         private TweetTyp tweetType;
 
-        public User LoginUser { get; set; } = new LoginSystem()._user;
+        private readonly LoginSystem loginSystem = new LoginSystem();
+        public User LoginUser { get; set; }
 
         public User UserCheck { get; set; }
 
@@ -70,6 +71,8 @@ namespace Twitter.Blazor.Server.Data
         {
             if (!Runing)
             {
+                LoginUser = loginSystem.loginUser;
+
                 TweetManager tweetManager = new TweetManager();
                 UserManager userManager = new UserManager();
                 switch (TweetType)
@@ -144,7 +147,7 @@ namespace Twitter.Blazor.Server.Data
 
         public void RegistrarUser(string userName,string password)
         {
-            new LoginSystem().CreateUser(userName, password);
+            loginSystem.CreateUser(userName, password);
         }
         public void Update()
         {
@@ -153,7 +156,6 @@ namespace Twitter.Blazor.Server.Data
 
         public bool LogingIn(string username, string password)
         {
-            LoginSystem loginSystem = new LoginSystem();
             (bool, User) UserReturn;
             try
             {
@@ -165,7 +167,7 @@ namespace Twitter.Blazor.Server.Data
             }
             if (UserReturn.Item1)
             {
-                //LoginUser = UserReturn.Item2;
+                LoginUser = UserReturn.Item2;
                 LoggedIn.Invoke();
                 NotifyDataChanged.Invoke();
             }
@@ -221,7 +223,7 @@ namespace Twitter.Blazor.Server.Data
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
-                            NewUser = new UserManager().SearchUsers(Searching, LoginUser);
+                            NewUser = userManager.SearchUsers(Searching, LoginUser);
                             break;
                         default:
                             break;

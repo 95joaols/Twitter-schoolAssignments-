@@ -7,7 +7,16 @@ namespace TwitterCore
     public class LoginSystem
     {
         private readonly SQLConnection db = new SQLConnection();
-        public User _user;
+        public User loginUser
+        {
+            get
+            { return _user; }
+            set
+            {
+                _user = value;
+            }
+        }
+        private User _user;
         public void CreateUser(string username, string password)
         {
             string salt = Cryptography.CreatSalt();
