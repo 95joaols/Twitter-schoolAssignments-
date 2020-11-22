@@ -75,24 +75,56 @@ namespace Twitter.Blazor.Server.Data
                 switch (TweetType)
                 {
                     case TweetTyp.Top:
-                        Tweets = tweetManager.GetTweets();
+                        try
+                        {
+                            Tweets = tweetManager.GetTweets();
+                        }
+                        catch (Exception)
+                        {
+                        }
                         break;
                     case TweetTyp.User:
                         if (UserCheck != null)
                         {
-                            Tweets = tweetManager.GetUserTweets(UserCheck);
+                            try
+                            {
+                                Tweets = tweetManager.GetUserTweets(UserCheck);
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                         break;
                     case TweetTyp.Search:
-                        Tweets = tweetManager.SearchTweets(Searching);
-                        UserSearch = userManager.SearchUsers(Searching,LoginUser);
+                        try
+                        {
+                            Tweets = tweetManager.SearchTweets(Searching);
+
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        try
+                        {
+                            UserSearch = userManager.SearchUsers(Searching, LoginUser);
+
+                        }
+                        catch (Exception)
+                        {
+                        }
                         break;
                     default:
                         break;
                 }
                 if (LoginUser != null)
                 {
-                    Messages = userManager.GetUserMail(LoginUser);
+                    try
+                    {
+                        Messages = userManager.GetUserMail(LoginUser);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
 
 
@@ -107,8 +139,12 @@ namespace Twitter.Blazor.Server.Data
 
         public User GetUser(int id)
         {
-            //return new UserManager().
-            throw new NotImplementedException();
+            return new UserManager().SINGLEUSER(id).First();
+        }
+
+        public void RegistrarUser(string userName,string password)
+        {
+            new LoginSystem().CreateUser(userName, password);
         }
         public void Update()
         {
@@ -118,7 +154,15 @@ namespace Twitter.Blazor.Server.Data
         public bool LogingIn(string username, string password)
         {
             LoginSystem loginSystem = new LoginSystem();
-            (bool, User) UserReturn = loginSystem.LogInUser(username, password);
+            (bool, User) UserReturn;
+            try
+            {
+                UserReturn = loginSystem.LogInUser(username, password);
+            }
+            catch
+            {
+                throw;
+            }
             if (UserReturn.Item1)
             {
                 LoginUser = UserReturn.Item2;
@@ -137,7 +181,15 @@ namespace Twitter.Blazor.Server.Data
         public void RemoveTweet(Tweet tweet)
         {
             TweetManager tweetManager = new TweetManager();
-            tweetManager.Delete(tweet.ID, LoginUser);
+            try
+            {
+                tweetManager.Delete(tweet.ID, LoginUser);
+            }
+            catch (Exception)
+            {
+
+                return;
+            }
             List<Tuple<string, Tweet>> tweets = Tweets.ToList();
             tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
             Tweets = tweets;
@@ -169,7 +221,7 @@ namespace Twitter.Blazor.Server.Data
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
-                            NewUser = new UserManager().SearchUsers(Searching,LoginUser);
+                            NewUser = new UserManager().SearchUsers(Searching, LoginUser);
                             break;
                         default:
                             break;

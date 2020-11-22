@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using BCrypt.Net;
 using System.Text;
 
 namespace TwitterCore
