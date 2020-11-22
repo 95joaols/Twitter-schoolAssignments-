@@ -85,7 +85,7 @@ namespace Twitter.Blazor.Server.Data
                         break;
                     case TweetTyp.Search:
                         Tweets = tweetManager.SearchTweets(Searching);
-                        UserSearch = userManager.SearchUsers(Searching);
+                        UserSearch = userManager.SearchUsers(Searching,LoginUser);
                         break;
                     default:
                         break;
@@ -169,7 +169,7 @@ namespace Twitter.Blazor.Server.Data
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
-                            NewUser = new UserManager().SearchUsers(Searching);
+                            NewUser = new UserManager().SearchUsers(Searching,LoginUser);
                             break;
                         default:
                             break;
