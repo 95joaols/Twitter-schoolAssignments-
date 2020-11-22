@@ -7,6 +7,12 @@ namespace Twitter.Blazor.Server.Components.Dialog
 {
     public partial class Message
     {
+        [Parameter]
+        public string Nameto { get; set; }
+
+        [Parameter]
+        public int Idto { get; set; }
+
         public PrivateMessage PrivateMessage { get; set; } = new PrivateMessage();
 
         public bool ShowDialog { get; set; }
@@ -24,7 +30,28 @@ namespace Twitter.Blazor.Server.Components.Dialog
             HasError = false;
             await Task.Run(() =>
             {
-                
+                if (!string.IsNullOrWhiteSpace(PrivateMessage.Message))
+                {
+
+                    try
+                    {
+                        new UserManager().SendMassage(PrivateMessage.Message, DataAccess.LoginUser, Idto);
+
+                        HasError = false;
+                        ShowDialog = false;
+                    }
+                    catch (System.Exception)
+                    {
+                        HasError = true;
+                        Messege = "something went wrong";
+                    }
+                }
+                else
+                {
+                    HasError = true;
+                    Messege = "Cant be emty";
+                }
+                DataAccess.Loading = false;
             });
 
         }
