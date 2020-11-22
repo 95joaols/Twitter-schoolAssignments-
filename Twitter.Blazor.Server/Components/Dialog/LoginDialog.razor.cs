@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 using TwitterCore;
@@ -37,16 +38,19 @@ namespace Twitter.Blazor.Server.Components.Dialog
             HasError = false;
             await Task.Run(() =>
             {
-                if (DataAccess.LogingIn(User.Username, User.Password))
+                try
                 {
-                    HasError = false;
-                    ShowDialog = false;
-                    DataAccess.Loading = false;
+                    if (DataAccess.LogingIn(User.Username, User.Password))
+                    {
+                        HasError = false;
+                        ShowDialog = false;
+                        DataAccess.Loading = false;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     HasError = true;
-                    Messege = "Unable to login";
+                    Messege = e.Message;
                     DataAccess.Loading = false;
                 }
             });
