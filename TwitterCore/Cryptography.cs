@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using BCrypt.Net;
 using System.Text;
-using DevOne.Security.Cryptography.BCrypt;
 
 namespace TwitterCore
 {
@@ -47,12 +47,12 @@ namespace TwitterCore
 
         public static string Hash(string text, string salt)
         {
-            return BCryptHelper.HashPassword(text, salt);
+            return BCrypt.Net.BCrypt.HashPassword(text, salt);
         }
 
         public static string CreatSalt()
         {
-            return BCryptHelper.GenerateSalt();
+            return BCrypt.Net.BCrypt.GenerateSalt();
         }
     }
 }
