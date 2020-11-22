@@ -41,15 +41,15 @@ namespace TwitterCore
 
         public List<Tuple<string, Tweet>> GetTweetsFromDb()
         {
-            List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
+            List<Tuple<string,  Tweet>> tweetsFromDb = new List<Tuple<string ,Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                var foo = connection.Query("SELECT TOP 10 t.Id, t.CreateDate, t.Message, u.Username FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
+                var foo = connection.Query("SELECT TOP 10 t.Id, t.CreateDate, t.Message, u.Username, t.UserId FROM Tweet as t INNER JOIN [User] as u on t.UserId = u.Id ORDER BY CreateDate DESC");
                 foreach (var item in foo)
                 {
                     tweetsFromDb.Add(new Tuple<string, Tweet>(
                         (string)item.Username,
-                        new Tweet {ID = item.Id, CreateDate = (DateTime)item.CreateDate, Message = item.Message }));
+                        new Tweet {ID = item.Id, CreateDate = (DateTime)item.CreateDate, Message = item.Message, UserID = item.UserId }));
                 }
             }
             return tweetsFromDb;

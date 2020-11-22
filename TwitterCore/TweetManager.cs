@@ -4,7 +4,6 @@ using System;
 
 namespace TwitterCore
 {
-    // den skulle inte kunna heta UserService?
     public class TweetManager
     {
         SQLConnection db = new SQLConnection();
