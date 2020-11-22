@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
-using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Components
 {

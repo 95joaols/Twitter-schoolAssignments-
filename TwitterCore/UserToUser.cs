@@ -7,8 +7,8 @@ namespace TwitterCore
         public int FollowingId { get; set; }
         public UserToUser(int userId, int followingId)
         {
-            this.UserId = userId;
-            this.FollowingId = followingId;
+            UserId = userId;
+            FollowingId = followingId;
         }
         
     }

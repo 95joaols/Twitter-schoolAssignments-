@@ -8,8 +8,8 @@ namespace TwitterCore
         
         public UserToRetweet(int userId, int tweetId)
         {
-            this.UserId = userId;
-            this.TweetId = tweetId;
+            UserId = userId;
+            TweetId = tweetId;
         }
         public UserToRetweet(){}
 

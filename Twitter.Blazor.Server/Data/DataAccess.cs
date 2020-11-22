@@ -75,49 +75,16 @@ namespace Twitter.Blazor.Server.Data
 
                 TweetManager tweetManager = new TweetManager();
                 UserManager userManager = new UserManager();
-                switch (TweetType)
+                Tweets = tweetManager.GetTweets();
+                if (LoginUser == null)
                 {
-                    case TweetTyp.Top:
-                        try
-                        {
-                            Tweets = tweetManager.GetTweets();
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        break;
-                    case TweetTyp.User:
-                        if (UserCheck != null)
-                        {
-                            try
-                            {
-                                Tweets = tweetManager.GetUserTweets(UserCheck);
-                            }
-                            catch (Exception)
-                            {
-                            }
-                        }
-                        break;
-                    case TweetTyp.Search:
-                        try
-                        {
-                            Tweets = tweetManager.SearchTweets(Searching);
-
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        try
-                        {
-                            UserSearch = userManager.SearchUsers(Searching, LoginUser);
-
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        break;
-                    default:
-                        break;
+                    LoginUser = new User();
+                    UserSearch = userManager.SearchUsers(Searching, LoginUser);
+                    LoginUser = null;
+                }
+                else
+                {
+                    UserSearch = userManager.SearchUsers(Searching, LoginUser);
                 }
                 if (LoginUser != null)
                 {
@@ -145,7 +112,7 @@ namespace Twitter.Blazor.Server.Data
             return new UserManager().SINGLEUSER(id).First();
         }
 
-        public void RegistrarUser(string userName,string password)
+        public void RegistrarUser(string userName, string password)
         {
             loginSystem.CreateUser(userName, password);
         }
@@ -223,7 +190,16 @@ namespace Twitter.Blazor.Server.Data
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
-                            NewUser = userManager.SearchUsers(Searching, LoginUser);
+                            if (LoginUser == null)
+                            {
+                                LoginUser = new User();
+                                NewUser = userManager.SearchUsers(Searching, LoginUser);
+                                LoginUser = null;
+                            }
+                            else
+                            {
+                                NewUser = userManager.SearchUsers(Searching, LoginUser);
+                            }
                             break;
                         default:
                             break;

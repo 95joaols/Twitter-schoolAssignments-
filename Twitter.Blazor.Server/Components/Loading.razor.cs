@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 
@@ -18,7 +19,17 @@ namespace Twitter.Blazor.Server.Components
 
         public async Task OnNotifyDataChanged()
         {
-            await InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(() =>
+            {
+                try
+                {
+                    StateHasChanged();
+
+                }
+                catch (Exception)
+                {
+                }
+            });
         }
     }
 }

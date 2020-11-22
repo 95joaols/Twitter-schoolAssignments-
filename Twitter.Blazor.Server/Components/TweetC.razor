@@ -1,24 +1,29 @@
 ﻿<div class="card">
     <div class="card-body">
         <div class="row">
-            <div>
+            <div class="col">
                 <a href="@($"UserProfile/{TweetP.Item2.UserID}")">
                     <h5 class="card-title">@TweetP.Item1</h5>
                 </a>
-                
+
             </div>
-            <div class="col" style="float:left">
-                <p class="mb-2 text-muted">@TweetP.Item2.CreateDate.ToString("yyyy-MM-dd HH:mm")</p>
+            <div class="col">
+                <p class="mb-2 text-muted" style="float:right">@TweetP.Item2.CreateDate.ToString("yyyy-MM-dd HH:mm")</p>
             </div>
-            <div class="col" >
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class="card-text">@TweetP.Item2.Message</p>
+            </div>
+            <div class="col">
                 @if (TweetP.Item2.UserID == DataAccess?.LoginUser?.Id)
                 {
                     <a type="button" style="float: right" class="btn btn-danger" @onclick="@Remove"><i class="fas fa-trash-alt"></i></a>
                 }
             </div>
         </div>
-        <p class="card-text">@TweetP.Item2.Message</p>
+
         <a href="#" class="card-link">Retweet</a>
-        
+
     </div>
 </div>
