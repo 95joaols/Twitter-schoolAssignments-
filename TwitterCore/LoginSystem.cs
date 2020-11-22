@@ -54,18 +54,6 @@ namespace TwitterCore
                 throw new Exception("The username or password is wrong");
             }
 
-            //if (password == user?.Password && username.ToLower() == user?.Username.ToLower())
-            //{
-            //    user.IsLoggedIn = true;
-            //    LoginSuccessful = user.IsLoggedIn;
-            //    userID = user.Id;
-            //    loggedInUser = user;
-            //    _user = user;
-            //    user.BINARYBITDEFAULTZERO = true; // bool, istället för IsloggdIn, fast konstigt namn på denna kanske
-            //    db.SetUserLogdIn(user);
-            //    // detta är inte snyggt nåbstans, måste städas
-            //}
-
             return (LoginSuccessful, loggedInUser);
         }
 
