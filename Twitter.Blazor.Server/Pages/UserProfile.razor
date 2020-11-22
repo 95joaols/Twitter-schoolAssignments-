@@ -1,15 +1,15 @@
-﻿@page "/UserProfile"
+﻿@page "/UserProfile/{UserId}"
 
-@if (DataAccess.User != null)
+@if (DataAccess.LoginUser != null)
 {
     <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
-    <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.User"></EditUserDialog>
+    <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.LoginUser"></EditUserDialog>
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">@DataAccess.User.Username</h1>
+            <h1 class="display-4">@DataAccess.LoginUser.Username</h1>
             <p class="lead"><i>@FullName</i></p>
-            <p class="lead">@DataAccess.User.Biography</p>
+            <p class="lead">@DataAccess.LoginUser.Biography</p>
         </div>
     </div>
 }

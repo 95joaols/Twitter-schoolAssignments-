@@ -12,15 +12,18 @@ namespace Twitter.Blazor.Server.Pages
         [Inject]
         NavigationManager NavigationManager { get; set; }
 
+        [Parameter]
+        public string UserId { get; set; }
+
         EditUserDialog EditUserDialog { get; set; }
 
         public string FullName
         {
             get
             {
-                if (DataAccess.User != null && !string.IsNullOrWhiteSpace(DataAccess.User.Firstname) || !string.IsNullOrWhiteSpace(DataAccess.User.Lastname))
+                if (DataAccess.LoginUser != null && !string.IsNullOrWhiteSpace(DataAccess.LoginUser.Firstname) || !string.IsNullOrWhiteSpace(DataAccess.LoginUser.Lastname))
                 {
-                    return $"({DataAccess.User.Firstname}  {DataAccess.User.Lastname})";
+                    return $"({DataAccess.LoginUser.Firstname}  {DataAccess.LoginUser.Lastname})";
                 }
                 else
                 {
@@ -34,6 +37,7 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
+                //DataAccess
                 DataAccess.TweetType = TweetTyp.User;
                 DataAccess.NotifyDataChanged += OnNotifyDataChanged;
             });
@@ -42,7 +46,7 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
-                if (DataAccess.User == null)
+                if (DataAccess.LoginUser == null)
                 {
                     NavigationManager.NavigateTo("/");
                 }

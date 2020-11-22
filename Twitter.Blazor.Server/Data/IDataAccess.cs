@@ -11,7 +11,7 @@ namespace Twitter.Blazor.Server.Data
         IEnumerable<User> UserSearch { get; }
         public IEnumerable<Tuple<string, string, int>> Messages {get;}
         TweetTyp TweetType { get; set; }
-        User User { get; set; }
+        User LoginUser { get; set; }
         bool Runing { get; }
         bool Loading { get; set; }
 
