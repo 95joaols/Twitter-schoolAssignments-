@@ -29,7 +29,7 @@ namespace Twitter.Blazor.Server.Data
         }
         private TweetTyp tweetType;
 
-        public User LoginUser { get; } = new LoginSystem()._user;
+        public User LoginUser { get; set; } = new LoginSystem()._user;
 
         public User UserCheck { get; set; }
 
