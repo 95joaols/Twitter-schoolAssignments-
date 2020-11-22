@@ -606,13 +606,5 @@ namespace Grupparbete
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
         }
-
-        public void InitializeEventListener(User user)
-        {
-            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
-            {
-                user.IsLoggedIn = false;
-            };
-        }
     }
 }
