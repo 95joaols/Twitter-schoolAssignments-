@@ -2,7 +2,7 @@
 
 @if (DataAccess.LoginUser != null)
 {
-    if (DataAccess.LoginUser.Id == DataAccess.UserCheck.Id)
+    if (DataAccess.LoginUser.Id == DataAccess.UserCheck?.Id)
     {
         <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
         <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.LoginUser"></EditUserDialog>

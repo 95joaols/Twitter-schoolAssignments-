@@ -298,7 +298,7 @@ namespace TwitterCore
         {
         using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>(@"SELECT * FROM User WHERE Id = @UserId", new { @UserId = user });
+                return connection.Query<User>(@"SELECT * FROM [User] WHERE Id = @UserId", new { @UserId = user });
             }
         }
     }

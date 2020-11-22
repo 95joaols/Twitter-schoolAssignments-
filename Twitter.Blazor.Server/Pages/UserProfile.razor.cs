@@ -43,7 +43,7 @@ namespace Twitter.Blazor.Server.Pages
                     {
                         DataAccess.UserCheck = DataAccess.GetUser(id);
                     }
-                    catch (System.Exception)
+                    catch (System.Exception e)
                     {
                         NavigationManager.NavigateTo("/");
                     }
