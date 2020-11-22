@@ -1,6 +1,6 @@
 @page "/"
 
-@if (DataAccess.User != null)
+@if (DataAccess.LoginUser != null)
 {
     <button @onclick="Addtweet" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-paper-plane"></i></button>
     <AddtweetDialog @ref="AddtweetDialog"></AddtweetDialog>

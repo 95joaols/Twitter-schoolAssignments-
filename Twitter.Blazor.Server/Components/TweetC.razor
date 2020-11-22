@@ -2,13 +2,16 @@
     <div class="card-body">
         <div class="row">
             <div>
-                <h5 class="card-title">@TweetP.Item1</h5>
+                <a href="@($"employeedetail/{TweetP.Item2.UserID}")" class="btn btn-primary table-btn">
+                    <h5 class="card-title">@TweetP.Item1</h5>
+                </a>
+                
             </div>
             <div class="col" style="float:left">
                 <p class="mb-2 text-muted">@TweetP.Item2.CreateDate.ToString("yyyy-MM-dd HH:mm")</p>
             </div>
             <div class="col" >
-                @if (TweetP.Item2.UserID == DataAccess?.User?.Id)
+                @if (TweetP.Item2.UserID == DataAccess?.LoginUser?.Id)
                 {
                     <a type="button" style="float: right" class="btn btn-danger" @onclick="@Remove"><i class="fas fa-trash-alt"></i></a>
                 }

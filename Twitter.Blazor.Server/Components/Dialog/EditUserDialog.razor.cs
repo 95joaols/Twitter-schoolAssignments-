@@ -62,9 +62,9 @@ namespace Twitter.Blazor.Server.Components.Dialog
                 {
                     userManager.AddBioToUser(EditUser.Biography, UserLoging);
                 }
-                DataAccess.User.Firstname = EditUser.Firstname;
-                DataAccess.User.Lastname = EditUser.Lastname;
-                DataAccess.User.Biography = EditUser.Biography;
+                DataAccess.LoginUser.Firstname = EditUser.Firstname;
+                DataAccess.LoginUser.Lastname = EditUser.Lastname;
+                DataAccess.LoginUser.Biography = EditUser.Biography;
                 ShowDialog = false;
                 DataAccess.Loading = false;
             });

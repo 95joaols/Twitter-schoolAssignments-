@@ -11,6 +11,7 @@ namespace TwitterCore
         public string Biography { get; set; }
         public bool IsLoggedIn { get; set; }
         public bool BINARYBITDEFAULTZERO { get; set; }
+        public string PasswordSalt { get; set; }
 
         public User() { }
 

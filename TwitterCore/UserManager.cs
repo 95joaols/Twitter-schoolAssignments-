@@ -33,9 +33,15 @@ namespace TwitterCore
             db.UpdateLastnameToUserInDb(user);
         }
 
-        public ReadOnlyCollection<User> SearchUsers(string search)
+        /*public ReadOnlyCollection<User> SearchUsers(string search)
         {
             IEnumerable<User> userFound = db.SearchUsers(search);
+            return new ReadOnlyCollection<User>(userFound.ToList());
+        } */
+
+        public ReadOnlyCollection<User> SearchUsers(string search, User user)
+        {
+            IEnumerable<User> userFound = db.SearchUsers(search, user);
             return new ReadOnlyCollection<User>(userFound.ToList());
         }
 
@@ -66,6 +72,12 @@ namespace TwitterCore
         public ReadOnlyCollection<User> GetOnlineUser()
         {
             IEnumerable<User> onlineUser = db.GetOnlineUserFromDb();
+            return new ReadOnlyCollection<User>(onlineUser.ToList());
+        }
+
+        public ReadOnlyCollection<User> SINGLEUSER(int id)
+        {
+            IEnumerable<User> onlineUser = db.SINGLEUSER(id);
             return new ReadOnlyCollection<User>(onlineUser.ToList());
         }
     }

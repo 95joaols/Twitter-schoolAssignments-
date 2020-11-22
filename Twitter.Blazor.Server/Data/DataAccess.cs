@@ -29,7 +29,9 @@ namespace Twitter.Blazor.Server.Data
         }
         private TweetTyp tweetType;
 
-        public User User { get; set; }
+        public User LoginUser { get; set; }
+
+        public User UserCheck { get; set; }
 
         public bool Runing { get; private set; }
 
@@ -76,21 +78,21 @@ namespace Twitter.Blazor.Server.Data
                         Tweets = tweetManager.GetTweets();
                         break;
                     case TweetTyp.User:
-                        if (User != null)
+                        if (UserCheck != null)
                         {
-                            Tweets = tweetManager.GetUserTweets(User);
+                            Tweets = tweetManager.GetUserTweets(UserCheck);
                         }
                         break;
                     case TweetTyp.Search:
                         Tweets = tweetManager.SearchTweets(Searching);
-                        UserSearch = userManager.SearchUsers(Searching);
+                        UserSearch = userManager.SearchUsers(Searching,LoginUser);
                         break;
                     default:
                         break;
                 }
-                if (User != null)
+                if (LoginUser != null)
                 {
-                    Messages = userManager.GetUserMail(User);
+                    Messages = userManager.GetUserMail(LoginUser);
                 }
 
 
@@ -101,6 +103,12 @@ namespace Twitter.Blazor.Server.Data
 
                 Runing = true;
             }
+        }
+
+        public User GetUser(int id)
+        {
+            //return new UserManager().
+            throw new NotImplementedException();
         }
         public void Update()
         {
@@ -113,7 +121,7 @@ namespace Twitter.Blazor.Server.Data
             (bool, User) UserReturn = loginSystem.LogInUser(username, password);
             if (UserReturn.Item1)
             {
-                User = UserReturn.Item2;
+                LoginUser = UserReturn.Item2;
                 LoggedIn.Invoke();
                 NotifyDataChanged.Invoke();
             }
@@ -122,14 +130,14 @@ namespace Twitter.Blazor.Server.Data
 
         public void LogingOut()
         {
-            User = null;
+            LoginUser = null;
             LoggedOut.Invoke();
             NotifyDataChanged.Invoke();
         }
         public void RemoveTweet(Tweet tweet)
         {
             TweetManager tweetManager = new TweetManager();
-            tweetManager.Delete(tweet.ID, User);
+            tweetManager.Delete(tweet.ID, LoginUser);
             List<Tuple<string, Tweet>> tweets = Tweets.ToList();
             tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
             Tweets = tweets;
@@ -154,21 +162,21 @@ namespace Twitter.Blazor.Server.Data
                             NewTweets = tweetManager.GetTweets();
                             break;
                         case TweetTyp.User:
-                            if (User != null)
+                            if (UserCheck != null)
                             {
-                                NewTweets = tweetManager.GetUserTweets(User);
+                                NewTweets = tweetManager.GetUserTweets(UserCheck);
                             }
                             break;
                         case TweetTyp.Search:
                             NewTweets = tweetManager.SearchTweets(Searching);
-                            NewUser = new UserManager().SearchUsers(Searching);
+                            NewUser = new UserManager().SearchUsers(Searching,LoginUser);
                             break;
                         default:
                             break;
                     }
-                    if (User != null)
+                    if (LoginUser != null)
                     {
-                        newMessages = userManager.GetUserMail(User);
+                        newMessages = userManager.GetUserMail(LoginUser);
                     }
 
                     HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));

@@ -32,9 +32,9 @@ namespace Twitter.Blazor.Server.Components
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            DataAccess.User = await SessionStorage.GetItemAsync<User>("CurentUser");
+            DataAccess.LoginUser = await SessionStorage.GetItemAsync<User>("CurentUser");
 
-            if (DataAccess.User?.Id != DataAccess.User?.Id)
+            if (DataAccess.LoginUser?.Id != DataAccess.LoginUser?.Id)
             {
                 DataAccess.Update();
             }
@@ -55,7 +55,7 @@ namespace Twitter.Blazor.Server.Components
         }
         public async Task OnLoggedIn()
         {
-            await SessionStorage.SetItemAsync("CurentUser", DataAccess.User);
+            await SessionStorage.SetItemAsync("CurentUser", DataAccess.LoginUser);
         }
         public async Task OnLoggedOut()
         {

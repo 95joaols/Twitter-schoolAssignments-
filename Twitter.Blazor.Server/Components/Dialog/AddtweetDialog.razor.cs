@@ -24,10 +24,10 @@ namespace Twitter.Blazor.Server.Components.Dialog
             HasError = false;
             await Task.Run(() =>
             {
-                if (!string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.User != null)
+                if (!string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.LoginUser != null)
                 {
                     TweetManager tweetManager = new TweetManager();
-                    tweetManager.CreateTweet(Tweet.Message, DataAccess.User.Id);
+                    tweetManager.CreateTweet(Tweet.Message, DataAccess.LoginUser.Id);
                     HasError = false;
                     ShowDialog = false;
                 }

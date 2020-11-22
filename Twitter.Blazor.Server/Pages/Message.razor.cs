@@ -23,7 +23,7 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
-                if (DataAccess.User == null)
+                if (DataAccess.LoginUser == null)
                 {
                     NavigationManager.NavigateTo("/");
                 }
