@@ -33,12 +33,6 @@ namespace TwitterCore
             db.UpdateLastnameToUserInDb(user);
         }
 
-        /*public ReadOnlyCollection<User> SearchUsers(string search)
-        {
-            IEnumerable<User> userFound = db.SearchUsers(search);
-            return new ReadOnlyCollection<User>(userFound.ToList());
-        } */
-
         public ReadOnlyCollection<User> SearchUsers(string search, User user)
         {
             IEnumerable<User> userFound = db.SearchUsers(search, user);

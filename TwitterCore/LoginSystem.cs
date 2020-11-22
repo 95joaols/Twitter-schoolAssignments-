@@ -10,7 +10,9 @@ namespace TwitterCore
         public User loginUser
         {
             get
-            { return _user; }
+            {
+                return _user;
+            }
             set
             {
                 _user = value;
@@ -51,11 +53,11 @@ namespace TwitterCore
             if (user.Password == hassedPass)
             {
                 user.IsLoggedIn = true;
-                LoginSuccessful = user.IsLoggedIn;
+                LoginSuccessful = true;
                 userID = user.Id;
                 loggedInUser = user;
                 _user = user;
-                user.BINARYBITDEFAULTZERO = true; // bool, istället för IsloggdIn, fast konstigt namn på denna kanske
+                
                 db.SetUserLogdIn(user);
             }
             else
@@ -68,7 +70,6 @@ namespace TwitterCore
 
         public void LogOutUser(User user)
         {
-            user.IsLoggedIn = false;
             db.SetUserLogout(user);
         }
 

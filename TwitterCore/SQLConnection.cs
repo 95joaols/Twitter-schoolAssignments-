@@ -27,7 +27,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("SELECT Id, Username, Password, Biography, Firstname, Lastname, BINARYBITDEFAULTZERO,PasswordSalt FROM [User]");
+                return connection.Query<User>("SELECT Id, Username, Password, Biography, Firstname, Lastname, IsLoggedIn, PasswordSalt FROM [User]");
             }
         }
 
@@ -35,7 +35,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("SELECT * From [User] WHERE BINARYBITDEFAULTZERO = 1;");
+                return connection.Query<User>("SELECT * From [User] WHERE IsLoggedIn = 1;");
             }
         }
 
@@ -59,7 +59,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 1 where [User].Id = " + user.Id);
+                connection.Execute("update [User] SET IsLoggedIn = 1 where [User].Id = " + user.Id);
             }
         }
 
@@ -67,7 +67,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                connection.Execute("update [User] SET BINARYBITDEFAULTZERO = 0 where [User].Id = " + user.Id);
+                connection.Execute("update [User] SET IsLoggedIn = 0 where [User].Id = " + user.Id);
             }
         }
 
@@ -206,14 +206,6 @@ namespace TwitterCore
                 return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search, @IdToExclude = @Id", new { @Search = search, @Id = user.Id });
             }
         }
-
-        /*public IEnumerable<User> SearchUsers(string search)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
-            {
-                return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search", new { @Search = search });
-            }
-        } */
 
         public List<Tuple<string,Tweet>> SearchTweets(string search)
         {
