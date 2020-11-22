@@ -17,6 +17,7 @@ namespace Twitter.Blazor.Server.Components
 
         protected LoginDialog LoginDialog { get; set; }
         protected LogoutDialog LogoutDialog { get; set; }
+        protected RegistrarUser RegistrarUser { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,6 +48,10 @@ namespace Twitter.Blazor.Server.Components
         protected void ShowLogoutDialog()
         {
             LogoutDialog.Show();
+        }
+        protected void ShowRegistrarUser()
+        {
+            RegistrarUser.Show();
         }
 
         public async Task OnNotifyDataChanged()
