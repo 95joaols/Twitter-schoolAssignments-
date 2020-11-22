@@ -27,7 +27,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                return connection.Query<User>("SELECT Id, Username, Password, Biography, Firstname, Lastname, BINARYBITDEFAULTZERO FROM [User]");
+                return connection.Query<User>("SELECT Id, Username, Password, Biography, Firstname, Lastname, BINARYBITDEFAULTZERO,PasswordSalt FROM [User]");
             }
         }
 
