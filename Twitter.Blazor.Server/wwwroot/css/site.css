@@ -73,7 +73,10 @@ a,
   top: 0.5rem;
 }
 
-
+.show 
+{
+    display:block;
+}
 
 
 
