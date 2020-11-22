@@ -37,9 +37,23 @@ namespace Twitter.Blazor.Server.Pages
         {
             await Task.Run(() =>
             {
-                //DataAccess
-                DataAccess.TweetType = TweetTyp.User;
-                DataAccess.NotifyDataChanged += OnNotifyDataChanged;
+                if (int.TryParse(UserId, out int id))
+                {
+                    try
+                    {
+                        DataAccess.UserCheck = DataAccess.GetUser(id);
+                    }
+                    catch (System.Exception)
+                    {
+                        NavigationManager.NavigateTo("/");
+                    }
+                    DataAccess.TweetType = TweetTyp.User;
+                    DataAccess.NotifyDataChanged += OnNotifyDataChanged;
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("/");
+                }
             });
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -139,8 +139,7 @@ namespace Twitter.Blazor.Server.Data
 
         public User GetUser(int id)
         {
-            //return new UserManager().SearchUsers
-            throw new NotImplementedException();
+            return new UserManager().SINGLEUSER(id).First();
         }
 
         public void RegistrarUser(string userName,string password)

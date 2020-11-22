@@ -2,8 +2,11 @@
 
 @if (DataAccess.LoginUser != null)
 {
-    <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
-    <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.LoginUser"></EditUserDialog>
+    if (DataAccess.LoginUser.Id == DataAccess.UserCheck.Id)
+    {
+        <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
+        <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.LoginUser"></EditUserDialog>
+    }
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
