@@ -114,7 +114,7 @@ namespace TwitterCore
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                connection.Execute("INSERT INTO [User] (Username, Password) values (@username, @password)", user);
+                connection.Execute("INSERT INTO [User] (Username, Password,PasswordSalt) values (@username, @password, @PasswordSalt)", user);
             }
         }
 
