@@ -36,22 +36,26 @@ namespace TwitterCore
                 throw new Exception("Username/password cannot be blank. Username and password must be under 50 characters.");
         }
 
-        public (bool, User) LogInUser(string username, string password)
+        public Tuple<bool, User> LogInUser(string username, string password)
         {
             int userID = -1;
             bool LoginSuccessful = false;
             IEnumerable<User> usersable = db.GetUsersFromDb();
             User loggedInUser = null;
             User user = null;
+            Console.WriteLine("- 1");
+
             try
             {
                 user = usersable.Where(userx => userx.Username.ToLower() == username.ToLower()).First();
-
+                Console.WriteLine("- 4");
             }
             catch (Exception)
             {
+                Console.WriteLine("- 2");
                 throw new Exception("The username or password is wrong");
             }
+            Console.WriteLine("- 3");
 
             string salt = user.PasswordSalt;
             string hassedPass = Cryptography.Encrypt(Cryptography.Hash(Cryptography.Encrypt(password, salt), salt), salt);
@@ -70,7 +74,7 @@ namespace TwitterCore
                 throw new Exception("The username or password is wrong");
             }
 
-            return (LoginSuccessful, loggedInUser);
+            return new Tuple<bool,User>(LoginSuccessful, loggedInUser);
         }
 
         public void LogOutUser(User user)
