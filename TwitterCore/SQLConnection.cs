@@ -274,7 +274,7 @@ namespace TwitterCore
             return following;
         }
 
-        public List<Tuple<string, PrivateMessage>> GetUserMailFromDbfoo(User user, int userToId)
+        public List<Tuple<string, PrivateMessage>> GetPrivateMessageConvoFromDb(User user, int userToId)
         {
             List<Tuple<string,PrivateMessage>> following = new List<Tuple<string,PrivateMessage>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))

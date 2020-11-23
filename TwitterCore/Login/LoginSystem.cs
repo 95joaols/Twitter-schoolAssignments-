@@ -33,7 +33,7 @@ namespace TwitterCore
                 db.AddUserToDb(user);
             }
             else
-                throw new Exception("username or password cannot be whitespace or blank.");
+                throw new Exception("username/password cannot be blank.");
         }
 
         public (bool, User) LogInUser(string username, string password)
