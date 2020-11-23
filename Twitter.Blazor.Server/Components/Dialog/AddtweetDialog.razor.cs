@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;
 using TwitterCore;
@@ -27,9 +28,26 @@ namespace Twitter.Blazor.Server.Components.Dialog
                 if (!string.IsNullOrWhiteSpace(Tweet.Message) && DataAccess.LoginUser != null)
                 {
                     TweetManager tweetManager = new TweetManager();
+                    try
+                    {
                     tweetManager.CreateTweet(Tweet.Message, DataAccess.LoginUser.Id);
                     HasError = false;
                     ShowDialog = false;
+
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.Message.Contains("Your message was too long!"))
+                        {
+                            Messege = e.Message;
+                        }
+                        else
+                        {
+                            Messege = "something went wrong";
+                        }
+                        HasError = true;
+                    }
+                        
                 }
                 else
                 {
