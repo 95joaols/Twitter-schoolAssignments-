@@ -149,7 +149,7 @@ namespace ConsoleGUI
                         PrintOthersTweets(user);
                         break;
                     case ConsoleKey.D4:
-                        SearchTweets(user);
+                        SearchTweetsOrUsers(user);
                         break;
                     case ConsoleKey.D5:
                         PrintYourBioAndTweets(user);
@@ -550,7 +550,7 @@ namespace ConsoleGUI
             }
         }
 
-        public static void SearchTweets(User loggedInUser)
+        public static void SearchTweetsOrUsers(User loggedInUser)
         {
             bool isSearching = true;
 
@@ -566,45 +566,46 @@ namespace ConsoleGUI
                 {
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What user to search for.
-
-                    //IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
                     IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString, loggedInUser);
                     Console.WriteLine();
                     foreach (User x in fetchedUsers)
                     {
-                        Console.WriteLine("- {0} ------- {1} {2}", x.Username, x.Firstname, x.Lastname);
+                        Console.WriteLine("{0} {1} ------- {2} {3}",x.Id, x.Username, x.Firstname, x.Lastname);
                         Console.WriteLine("  Biography: {0}", x.Biography);
                     }
-
-                    Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
-                    Console.WriteLine("[Any button] Return to search.");
-                    Console.Write("Option: ");
-                    userKey = Console.ReadKey(false).Key;
-
-                    if (userKey == ConsoleKey.D1)
+                    Console.Write("Press enter to continue, or write an id to follow: ");
+                    string userInput = Console.ReadLine();
+                    bool success = Int32.TryParse(userInput, out int userInt);
+                    if (userInput == string.Empty)
                     {
-                        Console.WriteLine(Environment.NewLine);
-                        /*for (int i = 0; i < fetchedUsers.Count(); i++)
-                        {
-                            fetchedUsers[i].
-                            Console.WriteLine();
-                        } */
-                        foreach (User item in fetchedUsers)
-                        {
-                            Console.WriteLine($"{item.Id} Username: {item.Username}");
-                        }
-                        Console.Write(Environment.NewLine + "Choose an Id to follow: ");
-                        int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        User selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
-                        Console.WriteLine("You follow " + "selectedUser.Username"
-                            + "(Id: " + selectedUser.Id + ").");
-                        userManager.AddFollwingOfUser(loggedInUser, selectedUser.Id);
-                    }
-
-                    else if (userKey == ConsoleKey.Escape)
                         break;
+                    }
+                    else if (success)
+                    {
+                        bool skip = false;
+                        foreach (User user in fetchedUsers)
+                        {
+                            if (user.Id != userInt)
+                            {
+                                continue;
+                            }
+                            else if (user.Id == userInt)
+                            {
+                                skip = true;
+                                userManager.AddFollwingOfUser(loggedInUser, userInt);
+                                break;
+                            }
+                        }
+                        if (skip == false)
+                        {
+                            System.Console.WriteLine("This Id does not exist in this context!");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("You did not write a number!");
+                    }
                 }
-
                 else if (userKey == ConsoleKey.D2)
                 {
                     Console.Write(Environment.NewLine + "Search: ");
