@@ -50,21 +50,44 @@ namespace Twitter.Blazor.Server.Components.Dialog
             {
 
                 UserManager userManager = new UserManager();
-                if(EditUser.Firstname != UserLoging.Firstname)
+                if (EditUser.Firstname != UserLoging.Firstname)
                 {
-                    userManager.UpdateFirstnameUser(UserLoging, EditUser.Firstname);
+                    try
+                    {
+                        userManager.UpdateFirstnameUser(UserLoging, EditUser.Firstname);
+                        DataAccess.LoginUser.Firstname = EditUser.Firstname;
+
+                    }
+                    catch (System.Exception)
+                    {
+
+                    }
                 }
-                if(EditUser.Lastname != UserLoging.Lastname)
+                if (EditUser.Lastname != UserLoging.Lastname)
                 {
-                    userManager.UpdateLastnameUser(UserLoging, EditUser.Lastname);
+                    try
+                    {
+                        userManager.UpdateLastnameUser(UserLoging, EditUser.Lastname);
+                        DataAccess.LoginUser.Lastname = EditUser.Lastname;
+
+
+                    }
+                    catch (System.Exception)
+                    {
+                    }
                 }
                 if (EditUser.Biography != UserLoging.Biography)
                 {
-                    userManager.AddBioToUser(EditUser.Biography, UserLoging);
+                    try
+                    {
+                        userManager.AddBioToUser(EditUser.Biography, UserLoging);
+                        DataAccess.LoginUser.Biography = EditUser.Biography;
+
+                    }
+                    catch (System.Exception)
+                    {
+                    }
                 }
-                DataAccess.LoginUser.Firstname = EditUser.Firstname;
-                DataAccess.LoginUser.Lastname = EditUser.Lastname;
-                DataAccess.LoginUser.Biography = EditUser.Biography;
                 ShowDialog = false;
                 DataAccess.Loading = false;
             });
