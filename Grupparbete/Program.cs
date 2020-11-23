@@ -165,7 +165,7 @@ namespace Grupparbete
             else
             {
                 System.Console.WriteLine("Awsome people online below!\n");
-                foreach (var onlineUser in onlineUsers)
+                foreach (User onlineUser in onlineUsers)
                 {
                     Console.WriteLine("Id:{0} Name: {1}", onlineUser.Id, onlineUser.Username);
                 }
@@ -351,7 +351,7 @@ namespace Grupparbete
         {
             IEnumerable<User> friends = userManager.GetFriendsBio(user);
             System.Console.WriteLine("These are your friends biographies!\n");
-            foreach (var friend in friends)
+            foreach (User friend in friends)
             {
                 System.Console.WriteLine("Username: " + friend.Username);
                 System.Console.WriteLine("Fristname: " + friend.Firstname);
@@ -527,7 +527,7 @@ namespace Grupparbete
                     //IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString);
                     IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString, loggedInUser);
                     Console.WriteLine();
-                    foreach (var x in fetchedUsers)
+                    foreach (User x in fetchedUsers)
                     {
                         Console.WriteLine("- {0} ------- {1} {2}", x.Username, x.Firstname, x.Lastname);
                         Console.WriteLine("  Biography: {0}", x.Biography);
@@ -546,13 +546,13 @@ namespace Grupparbete
                             fetchedUsers[i].
                             Console.WriteLine();
                         } */
-                        foreach (var item in fetchedUsers)
+                        foreach (User item in fetchedUsers)
                         {
                             Console.WriteLine($"{item.Id} Username: {item.Username}");
                         }
                         Console.Write(Environment.NewLine + "Choose an Id to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        var selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
+                        User selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
                         Console.WriteLine("You follow " + "selectedUser.Username"
                             + "(Id: " + selectedUser.Id + ").");
                         userManager.AddFollwingOfUser(loggedInUser, selectedUser.Id);
