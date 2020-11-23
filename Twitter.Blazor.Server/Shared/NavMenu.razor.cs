@@ -18,7 +18,16 @@ namespace Twitter.Blazor.Server.Shared
 
         public async Task OnNotifyDataChanged()
         {
-            await InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(() =>
+            {
+                try
+                {
+                    StateHasChanged();
+                }
+                catch (System.Exception)
+                {
+                }
+            });
         }
     }
 }
