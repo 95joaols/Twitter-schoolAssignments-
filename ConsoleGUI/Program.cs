@@ -121,7 +121,14 @@ namespace ConsoleGUI
                         }
                         else
                         {
-                            tweetManager.CreateTweet(tweet, user.Id);
+                            try
+                            {
+                                tweetManager.CreateTweet(tweet, user.Id);
+                            }
+                            catch (System.Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
                         }
                         break;
                     case ConsoleKey.D2:

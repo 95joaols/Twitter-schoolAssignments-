@@ -14,29 +14,37 @@ namespace TwitterCore
         public void CreateTweet(string message, int UserID)
         {
             Tweet tweet = new Tweet(message, UserID);
-            db.AddTweetToDb(tweet);
+            try
+            {
+                db.AddTweetToDb(tweet);
+            }
+            catch (System.Exception e)
+            {
+                if (e.HResult == -2146232060)
+                    throw new Exception("Your message was too long! A tweet can be up to 100 characters long.");
+            }
         }
 
         public ReadOnlyCollection<Tuple<string, Tweet>> GetUserTweets(User user)
         {
-            List < Tuple<string, Tweet> > foo = db.GetUserTweetsFromDb(user.Id);
+            List<Tuple<string, Tweet>> foo = db.GetUserTweetsFromDb(user.Id);
             return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
         public ReadOnlyCollection<Tuple<string, Tweet>> GetTweets()
         {
-            List < Tuple<string, Tweet> > foo = db.GetTweetsFromDb();
+            List<Tuple<string, Tweet>> foo = db.GetTweetsFromDb();
             return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
         public ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> GetRetweets(User user)
         {
-            List < Tuple<string, Tweet, UserToRetweet> > foo = db.GetUserRetweetsFromDb(user.Id);
+            List<Tuple<string, Tweet, UserToRetweet>> foo = db.GetUserRetweetsFromDb(user.Id);
             return new ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>>(foo);
         }
         public ReadOnlyCollection<Tuple<string, Tweet>> GetOthersTweets(User user)
         {
-            List<Tuple<string, Tweet>> foo = db.GetOthersTweetsFromDb(user.Id);  
+            List<Tuple<string, Tweet>> foo = db.GetOthersTweetsFromDb(user.Id);
             return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
 
@@ -58,7 +66,7 @@ namespace TwitterCore
 
         public ReadOnlyCollection<Tuple<string, Tweet>> SearchTweets(string search)
         {
-            List < Tuple<string, Tweet> > foo = db.SearchTweets(search);
+            List<Tuple<string, Tweet>> foo = db.SearchTweets(search);
             return new ReadOnlyCollection<Tuple<string, Tweet>>(foo);
         }
     }
