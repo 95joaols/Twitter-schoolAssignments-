@@ -291,7 +291,7 @@ namespace Grupparbete
             foreach (var m in mailConvo)
             {
                 friendsName = m.Item1;
-                Console.WriteLine("Name: {1} : {2}", m.Item1, m.Item2.Message);
+                Console.WriteLine("Name: {0} : {1}", m.Item1, m.Item2.Message);
             }
             System.Console.WriteLine("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
             string answer = Console.ReadLine();
