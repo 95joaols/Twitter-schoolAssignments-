@@ -690,7 +690,6 @@ namespace ConsoleGUI
                 Console.WriteLine("[3] Set/change your biography");
                 Console.WriteLine("[Esc] Return to menu");
 
-
                 userKey = Console.ReadKey(true).Key;
 
                 switch (userKey)
@@ -698,18 +697,46 @@ namespace ConsoleGUI
                     case ConsoleKey.D1:
                         Console.WriteLine("Firstname: ");
                         string input = Console.ReadLine();
-                        userManager.UpdateFirstnameUser(user, input);
+                        try
+                        {
+                            userManager.UpdateFirstnameUser(user, input);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: " + e.Message);
+                            Console.WriteLine("Press any key to continue..");
+                            Console.ReadLine();
+                        }
                         break;
                     case ConsoleKey.D2:
                         Console.WriteLine("Lastname: ");
                         input = Console.ReadLine();
-                        userManager.UpdateLastnameUser(user, input);
+
+                        try
+                        {
+                            userManager.UpdateLastnameUser(user, input);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: " + e.Message);
+                            Console.WriteLine("Press any key to continue..");
+                            Console.ReadLine();
+                        }
                         break;
                     case ConsoleKey.D3:
                         Console.Write("Write your bio: ");
                         input = Console.ReadLine();
                         Console.Clear();
-                        userManager.AddBioToUser(input, user);
+                        try
+                        {
+                            userManager.AddBioToUser(input, user);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: " + e.Message);
+                            Console.WriteLine("Press any key to continue..");
+                            Console.ReadLine();
+                        }
                         break;
                     case ConsoleKey.Escape:
                         running = false;
@@ -720,7 +747,6 @@ namespace ConsoleGUI
                         break;
                 }
             }
-
         }
 
         public static void RetweetMenu(User user)

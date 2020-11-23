@@ -17,20 +17,35 @@ namespace TwitterCore
 
         public void AddBioToUser(string bio, User user)
         {
-            user.Biography = bio;
-            db.UpdateBioToUserInDb(user);
+            if (bio.Length <= 200)
+            {
+                user.Biography = bio;
+                db.UpdateBioToUserInDb(user);
+            }
+            else
+                throw new Exception("Biography must be under 200 characters.");
         }
 
         public void UpdateFirstnameUser(User user, string firstname)
         {
-            user.Firstname = firstname;
-            db.UpdateFirstnameToUserInDb(user);
+            if (firstname.Length <= 50)
+            {
+                user.Firstname = firstname;
+                db.UpdateFirstnameToUserInDb(user);
+            }
+            else
+                throw new Exception("Username must be under 50 characters.");
         }
 
         public void UpdateLastnameUser(User user, string lastname)
         {
-            user.Lastname = lastname;
-            db.UpdateLastnameToUserInDb(user);
+            if (lastname.Length <= 50)
+            {
+                user.Lastname = lastname;
+                db.UpdateLastnameToUserInDb(user);
+            }
+            else
+                throw new Exception("Lastname must be under 50 characters.");            
         }
 
         public ReadOnlyCollection<User> SearchUsers(string search, User user)
