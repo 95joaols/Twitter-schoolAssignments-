@@ -10,6 +10,11 @@
 }
 else if (UserId != null && DataAccess.Messages != null)
 {
+    if (DataAccess.UserCheck != null)
+    {
+        <button @onclick="SendMessage" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
+        <MessageDialog @ref="MessageDialog" Idto="@DataAccess.UserCheck.Id" Nameto="@DataAccess.UserCheck.Username"></MessageDialog>
+    }
     @foreach (var messages in DataAccess.Messages)
     {
         <MessageC MessageP="messages"></MessageC>

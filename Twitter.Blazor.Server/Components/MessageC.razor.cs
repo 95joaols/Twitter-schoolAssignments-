@@ -10,11 +10,6 @@ namespace Twitter.Blazor.Server.Components
         [Parameter]
         public Tuple<string, PrivateMessage> MessageP { get; set; }
 
-        protected Message Message { get; set; }
-        protected void SendMessage()
-        {
-
-            Message.Show();
-        }
+        
     }
 }
