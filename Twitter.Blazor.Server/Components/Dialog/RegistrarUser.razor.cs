@@ -48,7 +48,15 @@ namespace Twitter.Blazor.Server.Components.Dialog
                     catch (Exception e)
                     {
                         HasError = true;
-                        Messege = e.Message;
+                        if (e.Message.Contains("User already exists") || e.Message.Contains("Username and password must be under 50 characters."))
+                        {
+                            Messege = e.Message;
+
+                        }
+                        else
+                        {
+                            Messege = "Something went wrong";
+                        }
                         DataAccess.Loading = false;
                         return;
                     }
