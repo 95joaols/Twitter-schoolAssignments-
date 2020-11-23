@@ -12,11 +12,5 @@
                 <p class="card-text">@MessageP.Item2.Message</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <button @onclick="SendMessage" class="badge badge-pill badge-primary"><i class="fas fa-comment"></i></button>
-                <Message @ref="Message" Idto="@MessageP.Item2.UserToId" Nameto="@MessageP.Item1"></Message>
-            </div>
-        </div>
     </div>
 </div>
