@@ -195,7 +195,7 @@ namespace ConsoleGUI
                         PrintSendMailMenu(user);
                         break;
                     case ConsoleKey.D2:
-                        ChoseMailConversationOfUser(user);
+                        ChooseMailConversationOfUser(user);
                         break;
                     case ConsoleKey.Escape:
                         running = false;
@@ -249,7 +249,7 @@ namespace ConsoleGUI
 
         }
 
-        private static void ChoseMailConversationOfUser(User user)
+        private static void ChooseMailConversationOfUser(User user)
         {
             ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user);
             foreach (var mail in myMail)
