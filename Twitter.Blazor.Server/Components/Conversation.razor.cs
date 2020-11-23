@@ -10,7 +10,7 @@ namespace Twitter.Blazor.Server.Components
     public partial class Conversation
     {
         [Parameter]
-        public Tuple<string, string, int> MessageP { get; set; }
+        public Tuple<string, int> MessageP { get; set; }
 
     }
 }
