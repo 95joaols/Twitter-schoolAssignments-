@@ -60,10 +60,10 @@ namespace TwitterCore
             }
         }
 
-        public ReadOnlyCollection<Tuple<string, string, int>> GetUserMail(User user)
+        public ReadOnlyCollection<Tuple<string, int>> GetUserMail(User user)
         {
-            List<Tuple<string, string, int>> foo = db.GetUserMailFromDb(user);
-            return new ReadOnlyCollection<Tuple<string, string, int>>(foo);
+            List<Tuple<string, int>> foo = db.GetUserMailFromDb(user);
+            return new ReadOnlyCollection<Tuple<string, int>>(foo);
         }
 
         public ReadOnlyCollection<Tuple<string, PrivateMessage>> GetMailConven(User user, int userToId)
