@@ -213,9 +213,9 @@ namespace Grupparbete
                 Console.WriteLine("{0}: {1}", idAndName.Item2, idAndName.Item1);
             }
             System.Console.Write("Press enter to continue or type an ID of the person you want to send a mail to: ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to main menu");
             }
@@ -224,7 +224,7 @@ namespace Grupparbete
                 bool print = true;
                 foreach (var idAndName in following)
                 {
-                    if (idAndName.Item2 == idChoiche)
+                    if (idAndName.Item2 == idChoice)
                     {
                         print = false;
                         System.Console.Write("Send your message to " + idAndName.Item1 + ": ");
@@ -254,9 +254,9 @@ namespace Grupparbete
                 Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
             }
             System.Console.WriteLine("Press enter to continue or type an Id to reply to that message. ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
             }
@@ -265,10 +265,10 @@ namespace Grupparbete
                 bool print = true;
                 foreach (var mail in myMail)
                 {
-                    if (mail.Item3 == idChoiche)
+                    if (mail.Item3 == idChoice)
                     {
                         print = false;
-                        PrintMailConversation(user, idChoiche);
+                        PrintMailConversation(user, idChoice);
 
                     }
                 }
@@ -315,9 +315,9 @@ namespace Grupparbete
             }
             Console.WriteLine();
             System.Console.Write("Press enter to continue, or enter an Id to reply to: ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
             }
@@ -326,7 +326,7 @@ namespace Grupparbete
                 bool print = true;
                 foreach (var mail in myMail)
                 {
-                    if (mail.Item3 == idChoiche)
+                    if (mail.Item3 == idChoice)
                     {
                         print = false;
                         System.Console.Write("Send a message to " + mail.Item1 + ": ");
@@ -372,9 +372,9 @@ namespace Grupparbete
 
             Console.WriteLine();
             System.Console.Write("Press enter to continue, or choose a TweetId to retweet: ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
             }
@@ -383,10 +383,10 @@ namespace Grupparbete
                 bool print = false;
                 foreach (var tweet in tweets)
                 {
-                    if (tweet.Item2.ID == idChoiche)
+                    if (tweet.Item2.ID == idChoice)
                     {
                         print = true;
-                        tweetManager.Retweet(user.Id, idChoiche);
+                        tweetManager.Retweet(user.Id, idChoice);
                         System.Console.WriteLine("This tweet can now be seen on your profile as a retweet!");
                         break;
                     }
@@ -468,13 +468,13 @@ namespace Grupparbete
             System.Console.WriteLine("Press [Enter] to continue");
             System.Console.WriteLine("Type [R] to see your retweets");
             System.Console.Write("Or type and Id for a Tweet to delete it: ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
             }
-            else if (foo.ToLower() == "r")
+            else if (userInput.ToLower() == "r")
             {
                 RetweetMenue(user);
             }
@@ -483,14 +483,14 @@ namespace Grupparbete
                 bool skip = false;
                 foreach (var tweet in userTweets)
                 {
-                    if (tweet.Item2.ID != idChoiche)
+                    if (tweet.Item2.ID != idChoice)
                     {
                         continue;
                     }
-                    else if (tweet.Item2.ID == idChoiche)
+                    else if (tweet.Item2.ID == idChoice)
                     {
                         skip = true;
-                        tweetManager.Delete(idChoiche, user);
+                        tweetManager.Delete(idChoice, user);
                         System.Console.WriteLine("Tweet deleted!");
                         break;
                     }
@@ -637,9 +637,9 @@ namespace Grupparbete
             }
             System.Console.WriteLine("Press enter to continue");
             System.Console.Write("Or type the Id of a Tweet to delete it: ");
-            string foo = Console.ReadLine();
-            bool success = Int32.TryParse(foo, out int idChoiche);
-            if (foo == string.Empty)
+            string userInput = Console.ReadLine();
+            bool success = Int32.TryParse(userInput, out int idChoice);
+            if (userInput == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
             }
@@ -648,14 +648,14 @@ namespace Grupparbete
                 bool skip = false;
                 foreach (var tweet in reTweets)
                 {
-                    if (tweet.Item3.Id != idChoiche)
+                    if (tweet.Item3.Id != idChoice)
                     {
                         continue;
                     }
-                    else if (tweet.Item3.Id == idChoiche)
+                    else if (tweet.Item3.Id == idChoice)
                     {
                         skip = true;
-                        tweetManager.DeleteReTweet(idChoiche);
+                        tweetManager.DeleteReTweet(idChoice);
                         System.Console.WriteLine("Retweet deleted!");
                         System.Console.WriteLine("");
                         break;
