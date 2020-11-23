@@ -189,7 +189,7 @@ namespace Grupparbete
                     PrintBiosOfFriends(user);
                     break;
                 case ConsoleKey.D2:
-                    PrintSendMailMenue(user);
+                    PrintSendMailMenu(user);
                     break;
                 case ConsoleKey.D3:
                     PrintMyInbox(user);
@@ -204,7 +204,7 @@ namespace Grupparbete
             }
         }
 
-        private static void PrintSendMailMenue(User user)
+        private static void PrintSendMailMenu(User user)
         {
             ReadOnlyCollection<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("These are the users that you follow:");
@@ -476,7 +476,7 @@ namespace Grupparbete
             }
             else if (userInput.ToLower() == "r")
             {
-                RetweetMenue(user);
+                RetweetMenu(user);
             }
             else if (success)
             {
@@ -627,7 +627,7 @@ namespace Grupparbete
             }
         }
 
-        public static void RetweetMenue(User user)
+        public static void RetweetMenu(User user)
         {
             ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
             System.Console.WriteLine("My Retweets: ");
