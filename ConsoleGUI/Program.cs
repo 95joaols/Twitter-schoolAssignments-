@@ -576,6 +576,7 @@ namespace ConsoleGUI
                         bool success = Int32.TryParse(userInput, out int userInt);
                         if (userInput == string.Empty)
                         {
+                            Console.Clear();
                             break;
                         }
                         else if (success)
@@ -590,17 +591,21 @@ namespace ConsoleGUI
                                 else if (user.Id == userInt)
                                 {
                                     skip = true;
+                                    Console.Clear();
+                                    System.Console.WriteLine("You follow a new user");
                                     userManager.AddFollwingOfUser(loggedInUser, userInt);
                                     break;
                                 }
                             }
                             if (skip == false)
                             {
+                                Console.Clear();
                                 System.Console.WriteLine("This Id does not exist in this context!");
                             }
                         }
                         else
                         {
+                            Console.Clear();
                             Console.WriteLine("You did not write a number!");
                         }
                     }   
@@ -613,10 +618,12 @@ namespace ConsoleGUI
                     Console.WriteLine();
                     if (fetchedTweets.ToList().Count == 0)
                     {
+                        Console.Clear();
                         System.Console.WriteLine("No tweet found");
                     }
                     else
                     {
+                        Console.Clear();
                         foreach (var x in fetchedTweets)
                         {
                             Console.WriteLine("{0}, {1}: {2} {3}", x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
@@ -641,17 +648,20 @@ namespace ConsoleGUI
                                 {
                                     skip = true;
                                     tweetManager.Retweet(loggedInUser.Id, x.Item2.ID);
+                                    Console.Clear();
                                     System.Console.WriteLine("You have retweeted the tweet, its now on your bio also");
                                     break;
                                 }
                             }
                             if (skip == false)
                             {
+                                Console.Clear();
                                 System.Console.WriteLine("This Id does not exist in this context!");
                             }
                         }
                         else
                         {
+                            Console.Clear();
                             Console.WriteLine("You did not write a number!");
                         }
                     } 
@@ -659,6 +669,11 @@ namespace ConsoleGUI
                 else if (userKey == ConsoleKey.Escape)
                 {
                     isSearching = false;
+                }
+                else
+                {
+                    Console.Clear();
+                    System.Console.WriteLine("Invalid input");
                 }
             }
         }
