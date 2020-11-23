@@ -256,7 +256,7 @@ namespace ConsoleGUI
             {
                 Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
             }
-            System.Console.WriteLine("Press enter to continue or type an Id to reply to that message. ");
+            System.Console.Write("Press enter to continue or type an Id to reply to that message: ");
             string userInput = Console.ReadLine();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
@@ -296,7 +296,7 @@ namespace ConsoleGUI
                 friendsName = m.Item1;
                 Console.WriteLine("Name: {0} : {1}", m.Item1, m.Item2.Message);
             }
-            System.Console.WriteLine("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
+            System.Console.Write("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
             string answer = Console.ReadLine();
             if (answer == string.Empty)
             {

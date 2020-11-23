@@ -51,15 +51,15 @@ namespace TwitterCore
             db.PrivateMessageToDb(privateMessage);
         }
 
-        public ReadOnlyCollection<Tuple<string, string, int>> GetUserMail(User user)
-        {
-            List<Tuple<string, string, int>> foo = db.GetUserMailFromDb(user);
-            return new ReadOnlyCollection<Tuple<string, string, int>>(foo);
-        }
+        // public ReadOnlyCollection<Tuple<string, string, int>> GetUserMail(User user)
+        // {
+        //     List<Tuple<string, string, int>> foo = db.GetUserMailFromDb(user);
+        //     return new ReadOnlyCollection<Tuple<string, string, int>>(foo);
+        // }
 
         public ReadOnlyCollection<Tuple<string, PrivateMessage>> GetMailConven(User user, int userToId)
         {
-            List<Tuple<string, PrivateMessage>> foo = db.GetUserMailFromDbfoo(user,userToId);
+            List<Tuple<string, PrivateMessage>> foo = db.GetPrivateMessageConvoFromDb(user,userToId);
             return new ReadOnlyCollection<Tuple<string,PrivateMessage>>(foo);
         }
 
