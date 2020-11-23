@@ -243,7 +243,7 @@ namespace ConsoleGUI
                         {
                             userManager.SendMessage(message, user, idAndName.Item2);
                         }
-                        catch(System.Exception e)
+                        catch (System.Exception e)
                         {
                             Console.WriteLine(e.Message);
                             break;
@@ -320,7 +320,15 @@ namespace ConsoleGUI
             }
             else
             {
-                userManager.SendMessage(answer, user, mailToId);
+                try
+                {
+                    userManager.SendMessage(answer, user, mailToId);
+                }
+                catch (System.Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return;
+                }
                 System.Console.WriteLine("Message has been sent!");
             }
         }
