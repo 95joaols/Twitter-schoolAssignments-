@@ -413,12 +413,6 @@ namespace ConsoleGUI
             string password = Console.ReadLine();
             bool isSuccessfulUserCreate = true;
 
-            // if (username.Length > 50 || password.Length > 50)
-            // {
-            //     Console.WriteLine("The username and/or password can't be longer than 50 characters.");
-            // }
-            // else
-            // {
             try
             {
                 loginSystem.CreateUser(username, password);
@@ -442,7 +436,6 @@ namespace ConsoleGUI
                 System.Console.WriteLine("User created!");
             else if (!isSuccessfulUserCreate)
                 System.Console.WriteLine("No new user was not created.");
-            // }
         }
         public static void PrintHeadMenu()
         {
