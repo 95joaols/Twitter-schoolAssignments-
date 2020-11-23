@@ -178,6 +178,7 @@ namespace ConsoleGUI
 
         private static void PrintAllLoggedinNow(User user)
         {
+            Console.Clear();
             ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
             if (onlineUsers.Count == 1)
             {
@@ -193,6 +194,7 @@ namespace ConsoleGUI
                 }
                 System.Console.WriteLine("press any key to continue..");
                 Console.ReadKey(true);
+                Console.Clear();
             }
 
         }
@@ -218,6 +220,8 @@ namespace ConsoleGUI
                         break;
                     case ConsoleKey.Escape:
                         running = false;
+                        Console.Clear();
+                        System.Console.WriteLine("Back to menu");
                         break;
                     default:
                         System.Console.WriteLine("Invalid choice");
@@ -228,6 +232,7 @@ namespace ConsoleGUI
 
         private static void PrintSendMailMenu(User user)
         {
+            Console.Clear();
             ReadOnlyCollection<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("These are the users that you follow:");
             foreach (var idAndName in following)
@@ -236,6 +241,7 @@ namespace ConsoleGUI
             }
             System.Console.Write("Press enter to continue or type an ID of the person you want to send a mail to: ");
             string userInput = Console.ReadLine();
+            Console.Clear();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
             {
@@ -287,6 +293,7 @@ namespace ConsoleGUI
             }
             System.Console.Write("Press enter to continue or type an Id to reply to that message: ");
             string userInput = Console.ReadLine();
+            Console.Clear();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
             {
@@ -326,6 +333,7 @@ namespace ConsoleGUI
             }
             System.Console.Write("Press enter to continue, or start typing your message to reply to your friend: ");
             string answer = Console.ReadLine();
+            Console.Clear();
             if (answer == string.Empty)
             {
                 System.Console.WriteLine("Back to menu");
@@ -359,6 +367,7 @@ namespace ConsoleGUI
             }
             System.Console.WriteLine("Press any key to countinue..");
             userKey = Console.ReadKey(true).Key;
+            Console.Clear();
         }
 
         private static void PrintOthersTweets(User user)
@@ -543,43 +552,50 @@ namespace ConsoleGUI
                     string searchString = Console.ReadLine();               // What user to search for.
                     IEnumerable<User> fetchedUsers = userManager.SearchUsers(searchString, loggedInUser);
                     Console.WriteLine();
-                    foreach (User x in fetchedUsers)
+                    if(fetchedUsers.ToList().Count == 0)
                     {
-                        Console.WriteLine("{0} {1} ------- {2} {3}", x.Id, x.Username, x.Firstname, x.Lastname);
-                        Console.WriteLine("  Biography: {0}", x.Biography);
-                    }
-                    Console.Write("Press enter to continue, or write an id to follow: ");
-                    string userInput = Console.ReadLine();
-                    bool success = Int32.TryParse(userInput, out int userInt);
-                    if (userInput == string.Empty)
-                    {
-                        break;
-                    }
-                    else if (success)
-                    {
-                        bool skip = false;
-                        foreach (User user in fetchedUsers)
-                        {
-                            if (user.Id != userInt)
-                            {
-                                continue;
-                            }
-                            else if (user.Id == userInt)
-                            {
-                                skip = true;
-                                userManager.AddFollwingOfUser(loggedInUser, userInt);
-                                break;
-                            }
-                        }
-                        if (skip == false)
-                        {
-                            System.Console.WriteLine("This Id does not exist in this context!");
-                        }
+                        System.Console.WriteLine("No user found");
                     }
                     else
                     {
-                        Console.WriteLine("You did not write a number!");
-                    }
+                        foreach (User x in fetchedUsers)
+                        {
+                            Console.WriteLine("{0} {1} ------- {2} {3}", x.Id, x.Username, x.Firstname, x.Lastname);
+                            Console.WriteLine("  Biography: {0}", x.Biography);
+                        }
+                        Console.Write("Press enter to continue, or write an id to follow: ");
+                        string userInput = Console.ReadLine();
+                        bool success = Int32.TryParse(userInput, out int userInt);
+                        if (userInput == string.Empty)
+                        {
+                            break;
+                        }
+                        else if (success)
+                        {
+                            bool skip = false;
+                            foreach (User user in fetchedUsers)
+                            {
+                                if (user.Id != userInt)
+                                {
+                                    continue;
+                                }
+                                else if (user.Id == userInt)
+                                {
+                                    skip = true;
+                                    userManager.AddFollwingOfUser(loggedInUser, userInt);
+                                    break;
+                                }
+                            }
+                            if (skip == false)
+                            {
+                                System.Console.WriteLine("This Id does not exist in this context!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("You did not write a number!");
+                        }
+                    }   
                 }
                 else if (userKey == ConsoleKey.D2)
                 {
@@ -587,43 +603,50 @@ namespace ConsoleGUI
                     string searchString = Console.ReadLine();               // What tweet to search for.
                     ReadOnlyCollection<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
                     Console.WriteLine();
-                    foreach (var x in fetchedTweets)
+                    if (fetchedTweets.ToList().Count == 0)
                     {
-                        Console.WriteLine("{0}, {1}: {2} {3}", x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
-                    }
-                    Console.Write("Press enter to continue, or write an id to retweet: ");
-                    string userInput = Console.ReadLine();
-                    bool success = Int32.TryParse(userInput, out int userInt);
-                    if (userInput == string.Empty)
-                    {
-                        break;
-                    }
-                    else if (success)
-                    {
-                        bool skip = false;
-                        foreach (var x in fetchedTweets)
-                        {
-                            if (x.Item2.ID != userInt)
-                            {
-                                continue;
-                            }
-                            else if (x.Item2.ID == userInt)
-                            {
-                                skip = true;
-                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID);
-                                System.Console.WriteLine("You have retweeted the tweet, its now on your bio also");
-                                break;
-                            }
-                        }
-                        if (skip == false)
-                        {
-                            System.Console.WriteLine("This Id does not exist in this context!");
-                        }
+                        System.Console.WriteLine("No tweet found");
                     }
                     else
                     {
-                        Console.WriteLine("You did not write a number!");
-                    }
+                        foreach (var x in fetchedTweets)
+                        {
+                            Console.WriteLine("{0}, {1}: {2} {3}", x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
+                        }
+                        Console.Write("Press enter to continue, or write an id to retweet: ");
+                        string userInput = Console.ReadLine();
+                        bool success = Int32.TryParse(userInput, out int userInt);
+                        if (userInput == string.Empty)
+                        {
+                            break;
+                        }
+                        else if (success)
+                        {
+                            bool skip = false;
+                            foreach (var x in fetchedTweets)
+                            {
+                                if (x.Item2.ID != userInt)
+                                {
+                                    continue;
+                                }
+                                else if (x.Item2.ID == userInt)
+                                {
+                                    skip = true;
+                                    tweetManager.Retweet(loggedInUser.Id, x.Item2.ID);
+                                    System.Console.WriteLine("You have retweeted the tweet, its now on your bio also");
+                                    break;
+                                }
+                            }
+                            if (skip == false)
+                            {
+                                System.Console.WriteLine("This Id does not exist in this context!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("You did not write a number!");
+                        }
+                    } 
                 }
                 else if (userKey == ConsoleKey.Escape)
                 {
@@ -688,6 +711,7 @@ namespace ConsoleGUI
             System.Console.WriteLine("Press enter to continue");
             System.Console.Write("Or type the Id of a Tweet to delete it: ");
             string userInput = Console.ReadLine();
+            Console.Clear();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
             {
