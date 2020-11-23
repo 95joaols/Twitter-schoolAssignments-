@@ -21,14 +21,19 @@ namespace TwitterCore
         private User _user;
         public void CreateUser(string username, string password)
         {
-            string salt = Cryptography.CreatSalt();
-            string hassedPass = Cryptography.Encrypt(Cryptography.Hash(Cryptography.Encrypt(password, salt), salt), salt);
-
-            User user = new User(username, hassedPass)
+            if (!String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password))
             {
-                PasswordSalt = salt
-            };
-            db.AddUserToDb(user);
+                string salt = Cryptography.CreatSalt();
+                string hassedPass = Cryptography.Encrypt(Cryptography.Hash(Cryptography.Encrypt(password, salt), salt), salt);
+
+                User user = new User(username, hassedPass)
+                {
+                    PasswordSalt = salt
+                };
+                db.AddUserToDb(user);
+            }
+            else
+                throw new Exception("username or password cannot be whitespace or blank.");
         }
 
         public (bool, User) LogInUser(string username, string password)

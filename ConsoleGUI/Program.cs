@@ -291,7 +291,7 @@ namespace ConsoleGUI
             foreach (var m in mailConvo)
             {
                 friendsName = m.Item1;
-                Console.WriteLine("Name: {1} : {2}", m.Item1, m.Item2.Message);
+                Console.WriteLine("Name: {0} : {1}", m.Item1, m.Item2.Message);
             }
             System.Console.WriteLine("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
             string answer = Console.ReadLine();
@@ -409,7 +409,14 @@ namespace ConsoleGUI
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
-            loginSystem.CreateUser(username, password);
+            try
+            {
+                loginSystem.CreateUser(username, password);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             System.Console.WriteLine("User created");
         }
 
