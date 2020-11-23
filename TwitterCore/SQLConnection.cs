@@ -282,7 +282,8 @@ namespace TwitterCore
                 var foo = connection.Query(@"select UserFromId, UserToId, MailFrom.Username, Message 
                 from PrivateMessage
                 inner join [User] as MailFrom on MailFrom.Id = PrivateMessage.UserFromId
-                inner join [User] as MailTo on MailTo.Id = PrivateMessage.UserToId where MailTo.Id = " + user.Id + " or UserToId  = " + userToId +
+                inner join [User] as MailTo on MailTo.Id = PrivateMessage.UserToId where UserFromId = " + user.Id + " and UserToId  = " + userToId +
+                " or UserFromId = " + userToId + " and UserToId = " +  user.Id +
                 "order by PrivateMessage.Id desc");
                 foreach (var item in foo)
                 {
