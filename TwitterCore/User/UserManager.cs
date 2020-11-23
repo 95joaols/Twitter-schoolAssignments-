@@ -48,7 +48,16 @@ namespace TwitterCore
         public void SendMessage(string message, User user, int userToId)
         {
             PrivateMessage privateMessage = new PrivateMessage(user.Id, userToId, message);
-            db.PrivateMessageToDb(privateMessage);
+
+            try
+            {
+                db.PrivateMessageToDb(privateMessage);
+            }
+            catch (System.Exception e)
+            {
+                if(e.HResult == -2146232060)
+                    throw new Exception("Your message was too long! A tweet can be up to 100 characters long.");
+            }
         }
 
         public ReadOnlyCollection<Tuple<string, string, int>> GetUserMail(User user)
@@ -59,8 +68,8 @@ namespace TwitterCore
 
         public ReadOnlyCollection<Tuple<string, PrivateMessage>> GetMailConven(User user, int userToId)
         {
-            List<Tuple<string, PrivateMessage>> foo = db.GetPrivateMessageConvoFromDb(user,userToId);
-            return new ReadOnlyCollection<Tuple<string,PrivateMessage>>(foo);
+            List<Tuple<string, PrivateMessage>> foo = db.GetPrivateMessageConvoFromDb(user, userToId);
+            return new ReadOnlyCollection<Tuple<string, PrivateMessage>>(foo);
         }
 
         public ReadOnlyCollection<User> GetFriendsBio(User user)

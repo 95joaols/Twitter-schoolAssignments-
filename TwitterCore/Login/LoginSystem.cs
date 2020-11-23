@@ -36,7 +36,7 @@ namespace TwitterCore
                 throw new Exception("Username/password cannot be blank. Username and password must be under 50 characters.");
         }
 
-        public (bool, User) LogInUser(string username, string password)
+        public Tuple<bool, User> LogInUser(string username, string password)
         {
             int userID = -1;
             bool LoginSuccessful = false;
@@ -74,7 +74,7 @@ namespace TwitterCore
                 throw new Exception("The username or password is wrong");
             }
 
-            return (LoginSuccessful, loggedInUser);
+            return new Tuple<bool,User>(LoginSuccessful, loggedInUser);
         }
 
         public void LogOutUser(User user)
