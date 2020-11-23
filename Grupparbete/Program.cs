@@ -104,8 +104,8 @@ namespace Grupparbete
                 Console.WriteLine("[4] Search tweets or users");
                 Console.WriteLine("[5] My profile");
                 Console.WriteLine("[6] My Friends and Mail");
-                Console.WriteLine("[7] See all how are online now");
-                Console.WriteLine("[Esc] Logga ut");
+                Console.WriteLine("[7] See online users");
+                Console.WriteLine("[Esc] Logout");
                 Console.WriteLine();
 
                 userKey = Console.ReadKey(true).Key;
@@ -159,12 +159,12 @@ namespace Grupparbete
             ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
             if (onlineUsers.Count == 1)
             {
-                System.Console.WriteLine("Only you are online, press any key to countinue..");
+                System.Console.WriteLine("No one else is online, press any key to countinue..");
                 Console.ReadKey(true);
             }
             else
             {
-                System.Console.WriteLine("Awsome people online bellow!\n");
+                System.Console.WriteLine("Awsome people online below!\n");
                 foreach (var onlineUser in onlineUsers)
                 {
                     Console.WriteLine("Id:{0} Name: {1}", onlineUser.Id, onlineUser.Username);
@@ -199,7 +199,7 @@ namespace Grupparbete
                     break;
 
                 default:
-                    System.Console.WriteLine("Invalid Choice");
+                    System.Console.WriteLine("Invalid choice");
                     break;
             }
         }
@@ -207,12 +207,12 @@ namespace Grupparbete
         private static void PrintSendMailMenue(User user)
         {
             ReadOnlyCollection<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
-            System.Console.WriteLine("This is the users you Follow:");
+            System.Console.WriteLine("These are the users that you follow:");
             foreach (var idAndName in following)
             {
                 Console.WriteLine("{0}: {1}", idAndName.Item2, idAndName.Item1);
             }
-            System.Console.Write("Press enter to countinue or write an Id of the person to send a mail: ");
+            System.Console.Write("Press enter to continue or type an ID of the person you want to send a mail to: ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
@@ -227,21 +227,21 @@ namespace Grupparbete
                     if (idAndName.Item2 == idChoiche)
                     {
                         print = false;
-                        System.Console.Write("Skriv din mail till " + idAndName.Item1 + ": ");
+                        System.Console.Write("Send your message to " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
                         userManager.SendMassage(message, user, idAndName.Item2);
-                        System.Console.WriteLine("Meddelandet skickat!");
+                        System.Console.WriteLine("Message has been sent!");
                         break;
                     }
                 }
                 if (print == true)
                 {
-                    System.Console.WriteLine("Du skrev in ett Id du inte följer än..");
+                    System.Console.WriteLine("You do not follow this user, yet!");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not enter a number!");
             }
 
         }
@@ -253,12 +253,12 @@ namespace Grupparbete
             {
                 Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
             }
-            System.Console.WriteLine("Tryck på Enter för att fortsätta. Eller välj ett Id för att svara på mail: ");
+            System.Console.WriteLine("Press enter to continue or type an Id to reply to that message. ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else if (success)
             {
@@ -274,12 +274,12 @@ namespace Grupparbete
                 }
                 if (print == true)
                 {
-                    System.Console.WriteLine("Detta Id fanns inte in din inbox");
+                    System.Console.WriteLine("This Id could not be found in your inbox.");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not write a number!");
             }
 
         }
@@ -293,16 +293,16 @@ namespace Grupparbete
                 friendsName = m.Item1;
                 Console.WriteLine("Name: {1} : {2}", m.Item1, m.Item2.Message);
             }
-            System.Console.WriteLine("Tryck på Enter för att fortsätta. Eller börja skriv för att svara till " + friendsName + ":");
+            System.Console.WriteLine("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
             string answer = Console.ReadLine();
             if (answer == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else
             {
                 userManager.SendMassage(answer, user, mailToId);
-                System.Console.WriteLine("Meddelandet skickat");
+                System.Console.WriteLine("Message has been sent!");
             }
         }
 
@@ -314,12 +314,12 @@ namespace Grupparbete
                 Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
             }
             Console.WriteLine();
-            System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett Id för att svara på mail: ");
+            System.Console.Write("Press enter to continue, or enter an Id to reply to: ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else if (success)
             {
@@ -329,28 +329,28 @@ namespace Grupparbete
                     if (mail.Item3 == idChoiche)
                     {
                         print = false;
-                        System.Console.Write("Skriv ett meddelande till " + mail.Item1 + ": ");
+                        System.Console.Write("Send a message to " + mail.Item1 + ": ");
                         string message = Console.ReadLine();
                         userManager.SendMassage(message, user, mail.Item3);
-                        System.Console.WriteLine("Meddelandet skickat");
+                        System.Console.WriteLine("Message has been sent");
                         break;
                     }
                 }
                 if (print == true)
                 {
-                    System.Console.WriteLine("Detta Id fanns inte in din inbox");
+                    System.Console.WriteLine("This Id could not be found in your inbox!");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not write a number!");
             }
         }
 
         private static void PrintBiosOfFriends(User user)
         {
             IEnumerable<User> friends = userManager.GetFriendsBio(user);
-            System.Console.WriteLine("This is all your friends bio!\n");
+            System.Console.WriteLine("These are your friends biographies!\n");
             foreach (var friend in friends)
             {
                 System.Console.WriteLine("Username: " + friend.Username);
@@ -358,7 +358,7 @@ namespace Grupparbete
                 System.Console.WriteLine("Lastname: " + friend.Lastname);
                 System.Console.WriteLine("Bio: " + friend.Biography + "\n");
             }
-            System.Console.WriteLine("Perss any key to countinue..");
+            System.Console.WriteLine("Press any key to countinue..");
             userKey = Console.ReadKey(true).Key;
         }
 
@@ -371,12 +371,12 @@ namespace Grupparbete
             }
 
             Console.WriteLine();
-            System.Console.Write("Tryck på Enter för att fortsätta. Eller välj ett TweetId för att retweeta: ");
+            System.Console.Write("Press enter to continue, or choose a TweetId to retweet: ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else if (success)
             {
@@ -387,25 +387,25 @@ namespace Grupparbete
                     {
                         print = true;
                         tweetManager.Retweet(user.Id, idChoiche);
-                        System.Console.WriteLine("Tweeten finns nu även på din profil");
+                        System.Console.WriteLine("This tweet can now be seen on your profile as a retweet!");
                         break;
                     }
                 }
                 if (print == false)
                 {
-                    System.Console.WriteLine("Detta TweetId finns inte tillgängligt att retweeta");
+                    System.Console.WriteLine("This TweetId is not available for you to retweet.");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not write a number!");
             }
         }
 
         private static void CreateUserMenu()
         {
-            System.Console.WriteLine("Create an user");
-            System.Console.Write("Write an username: ");
+            System.Console.WriteLine("Create a user");
+            System.Console.Write("Write a username: ");
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
@@ -417,7 +417,7 @@ namespace Grupparbete
         {
             while (true)
             {
-                System.Console.WriteLine("[1] Create an user");
+                System.Console.WriteLine("[1] Create a user");
                 System.Console.WriteLine("[2] Login");
                 Console.WriteLine("[Esc] Exit program");
                 userKey = Console.ReadKey(true).Key;
@@ -433,7 +433,7 @@ namespace Grupparbete
                         Environment.Exit(0);
                         break;
                     default:
-                        System.Console.WriteLine("Error");
+                        System.Console.WriteLine("Incorrect menu input");
                         break;
                 }
             }
@@ -465,14 +465,14 @@ namespace Grupparbete
             System.Console.WriteLine("");
 
 
-            System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
-            System.Console.WriteLine("Skriv [R] för att se dina retweets");
-            System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
+            System.Console.WriteLine("Press [Enter] to continue");
+            System.Console.WriteLine("Type [R] to see your retweets");
+            System.Console.Write("Or type and Id for a Tweet to delete it: ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else if (foo.ToLower() == "r")
             {
@@ -491,19 +491,19 @@ namespace Grupparbete
                     {
                         skip = true;
                         tweetManager.Delete(idChoiche, user);
-                        System.Console.WriteLine("Tweet raderad!");
+                        System.Console.WriteLine("Tweet deleted!");
                         break;
                     }
 
                 }
                 if (skip == false)
                 {
-                    System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                    System.Console.WriteLine("This TweetId does not exist or is not yours to delete!");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not write a number!");
             }
         }
 
@@ -534,7 +534,7 @@ namespace Grupparbete
                     }
 
                     Console.WriteLine(Environment.NewLine + "[1] Follow/unfollow");
-                    Console.WriteLine("[Anything else] Return to search.");
+                    Console.WriteLine("[Any button] Return to search.");
                     Console.Write("Option: ");
                     userKey = Console.ReadKey(false).Key;
 
@@ -550,7 +550,7 @@ namespace Grupparbete
                         {
                             Console.WriteLine($"{item.Id} Username: {item.Username}");
                         }
-                        Console.Write(Environment.NewLine + "Choose an index to follow: ");
+                        Console.Write(Environment.NewLine + "Choose an Id to follow: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
                         var selectedUser = fetchedUsers.Where(u => u.Id == userKeyInt).FirstOrDefault();
                         Console.WriteLine("You follow " + "selectedUser.Username"
@@ -574,7 +574,7 @@ namespace Grupparbete
                         Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
 
                     Console.WriteLine(Environment.NewLine + "[1] Retweet");
-                    Console.WriteLine("[Anything else] Return to search.");
+                    Console.WriteLine("[Any button] Return to search.");
                     Console.Write("Option: ");
                     userKey = Console.ReadKey(false).Key;
 
@@ -584,7 +584,7 @@ namespace Grupparbete
                         {
                             Console.WriteLine("[{0}] {1} : \"{2}\"", i, fetchedTweets[i].Item1, fetchedTweets[i].Item2.Message);
                         }
-                        Console.Write(Environment.NewLine + "Choose an index to retweet: ");
+                        Console.Write(Environment.NewLine + "Choose an Id to retweet: ");
                         int userKeyInt = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("You retweeted \"" + fetchedTweets[userKeyInt].Item2.Message + "\" (Tweet Id: " + fetchedTweets[userKeyInt].Item2.ID + ").");
                         tweetManager.Retweet(loggedInUser.Id, fetchedTweets[userKeyInt].Item2.ID);
@@ -600,22 +600,22 @@ namespace Grupparbete
 
         public static void UserSettingsMenu(User user)
         {
-            Console.WriteLine("Ange menyval: ");
-            Console.WriteLine("[1] Ange/ändra förnamn");
-            Console.WriteLine("[2] Ange/ändra efternamn");
-            Console.WriteLine("[3] Ange/ändra biografi");
+            Console.WriteLine("Choose a menu option: ");
+            Console.WriteLine("[1] Set/change your firstname");
+            Console.WriteLine("[2] Set/change your lastname");
+            Console.WriteLine("[3] Set/change your biography");
 
             userKey = Console.ReadKey(true).Key;
 
             switch (userKey)
             {
                 case ConsoleKey.D1:
-                    Console.WriteLine("Ange förnamn: ");
+                    Console.WriteLine("Firstname: ");
                     string input = Console.ReadLine();
                     userManager.UpdateFirstnameUser(user, input);
                     break;
                 case ConsoleKey.D2:
-                    Console.WriteLine("Ange efternamn: ");
+                    Console.WriteLine("Lastname: ");
                     input = Console.ReadLine();
                     userManager.UpdateLastnameUser(user, input);
                     break;
@@ -630,18 +630,18 @@ namespace Grupparbete
         public static void RetweetMenue(User user)
         {
             ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
-            System.Console.WriteLine("My ReTweets: ");
+            System.Console.WriteLine("My Retweets: ");
             foreach (var reTweet in reTweets)
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", reTweet.Item3.Id, reTweet.Item1, reTweet.Item2.Message, reTweet.Item2.CreateDate);
             }
-            System.Console.WriteLine("Tryck på [Enter] för att fortsätta ");
-            System.Console.Write("Eller skriv id på Tweet att ta bort tweet: ");
+            System.Console.WriteLine("Press enter to continue");
+            System.Console.Write("Or type the Id of a Tweet to delete it: ");
             string foo = Console.ReadLine();
             bool success = Int32.TryParse(foo, out int idChoiche);
             if (foo == string.Empty)
             {
-                System.Console.WriteLine("tillbaka till meny");
+                System.Console.WriteLine("Back to menu");
             }
             else if (success)
             {
@@ -656,19 +656,19 @@ namespace Grupparbete
                     {
                         skip = true;
                         tweetManager.DeleteReTweet(idChoiche);
-                        System.Console.WriteLine("ReTweet raderad!");
+                        System.Console.WriteLine("Retweet deleted!");
                         System.Console.WriteLine("");
                         break;
                     }
                 }
                 if (skip == false)
                 {
-                    System.Console.WriteLine("Detta TweetId finns inte eller är inte din att ta bort!");
+                    System.Console.WriteLine("This TweetId does not exist or is not yours to delete!");
                 }
             }
             else
             {
-                Console.WriteLine("Du skrev inte in en siffra!");
+                Console.WriteLine("You did not write a number!");
             }
         }
     }
