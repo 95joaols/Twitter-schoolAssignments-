@@ -71,7 +71,7 @@ namespace TwitterCore
             }
             else
             {
-                throw new Exception("The username or password is wrong");
+                throw new Exception("The username or password is wrong2");
             }
 
             return new Tuple<bool,User>(LoginSuccessful, loggedInUser);
