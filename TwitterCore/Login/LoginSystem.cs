@@ -21,7 +21,7 @@ namespace TwitterCore
         private User _user;
         public void CreateUser(string username, string password)
         {
-            if (!String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password))
+            if (!String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password) && username.Length <= 50 && password.Length <= 50)
             {
                 string salt = Cryptography.CreatSalt();
                 string hassedPass = Cryptography.Encrypt(Cryptography.Hash(Cryptography.Encrypt(password, salt), salt), salt);
@@ -33,7 +33,7 @@ namespace TwitterCore
                 db.AddUserToDb(user);
             }
             else
-                throw new Exception("username/password cannot be blank.");
+                throw new Exception("Username/password cannot be blank. Username and password must be under 50 characters.");
         }
 
         public (bool, User) LogInUser(string username, string password)
