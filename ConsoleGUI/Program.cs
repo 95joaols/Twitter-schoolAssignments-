@@ -195,7 +195,7 @@ namespace ConsoleGUI
                         PrintSendMailMenu(user);
                         break;
                     case ConsoleKey.D2:
-                        ChoseMailConversationOfUser(user);
+                        ChooseMailConversationOfUser(user);
                         break;
                     case ConsoleKey.Escape:
                         running = false;
@@ -249,14 +249,14 @@ namespace ConsoleGUI
 
         }
 
-        private static void ChoseMailConversationOfUser(User user)
+        private static void ChooseMailConversationOfUser(User user)
         {
             ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user);
             foreach (var mail in myMail)
             {
                 Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
             }
-            System.Console.WriteLine("Press enter to continue or type an Id to reply to that message. ");
+            System.Console.Write("Press enter to continue or type an Id to reply to that message: ");
             string userInput = Console.ReadLine();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
@@ -296,7 +296,7 @@ namespace ConsoleGUI
                 friendsName = m.Item1;
                 Console.WriteLine("Name: {0} : {1}", m.Item1, m.Item2.Message);
             }
-            System.Console.WriteLine("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
+            System.Console.Write("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
             string answer = Console.ReadLine();
             if (answer == string.Empty)
             {
@@ -412,6 +412,8 @@ namespace ConsoleGUI
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
+            bool isSuccessfulUserCreate = true;
+
             try
             {
                 loginSystem.CreateUser(username, password);
@@ -419,8 +421,13 @@ namespace ConsoleGUI
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                isSuccessfulUserCreate = false;
             }
-            System.Console.WriteLine("User created");
+
+            if (isSuccessfulUserCreate)
+                System.Console.WriteLine("User created!");
+            else if (!isSuccessfulUserCreate)
+                System.Console.WriteLine("No new user was not created.");
         }
 
         public static void PrintHeadMenu()

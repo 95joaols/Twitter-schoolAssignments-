@@ -59,7 +59,7 @@ namespace TwitterCore
 
         public ReadOnlyCollection<Tuple<string, PrivateMessage>> GetMailConven(User user, int userToId)
         {
-            List<Tuple<string, PrivateMessage>> foo = db.GetUserMailFromDbfoo(user,userToId);
+            List<Tuple<string, PrivateMessage>> foo = db.GetPrivateMessageConvoFromDb(user,userToId);
             return new ReadOnlyCollection<Tuple<string,PrivateMessage>>(foo);
         }
 
