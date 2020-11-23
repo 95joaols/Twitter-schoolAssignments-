@@ -45,7 +45,7 @@ namespace ConsoleGUI
             return new ReadOnlyCollection<Tuple<string, int>>(foo);
         }
 
-        public void SendMassage(string message, User user, int userToId)
+        public void SendMessage(string message, User user, int userToId)
         {
             PrivateMessage privateMessage = new PrivateMessage(user.Id, userToId, message);
             db.PrivateMessageToDb(privateMessage);
