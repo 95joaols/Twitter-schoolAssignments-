@@ -103,7 +103,7 @@ namespace ConsoleGUI
                 Console.WriteLine("[3] Show all tweets");
                 Console.WriteLine("[4] Search tweets or users");
                 Console.WriteLine("[5] My profile");
-                Console.WriteLine("[6] My Friends and Mail");
+                Console.WriteLine("[6] My inbox");
                 Console.WriteLine("[7] See online users");
                 Console.WriteLine("[Esc] Logout");
                 Console.WriteLine();
@@ -178,9 +178,8 @@ namespace ConsoleGUI
         private static void PrintUserInBox(User user)
         {
             Console.WriteLine("[1] See Bios of those I follow");
-            Console.WriteLine("[2] Send Mail to one I follow");
-            Console.WriteLine("[3] My InBox"); // denna blir väl överföldig
-            Console.WriteLine("[4] My Mail Conversation ");
+            Console.WriteLine("[2] Send Mail to a friend");
+            Console.WriteLine("[3] My Mail Conversation"); 
             Console.WriteLine();
             userKey = Console.ReadKey(true).Key;
             switch (userKey)
@@ -192,12 +191,8 @@ namespace ConsoleGUI
                     PrintSendMailMenu(user);
                     break;
                 case ConsoleKey.D3:
-                    PrintMyInbox(user);
-                    break;
-                case ConsoleKey.D4:
                     ChoseMailConversationOfUser(user);
                     break;
-
                 default:
                     System.Console.WriteLine("Invalid choice");
                     break;
@@ -306,46 +301,46 @@ namespace ConsoleGUI
             }
         }
 
-        private static void PrintMyInbox(User user)
-        {
-            ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
-            foreach (var mail in myMail)
-            {
-                Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
-            }
-            Console.WriteLine();
-            System.Console.Write("Press enter to continue, or enter an Id to reply to: ");
-            string userInput = Console.ReadLine();
-            bool success = Int32.TryParse(userInput, out int idChoice);
-            if (userInput == string.Empty)
-            {
-                System.Console.WriteLine("Back to menu");
-            }
-            else if (success)
-            {
-                bool print = true;
-                foreach (var mail in myMail)
-                {
-                    if (mail.Item3 == idChoice)
-                    {
-                        print = false;
-                        System.Console.Write("Send a message to " + mail.Item1 + ": ");
-                        string message = Console.ReadLine();
-                        userManager.SendMessage(message, user, mail.Item3);
-                        System.Console.WriteLine("Message has been sent");
-                        break;
-                    }
-                }
-                if (print == true)
-                {
-                    System.Console.WriteLine("This Id could not be found in your inbox!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("You did not write a number!");
-            }
-        }
+        // private static void PrintMyInbox(User user)
+        // {
+        //     ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
+        //     foreach (var mail in myMail)
+        //     {
+        //         Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
+        //     }
+        //     Console.WriteLine();
+        //     System.Console.Write("Press enter to continue, or enter an Id to reply to: ");
+        //     string userInput = Console.ReadLine();
+        //     bool success = Int32.TryParse(userInput, out int idChoice);
+        //     if (userInput == string.Empty)
+        //     {
+        //         System.Console.WriteLine("Back to menu");
+        //     }
+        //     else if (success)
+        //     {
+        //         bool print = true;
+        //         foreach (var mail in myMail)
+        //         {
+        //             if (mail.Item3 == idChoice)
+        //             {
+        //                 print = false;
+        //                 System.Console.Write("Send a message to " + mail.Item1 + ": ");
+        //                 string message = Console.ReadLine();
+        //                 userManager.SendMessage(message, user, mail.Item3);
+        //                 System.Console.WriteLine("Message has been sent");
+        //                 break;
+        //             }
+        //         }
+        //         if (print == true)
+        //         {
+        //             System.Console.WriteLine("This Id could not be found in your inbox!");
+        //         }
+        //     }
+        //     else
+        //     {
+        //         Console.WriteLine("You did not write a number!");
+        //     }
+        // }
 
         private static void PrintBiosOfFriends(User user)
         {
