@@ -35,7 +35,7 @@ namespace Twitter.Blazor.Server.Components.Dialog
 
                     try
                     {
-                        new UserManager().SendMassage(PrivateMessage.Message, DataAccess.LoginUser, Idto);
+                        new UserManager().SendMessage(PrivateMessage.Message, DataAccess.LoginUser, Idto);
 
                         HasError = false;
                         ShowDialog = false;
