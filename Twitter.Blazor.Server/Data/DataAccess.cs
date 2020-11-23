@@ -132,7 +132,7 @@ namespace Twitter.Blazor.Server.Data
 
         public bool LogingIn(string username, string password)
         {
-            (bool, User) UserReturn;
+            Tuple<bool, User> UserReturn;
             try
             {
                 UserReturn = loginSystem.LogInUser(username, password);
