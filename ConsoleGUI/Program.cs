@@ -140,7 +140,7 @@ namespace ConsoleGUI
                         PrintUserInBox(user);
                         break;
                     case ConsoleKey.D7:
-                        PrintAllLogdinNow(user);
+                        PrintAllLoggedinNow(user);
                         break;
                     case ConsoleKey.Escape:
                         loginSystem.LogOutUser(user);
@@ -154,7 +154,7 @@ namespace ConsoleGUI
             }
         }
 
-        private static void PrintAllLogdinNow(User user)
+        private static void PrintAllLoggedinNow(User user)
         {
             ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
             if (onlineUsers.Count == 1)
@@ -169,7 +169,7 @@ namespace ConsoleGUI
                 {
                     Console.WriteLine("Id:{0} Name: {1}", onlineUser.Id, onlineUser.Username);
                 }
-                System.Console.WriteLine("press any key to countinue..");
+                System.Console.WriteLine("press any key to continue..");
                 Console.ReadKey(true);
             }
 
@@ -179,7 +179,7 @@ namespace ConsoleGUI
         {
             Console.WriteLine("[1] See Bios of those I follow");
             Console.WriteLine("[2] Send Mail to a friend");
-            Console.WriteLine("[3] My Mail Conversation"); 
+            Console.WriteLine("[3] My Mail Conversation");
             Console.WriteLine();
             userKey = Console.ReadKey(true).Key;
             switch (userKey)
