@@ -15,7 +15,7 @@ namespace Twitter.Blazor.Server.Data
 
         public IEnumerable<User> UserSearch { get; private set; } = new List<User>();
 
-        public IEnumerable<Tuple<string, string, int>> Messages { get; private set; } = new List<Tuple<string, string, int>>();
+        public IEnumerable<Tuple<string, PrivateMessage>> Messages { get; private set; } = new List<Tuple<string, PrivateMessage>>();
 
         public TweetTyp TweetType
         {
@@ -90,7 +90,15 @@ namespace Twitter.Blazor.Server.Data
                 {
                     try
                     {
-                        Messages = userManager.GetUserMail(LoginUser);
+                        //Messages = userManager.GetUserMail(LoginUser);
+                        if (LoginUser != null && UserCheck != null)
+                        {
+                            Messages = userManager.GetMailConven(LoginUser, UserCheck.Id);
+                        }
+                        else if (LoginUser != null)
+                        {
+                            //Messages = userManager.
+                        }
                     }
                     catch (Exception)
                     {
@@ -175,7 +183,7 @@ namespace Twitter.Blazor.Server.Data
                     UserManager userManager = new UserManager();
                     IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
                     IEnumerable<User> NewUser = new List<User>();
-                    IEnumerable<Tuple<string, string, int>> newMessages = new List<Tuple<string, string, int>>();
+                    IEnumerable<Tuple<string, PrivateMessage>> newMessages = new List<Tuple<string, PrivateMessage>>();
 
                     switch (TweetType)
                     {
@@ -204,15 +212,14 @@ namespace Twitter.Blazor.Server.Data
                         default:
                             break;
                     }
-                    if (LoginUser != null)
+                    if (LoginUser != null && UserCheck != null)
                     {
-                        newMessages = userManager.GetUserMail(LoginUser);
+                        newMessages = userManager.GetMailConven(LoginUser, UserCheck.Id);
                     }
-
                     HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
                     HashSet<int> userComper = new HashSet<int>(UserSearch.Select(x => x.Id));
-                    HashSet<int> messageComper = new HashSet<int>(Messages.Select(x => x.Item3));
-                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item3)))
+                    HashSet<int> messageComper = new HashSet<int>(Messages.Select(x => x.Item2.Id));
+                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item2.Id)))
                     {
                         Tweets = NewTweets;
                         UserSearch = NewUser;
