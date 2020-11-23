@@ -193,7 +193,7 @@ namespace ConsoleGUI
             {
                 Console.WriteLine("[1] Send Mail to a friend");
                 Console.WriteLine("[2] My Mail Conversation");
-                Console.WriteLine("[Esc] Back yo menu");
+                Console.WriteLine("[Esc] Back to menu");
                 Console.WriteLine();
                 userKey = Console.ReadKey(true).Key;
                 switch (userKey)
@@ -239,7 +239,16 @@ namespace ConsoleGUI
                         print = false;
                         System.Console.Write("Send your message to " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMessage(message, user, idAndName.Item2);
+                        try
+                        {
+                            userManager.SendMessage(message, user, idAndName.Item2);
+                        }
+                        catch(System.Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            break;
+                        }
+
                         System.Console.WriteLine("Message has been sent!");
                         break;
                     }
