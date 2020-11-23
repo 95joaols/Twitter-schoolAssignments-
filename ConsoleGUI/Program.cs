@@ -409,6 +409,8 @@ namespace ConsoleGUI
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
+            bool isSuccessfulUserCreate = true;
+
             try
             {
                 loginSystem.CreateUser(username, password);
@@ -416,8 +418,13 @@ namespace ConsoleGUI
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                isSuccessfulUserCreate = false;
             }
-            System.Console.WriteLine("User created");
+
+            if (isSuccessfulUserCreate)
+                System.Console.WriteLine("User created!");
+            else if (!isSuccessfulUserCreate)
+                System.Console.WriteLine("No new user was not created.");
         }
 
         public static void PrintHeadMenu()
