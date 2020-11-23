@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ConsoleGUI;
+using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
 {

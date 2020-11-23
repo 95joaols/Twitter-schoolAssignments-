@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using ConsoleGUI;
+using TwitterCore;
 
 
 namespace Twitter.Blazor.Server.Data

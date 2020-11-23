@@ -1,6 +1,6 @@
 using System;
 
-namespace ConsoleGUI
+namespace TwitterCore
 {
     public class Tweet
     {

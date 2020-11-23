@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConsoleGUI;
+using TwitterCore;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Grupparbete
+namespace ConsoleGUI
 {
     class Program
     {
@@ -409,7 +409,14 @@ namespace Grupparbete
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
-            loginSystem.CreateUser(username, password);
+            try
+            {
+                loginSystem.CreateUser(username, password);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             System.Console.WriteLine("User created");
         }
 
