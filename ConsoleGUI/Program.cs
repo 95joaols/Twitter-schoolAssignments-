@@ -105,6 +105,7 @@ namespace ConsoleGUI
                 Console.WriteLine("[5] My profile");
                 Console.WriteLine("[6] My inbox");
                 Console.WriteLine("[7] See online users");
+                Console.WriteLine("[7] See Friends bio");
                 Console.WriteLine("[Esc] Logout");
                 Console.WriteLine();
 
@@ -142,6 +143,9 @@ namespace ConsoleGUI
                     case ConsoleKey.D7:
                         PrintAllLoggedinNow(user);
                         break;
+                    case ConsoleKey.D8:
+                        PrintBiosOfFriends(user);
+                        break;
                     case ConsoleKey.Escape:
                         loginSystem.LogOutUser(user);
                         PrintHeadMenu();
@@ -177,25 +181,29 @@ namespace ConsoleGUI
 
         private static void PrintUserInBox(User user)
         {
-            Console.WriteLine("[1] See Bios of those I follow");
-            Console.WriteLine("[2] Send Mail to a friend");
-            Console.WriteLine("[3] My Mail Conversation");
-            Console.WriteLine();
-            userKey = Console.ReadKey(true).Key;
-            switch (userKey)
+            bool running = true;
+            while (running)
             {
-                case ConsoleKey.D1:
-                    PrintBiosOfFriends(user);
-                    break;
-                case ConsoleKey.D2:
-                    PrintSendMailMenu(user);
-                    break;
-                case ConsoleKey.D3:
-                    ChoseMailConversationOfUser(user);
-                    break;
-                default:
-                    System.Console.WriteLine("Invalid choice");
-                    break;
+                Console.WriteLine("[1] Send Mail to a friend");
+                Console.WriteLine("[2] My Mail Conversation");
+                Console.WriteLine("[Esc] Back yo menu");
+                Console.WriteLine();
+                userKey = Console.ReadKey(true).Key;
+                switch (userKey)
+                {
+                    case ConsoleKey.D1:
+                        PrintSendMailMenu(user);
+                        break;
+                    case ConsoleKey.D2:
+                        ChoseMailConversationOfUser(user);
+                        break;
+                    case ConsoleKey.Escape:
+                        running = false;
+                        break;
+                    default:
+                        System.Console.WriteLine("Invalid choice");
+                        break;
+                }
             }
         }
 
