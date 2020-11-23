@@ -32,7 +32,7 @@ namespace TwitterCore
                 };
                 db.AddUserToDb(user);
             }
-            else
+            else 
                 throw new Exception("Username/password cannot be blank. Username and password must be under 50 characters.");
         }
 

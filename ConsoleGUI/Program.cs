@@ -448,22 +448,37 @@ namespace ConsoleGUI
             string password = Console.ReadLine();
             bool isSuccessfulUserCreate = true;
 
+            // if (username.Length > 50 || password.Length > 50)
+            // {
+            //     Console.WriteLine("The username and/or password can't be longer than 50 characters.");
+            // }
+            // else
+            // {
             try
             {
                 loginSystem.CreateUser(username, password);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                Console.WriteLine(e);
-                isSuccessfulUserCreate = false;
+                if (e.Message.Contains("Violation of UNIQUE KEY"))
+                {
+                    Console.WriteLine("User already exists");
+                    isSuccessfulUserCreate = false;
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                    isSuccessfulUserCreate = false;
+                }
+
             }
 
             if (isSuccessfulUserCreate)
                 System.Console.WriteLine("User created!");
             else if (!isSuccessfulUserCreate)
                 System.Console.WriteLine("No new user was not created.");
+            // }
         }
-
         public static void PrintHeadMenu()
         {
             while (true)
@@ -643,7 +658,7 @@ namespace ConsoleGUI
                             else if (x.Item2.ID == userInt)
                             {
                                 skip = true;
-                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID );
+                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID);
                                 break;
                             }
                         }
