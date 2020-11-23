@@ -79,16 +79,14 @@ namespace ConsoleGUI
                 }
             }
 
-            //var value;
             Tuple<bool, User> value = new Tuple<bool, User>(false, new User());
             try
             {
                 value = loginSystem.LogInUser(username, password);
-                // var value = p;
             }
             catch (Exception e)
             {
-                Console.WriteLine("bitch: " + e);
+                Console.WriteLine(Environment.NewLine + "Error: " + e.Message);
             }
             bool auth = value.Item1;
             User user = value.Item2;
@@ -316,13 +314,11 @@ namespace ConsoleGUI
         private static void PrintMailConversation(User user, int mailToId)
         {
             ReadOnlyCollection<Tuple<string, PrivateMessage>> mailConvo = userManager.GetMailConven(user, mailToId);
-            string friendsName = string.Empty;
             foreach (var m in mailConvo)
             {
-                friendsName = m.Item1;
                 Console.WriteLine("Name: {0} : {1}", m.Item1, m.Item2.Message);
             }
-            System.Console.Write("Press enter to continue, or start typing your message to reply to " + friendsName + ":");
+            System.Console.Write("Press enter to continue, or start typing your message to reply to your friend: ");
             string answer = Console.ReadLine();
             if (answer == string.Empty)
             {
@@ -454,7 +450,7 @@ namespace ConsoleGUI
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Error: " + e.Message);
                 isSuccessfulUserCreate = false;
             }
 
@@ -622,9 +618,9 @@ namespace ConsoleGUI
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
                     {
-                        Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
+                        Console.WriteLine("{0}, {1}: {2} {3}",x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
                     }
-                    Console.Write("Press enter to continue, or write an id to follow: ");
+                    Console.Write("Press enter to continue, or write an id to retweet: ");
                     string userInput = Console.ReadLine();
                     bool success = Int32.TryParse(userInput, out int userInt);
                     if (userInput == string.Empty)
@@ -644,6 +640,7 @@ namespace ConsoleGUI
                             {
                                 skip = true;
                                 tweetManager.Retweet(loggedInUser.Id, x.Item2.ID );
+                                System.Console.WriteLine("You have retweeted the tweet, its now on your bio also");
                                 break;
                             }
                         }
