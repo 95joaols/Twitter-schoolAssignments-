@@ -22,7 +22,7 @@
                         }
                         <div class="form-group">
                             <label for="Message">Message: </label>
-                            <InputTextArea id="Message" class="form-control" @bind-Value="@Tweet.Message"></InputTextArea>
+                            <InputTextArea id="Message" class="form-control" maxlength ="100" @bind-Value="@Tweet.Message"></InputTextArea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Create</button>
