@@ -1,4 +1,4 @@
-namespace ConsoleGUI
+namespace TwitterCore
 {
     public class User
     {
