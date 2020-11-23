@@ -185,7 +185,7 @@ namespace Twitter.Blazor.Server.Data
                     IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
                     IEnumerable<User> NewUser = new List<User>();
                     IEnumerable<Tuple<string, PrivateMessage>> newMessages = new List<Tuple<string, PrivateMessage>>();
-                     IEnumerable<Tuple<string, string, int>> NewConversation = new List<Tuple<string, string, int>>();
+                    IEnumerable<Tuple<string, int>> NewConversation = new List<Tuple<string, int>>();
 
                     switch (TweetType)
                     {
