@@ -229,7 +229,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Send your message to " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message, user, idAndName.Item2);
+                        userManager.SendMessage(message, user, idAndName.Item2);
                         System.Console.WriteLine("Message has been sent!");
                         break;
                     }
@@ -301,7 +301,7 @@ namespace Grupparbete
             }
             else
             {
-                userManager.SendMassage(answer, user, mailToId);
+                userManager.SendMessage(answer, user, mailToId);
                 System.Console.WriteLine("Message has been sent!");
             }
         }
@@ -331,7 +331,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Send a message to " + mail.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message, user, mail.Item3);
+                        userManager.SendMessage(message, user, mail.Item3);
                         System.Console.WriteLine("Message has been sent");
                         break;
                     }
