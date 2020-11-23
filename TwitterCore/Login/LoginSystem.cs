@@ -30,7 +30,22 @@ namespace TwitterCore
                 {
                     PasswordSalt = salt
                 };
-                db.AddUserToDb(user);
+                try
+                {
+                    db.AddUserToDb(user);
+
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.Contains("Violation of UNIQUE KEY"))
+                    {
+                        throw new Exception("User already exists");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
             else
                 throw new Exception("Username/password cannot be blank. Username and password must be under 50 characters.");
@@ -62,7 +77,7 @@ namespace TwitterCore
                 userID = user.Id;
                 loggedInUser = user;
                 _user = user;
-                
+
                 db.SetUserLogdIn(user);
             }
             else
@@ -70,7 +85,7 @@ namespace TwitterCore
                 throw new Exception("The username or password is wrong");
             }
 
-            return new Tuple<bool,User>(LoginSuccessful, loggedInUser);
+            return new Tuple<bool, User>(LoginSuccessful, loggedInUser);
         }
 
         public void LogOutUser(User user)

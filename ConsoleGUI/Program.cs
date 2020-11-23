@@ -426,10 +426,19 @@ namespace ConsoleGUI
             {
                 loginSystem.CreateUser(username, password);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
-                isSuccessfulUserCreate = false;
+                if (e.Message.Contains("Violation of UNIQUE KEY"))
+                {
+                    Console.WriteLine("User already exists");
+                    isSuccessfulUserCreate = false;
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                    isSuccessfulUserCreate = false;
+                }
+
             }
 
             if (isSuccessfulUserCreate)
@@ -437,7 +446,6 @@ namespace ConsoleGUI
             else if (!isSuccessfulUserCreate)
                 System.Console.WriteLine("No new user was not created.");
         }
-
         public static void PrintHeadMenu()
         {
             while (true)
