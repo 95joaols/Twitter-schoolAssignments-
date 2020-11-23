@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
+using Twitter.Blazor.Server.Components.Dialog;
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Pages
@@ -14,6 +15,8 @@ namespace Twitter.Blazor.Server.Pages
 
         [Parameter]
         public string UserId { get; set; }
+
+        protected MessageDialog MessageDialog { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -48,6 +51,13 @@ namespace Twitter.Blazor.Server.Pages
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() => StateHasChanged());
+        }
+
+        
+        protected void SendMessage()
+        {
+
+            MessageDialog.Show();
         }
     }
 }

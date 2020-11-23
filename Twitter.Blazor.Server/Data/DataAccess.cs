@@ -127,6 +127,7 @@ namespace Twitter.Blazor.Server.Data
         }
         public void Update()
         {
+            OnSync(null,null);
             NotifyDataChanged.Invoke();
         }
 
@@ -224,9 +225,9 @@ namespace Twitter.Blazor.Server.Data
                     }
                     HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
                     HashSet<int> userComper = new HashSet<int>(UserSearch.Select(x => x.Id));
-                    HashSet<int> messageComper = new HashSet<int>(Messages.Select(x => x.Item2.Id));
+                    HashSet<string> messageComper = new HashSet<string>(Messages.Select(x => x.Item2.Message));
                     HashSet<int> ConversationComper = new HashSet<int>(Conversation.Select(x => x.Item2));
-                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item2.Id)) || !ConversationComper.SetEquals(NewConversation.Select(x => x.Item2)))
+                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item2.Message)) || !ConversationComper.SetEquals(NewConversation.Select(x => x.Item2)))
                     {
                         Tweets = NewTweets;
                         UserSearch = NewUser;
