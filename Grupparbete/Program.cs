@@ -54,7 +54,7 @@ namespace Grupparbete
 
                 if (inputKey.Key == ConsoleKey.Enter)
                     break;
-                
+
                 else if (inputKey.Key == ConsoleKey.Backspace && password.Length == 0)
                 {
                     Console.Clear();
@@ -66,8 +66,8 @@ namespace Grupparbete
                 {
                     Console.Clear();
                     Console.WriteLine("Username: " + username);
-                    password = password.Remove (password.Length - 1);
-                    passwordDots = passwordDots.Remove (passwordDots.Length - 1);
+                    password = password.Remove(password.Length - 1);
+                    passwordDots = passwordDots.Remove(passwordDots.Length - 1);
                     Console.Write("Password: " + passwordDots);
                 }
 
@@ -157,7 +157,7 @@ namespace Grupparbete
         private static void PrintAllLogdinNow(User user)
         {
             ReadOnlyCollection<User> onlineUsers = userManager.GetOnlineUser();
-            if(onlineUsers.Count == 1)
+            if (onlineUsers.Count == 1)
             {
                 System.Console.WriteLine("Only you are online, press any key to countinue..");
                 Console.ReadKey(true);
@@ -172,14 +172,15 @@ namespace Grupparbete
                 System.Console.WriteLine("press any key to countinue..");
                 Console.ReadKey(true);
             }
-           
+
         }
 
         private static void PrintUserInBox(User user)
         {
             Console.WriteLine("[1] See Bios of those I follow");
             Console.WriteLine("[2] Send Mail to one I follow");
-            Console.WriteLine("[3] My InBox");
+            Console.WriteLine("[3] My InBox"); // denna blir väl överföldig
+            Console.WriteLine("[4] My Mail Conversation ");
             Console.WriteLine();
             userKey = Console.ReadKey(true).Key;
             switch (userKey)
@@ -192,6 +193,9 @@ namespace Grupparbete
                     break;
                 case ConsoleKey.D3:
                     PrintMyInbox(user);
+                    break;
+                case ConsoleKey.D4:
+                    ChoseMailConversationOfUser(user);
                     break;
 
                 default:
@@ -240,6 +244,66 @@ namespace Grupparbete
                 Console.WriteLine("Du skrev inte in en siffra!");
             }
 
+        }
+
+        private static void ChoseMailConversationOfUser(User user)
+        {
+            ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user);
+            foreach (var mail in myMail)
+            {
+                Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
+            }
+            System.Console.WriteLine("Tryck på Enter för att fortsätta. Eller välj ett Id för att svara på mail: ");
+            string foo = Console.ReadLine();
+            bool success = Int32.TryParse(foo, out int idChoiche);
+            if (foo == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else if (success)
+            {
+                bool print = true;
+                foreach (var mail in myMail)
+                {
+                    if (mail.Item3 == idChoiche)
+                    {
+                        print = false;
+                        PrintMailConversation(user, idChoiche);
+
+                    }
+                }
+                if (print == true)
+                {
+                    System.Console.WriteLine("Detta Id fanns inte in din inbox");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Du skrev inte in en siffra!");
+            }
+
+        }
+
+        private static void PrintMailConversation(User user, int mailToId)
+        {
+            ReadOnlyCollection<Tuple<string, PrivateMessage>> mailConvo = userManager.GetMailConven(user, mailToId);
+            string friendsName = string.Empty;
+            foreach (var m in mailConvo)
+            {
+                friendsName = m.Item1;
+                Console.WriteLine("Name: {1} : {2}", m.Item1, m.Item2.Message);
+            }
+            System.Console.WriteLine("Tryck på Enter för att fortsätta. Eller börja skriv för att svara till " + friendsName + ":");
+            string answer = Console.ReadLine();
+            if (answer == string.Empty)
+            {
+                System.Console.WriteLine("tillbaka till meny");
+            }
+            else
+            {
+                userManager.SendMassage(answer, user, mailToId);
+                System.Console.WriteLine("Meddelandet skickat");
+            }
         }
 
         private static void PrintMyInbox(User user)

@@ -274,6 +274,26 @@ namespace TwitterCore
             return following;
         }
 
+        public List<Tuple<string, PrivateMessage>> GetUserMailFromDbfoo(User user, int userToId)
+        {
+            List<Tuple<string,PrivateMessage>> following = new List<Tuple<string,PrivateMessage>>();
+            using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
+            {
+                var foo = connection.Query(@"select UserFromId, UserToId, MailFrom.Username, Message 
+                from PrivateMessage
+                inner join [User] as MailFrom on MailFrom.Id = PrivateMessage.UserFromId
+                inner join [User] as MailTo on MailTo.Id = PrivateMessage.UserToId where MailTo.Id = " + user.Id + " or UserToId  = " + userToId);
+                foreach (var item in foo)
+                {
+                    following.Add(new Tuple<string,PrivateMessage>(
+                        (string)item.Username,
+                         new PrivateMessage { UserFromId = item.UserFromId, UserToId = item.UserToId, Message = item.Message}));
+                }
+            }
+
+            return following;
+        }
+
         public IEnumerable<User> GetFriendsBioFromDb(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
