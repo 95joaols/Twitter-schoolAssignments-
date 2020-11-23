@@ -5,7 +5,7 @@ using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components.Dialog
 {
-    public partial class Message
+    public partial class MessageDialog
     {
         [Parameter]
         public string Nameto { get; set; }
@@ -39,6 +39,7 @@ namespace Twitter.Blazor.Server.Components.Dialog
 
                         HasError = false;
                         ShowDialog = false;
+                        DataAccess.Update();
                     }
                     catch (System.Exception)
                     {

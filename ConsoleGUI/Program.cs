@@ -113,7 +113,7 @@ namespace ConsoleGUI
                 Console.WriteLine("[5] My profile");
                 Console.WriteLine("[6] My inbox");
                 Console.WriteLine("[7] See online users");
-                Console.WriteLine("[7] See Friends bio");
+                Console.WriteLine("[8] See Friends bio");
                 Console.WriteLine("[Esc] Logout");
                 Console.WriteLine();
 
@@ -121,8 +121,10 @@ namespace ConsoleGUI
                 switch (userKey)
                 {
                     case ConsoleKey.D1:
+                        Console.Clear();
                         Console.Write("Write Tweet: ");
                         string tweet = Console.ReadLine();
+                        Console.Clear();
                         if (String.IsNullOrEmpty(tweet))
                         {
                             Console.WriteLine("You can't post an empty tweet");
@@ -132,6 +134,7 @@ namespace ConsoleGUI
                             try
                             {
                                 tweetManager.CreateTweet(tweet, user.Id);
+                                Console.WriteLine("Tweet posted");
                             }
                             catch (System.Exception e)
                             {
@@ -196,6 +199,7 @@ namespace ConsoleGUI
 
         private static void PrintUserInBox(User user)
         {
+            Console.Clear();
             bool running = true;
             while (running)
             {
@@ -275,6 +279,7 @@ namespace ConsoleGUI
 
         private static void ChooseMailConversationOfUser(User user)
         {
+            Console.Clear();
             ReadOnlyCollection<Tuple<string, int>> myMail = userManager.GetUserMail(user);
             foreach (var mail in myMail)
             {
@@ -313,6 +318,7 @@ namespace ConsoleGUI
 
         private static void PrintMailConversation(User user, int mailToId)
         {
+            Console.Clear();
             ReadOnlyCollection<Tuple<string, PrivateMessage>> mailConvo = userManager.GetMailConven(user, mailToId);
             foreach (var m in mailConvo)
             {
@@ -339,49 +345,9 @@ namespace ConsoleGUI
             }
         }
 
-        // private static void PrintMyInbox(User user)
-        // {
-        //     ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user); //1 username, 2 message, 3 id
-        //     foreach (var mail in myMail)
-        //     {
-        //         Console.WriteLine("Id:{0} Name: {1} : {2}", mail.Item3, mail.Item1, mail.Item2);
-        //     }
-        //     Console.WriteLine();
-        //     System.Console.Write("Press enter to continue, or enter an Id to reply to: ");
-        //     string userInput = Console.ReadLine();
-        //     bool success = Int32.TryParse(userInput, out int idChoice);
-        //     if (userInput == string.Empty)
-        //     {
-        //         System.Console.WriteLine("Back to menu");
-        //     }
-        //     else if (success)
-        //     {
-        //         bool print = true;
-        //         foreach (var mail in myMail)
-        //         {
-        //             if (mail.Item3 == idChoice)
-        //             {
-        //                 print = false;
-        //                 System.Console.Write("Send a message to " + mail.Item1 + ": ");
-        //                 string message = Console.ReadLine();
-        //                 userManager.SendMessage(message, user, mail.Item3);
-        //                 System.Console.WriteLine("Message has been sent");
-        //                 break;
-        //             }
-        //         }
-        //         if (print == true)
-        //         {
-        //             System.Console.WriteLine("This Id could not be found in your inbox!");
-        //         }
-        //     }
-        //     else
-        //     {
-        //         Console.WriteLine("You did not write a number!");
-        //     }
-        // }
-
         private static void PrintBiosOfFriends(User user)
         {
+            Console.Clear();
             IEnumerable<User> friends = userManager.GetFriendsBio(user);
             System.Console.WriteLine("These are your friends biographies!\n");
             foreach (User friend in friends)
@@ -397,6 +363,7 @@ namespace ConsoleGUI
 
         private static void PrintOthersTweets(User user)
         {
+            Console.Clear();
             ReadOnlyCollection<Tuple<string, Tweet>> tweets = tweetManager.GetOthersTweets(user);
             foreach (var tweet in tweets)
             {
@@ -406,6 +373,7 @@ namespace ConsoleGUI
             Console.WriteLine();
             System.Console.Write("Press enter to continue, or choose a TweetId to retweet: ");
             string userInput = Console.ReadLine();
+            Console.Clear();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
             {
@@ -437,6 +405,7 @@ namespace ConsoleGUI
 
         private static void CreateUserMenu()
         {
+            Console.Clear();
             System.Console.WriteLine("Create a user");
             System.Console.Write("Write a username: ");
             string username = Console.ReadLine();
@@ -499,6 +468,7 @@ namespace ConsoleGUI
 
         private static void PrintYourBioAndTweets(User user)
         {
+            Console.Clear();
             System.Console.WriteLine("Bio: ");
             System.Console.WriteLine(user.Biography);
             Console.WriteLine();
@@ -516,6 +486,7 @@ namespace ConsoleGUI
             System.Console.WriteLine("Type [R] to see your retweets");
             System.Console.Write("Or type and Id for a Tweet to delete it: ");
             string userInput = Console.ReadLine();
+            Console.Clear();
             bool success = Int32.TryParse(userInput, out int idChoice);
             if (userInput == string.Empty)
             {
@@ -556,8 +527,8 @@ namespace ConsoleGUI
 
         public static void SearchTweetsOrUsers(User loggedInUser)
         {
+            Console.Clear();
             bool isSearching = true;
-
             while (isSearching)
             {
                 Console.WriteLine("[1] Search users");
@@ -618,7 +589,7 @@ namespace ConsoleGUI
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
                     {
-                        Console.WriteLine("{0}, {1}: {2} {3}",x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
+                        Console.WriteLine("{0}, {1}: {2} {3}", x.Item2.ID, x.Item1, x.Item2.Message, x.Item2.CreateDate);
                     }
                     Console.Write("Press enter to continue, or write an id to retweet: ");
                     string userInput = Console.ReadLine();
@@ -639,7 +610,7 @@ namespace ConsoleGUI
                             else if (x.Item2.ID == userInt)
                             {
                                 skip = true;
-                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID );
+                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID);
                                 System.Console.WriteLine("You have retweeted the tweet, its now on your bio also");
                                 break;
                             }
@@ -654,37 +625,6 @@ namespace ConsoleGUI
                         Console.WriteLine("You did not write a number!");
                     }
                 }
-
-
-
-                // {
-                //     Console.Write(Environment.NewLine + "Search: ");
-                //     string searchString = Console.ReadLine();               // What tweet to search for.
-
-                //     ReadOnlyCollection<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
-
-                //     Console.WriteLine();
-                //     foreach (var x in fetchedTweets)
-                //         Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
-
-                //     Console.WriteLine(Environment.NewLine + "[1] Retweet");
-                //     Console.WriteLine("[Any button] Return to search.");
-                //     Console.Write("Option: ");
-                //     userKey = Console.ReadKey(false).Key;
-
-                //     if (userKey == ConsoleKey.D1)
-                //     {
-                //         for (int i = 0; i < fetchedTweets.Count; i++)
-                //         {
-                //             Console.WriteLine("[{0}] {1} : \"{2}\"", i, fetchedTweets[i].Item1, fetchedTweets[i].Item2.Message);
-                //         }
-                //         Console.Write(Environment.NewLine + "Choose an Id to retweet: ");
-                //         int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                //         Console.WriteLine("You retweeted \"" + fetchedTweets[userKeyInt].Item2.Message + "\" (Tweet Id: " + fetchedTweets[userKeyInt].Item2.ID + ").");
-                //         tweetManager.Retweet(loggedInUser.Id, fetchedTweets[userKeyInt].Item2.ID);
-                //     }
-                // }
-
                 else if (userKey == ConsoleKey.Escape)
                 {
                     isSearching = false;
@@ -694,31 +634,47 @@ namespace ConsoleGUI
 
         public static void UserSettingsMenu(User user)
         {
-            Console.WriteLine("Choose a menu option: ");
-            Console.WriteLine("[1] Set/change your firstname");
-            Console.WriteLine("[2] Set/change your lastname");
-            Console.WriteLine("[3] Set/change your biography");
-
-            userKey = Console.ReadKey(true).Key;
-
-            switch (userKey)
+            bool running = true;
+            while (running)
             {
-                case ConsoleKey.D1:
-                    Console.WriteLine("Firstname: ");
-                    string input = Console.ReadLine();
-                    userManager.UpdateFirstnameUser(user, input);
-                    break;
-                case ConsoleKey.D2:
-                    Console.WriteLine("Lastname: ");
-                    input = Console.ReadLine();
-                    userManager.UpdateLastnameUser(user, input);
-                    break;
-                case ConsoleKey.D3:
-                    Console.Write("Write your bio: ");
-                    input = Console.ReadLine();
-                    userManager.AddBioToUser(input, user);
-                    break;
+                Console.Clear();
+                Console.WriteLine("Choose a menu option: ");
+                Console.WriteLine("[1] Set/change your firstname");
+                Console.WriteLine("[2] Set/change your lastname");
+                Console.WriteLine("[3] Set/change your biography");
+                Console.WriteLine("[Esc] Return to menu");
+
+
+                userKey = Console.ReadKey(true).Key;
+
+                switch (userKey)
+                {
+                    case ConsoleKey.D1:
+                        Console.WriteLine("Firstname: ");
+                        string input = Console.ReadLine();
+                        userManager.UpdateFirstnameUser(user, input);
+                        break;
+                    case ConsoleKey.D2:
+                        Console.WriteLine("Lastname: ");
+                        input = Console.ReadLine();
+                        userManager.UpdateLastnameUser(user, input);
+                        break;
+                    case ConsoleKey.D3:
+                        Console.Write("Write your bio: ");
+                        input = Console.ReadLine();
+                        Console.Clear();
+                        userManager.AddBioToUser(input, user);
+                        break;
+                    case ConsoleKey.Escape:
+                        running = false;
+                        System.Console.WriteLine("Back to menu\n");
+                        break;
+                    default:
+                        System.Console.WriteLine("\nInvalid input\n");
+                        break;
+                }
             }
+
         }
 
         public static void RetweetMenu(User user)
