@@ -84,7 +84,7 @@ namespace ConsoleGUI
             try
             {
                 value = loginSystem.LogInUser(username, password);
-               // var value = p;
+                // var value = p;
             }
             catch (Exception e)
             {
@@ -277,10 +277,10 @@ namespace ConsoleGUI
 
         private static void ChooseMailConversationOfUser(User user)
         {
-            ReadOnlyCollection<Tuple<string, string, int>> myMail = userManager.GetUserMail(user);
+            ReadOnlyCollection<Tuple<string, int>> myMail = userManager.GetUserMail(user);
             foreach (var mail in myMail)
             {
-                Console.WriteLine("Id:{0} Name: {1}", mail.Item3, mail.Item1);
+                Console.WriteLine("Id:{0} Name: {1}", mail.Item2, mail.Item1);
             }
             System.Console.Write("Press enter to continue or type an Id to reply to that message: ");
             string userInput = Console.ReadLine();
@@ -294,7 +294,7 @@ namespace ConsoleGUI
                 bool print = true;
                 foreach (var mail in myMail)
                 {
-                    if (mail.Item3 == idChoice)
+                    if (mail.Item2 == idChoice)
                     {
                         print = false;
                         PrintMailConversation(user, idChoice);
@@ -578,7 +578,7 @@ namespace ConsoleGUI
                     Console.WriteLine();
                     foreach (User x in fetchedUsers)
                     {
-                        Console.WriteLine("{0} {1} ------- {2} {3}",x.Id, x.Username, x.Firstname, x.Lastname);
+                        Console.WriteLine("{0} {1} ------- {2} {3}", x.Id, x.Username, x.Firstname, x.Lastname);
                         Console.WriteLine("  Biography: {0}", x.Biography);
                     }
                     Console.Write("Press enter to continue, or write an id to follow: ");
@@ -618,30 +618,75 @@ namespace ConsoleGUI
                 {
                     Console.Write(Environment.NewLine + "Search: ");
                     string searchString = Console.ReadLine();               // What tweet to search for.
-
                     ReadOnlyCollection<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
-
                     Console.WriteLine();
                     foreach (var x in fetchedTweets)
-                        Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
-
-                    Console.WriteLine(Environment.NewLine + "[1] Retweet");
-                    Console.WriteLine("[Any button] Return to search.");
-                    Console.Write("Option: ");
-                    userKey = Console.ReadKey(false).Key;
-
-                    if (userKey == ConsoleKey.D1)
                     {
-                        for (int i = 0; i < fetchedTweets.Count; i++)
+                        Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
+                    }
+                    Console.Write("Press enter to continue, or write an id to follow: ");
+                    string userInput = Console.ReadLine();
+                    bool success = Int32.TryParse(userInput, out int userInt);
+                    if (userInput == string.Empty)
+                    {
+                        break;
+                    }
+                    else if (success)
+                    {
+                        bool skip = false;
+                        foreach (var x in fetchedTweets)
                         {
-                            Console.WriteLine("[{0}] {1} : \"{2}\"", i, fetchedTweets[i].Item1, fetchedTweets[i].Item2.Message);
+                            if (x.Item2.ID != userInt)
+                            {
+                                continue;
+                            }
+                            else if (x.Item2.ID == userInt)
+                            {
+                                skip = true;
+                                tweetManager.Retweet(loggedInUser.Id, x.Item2.ID );
+                                break;
+                            }
                         }
-                        Console.Write(Environment.NewLine + "Choose an Id to retweet: ");
-                        int userKeyInt = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("You retweeted \"" + fetchedTweets[userKeyInt].Item2.Message + "\" (Tweet Id: " + fetchedTweets[userKeyInt].Item2.ID + ").");
-                        tweetManager.Retweet(loggedInUser.Id, fetchedTweets[userKeyInt].Item2.ID);
+                        if (skip == false)
+                        {
+                            System.Console.WriteLine("This Id does not exist in this context!");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("You did not write a number!");
                     }
                 }
+
+
+
+                // {
+                //     Console.Write(Environment.NewLine + "Search: ");
+                //     string searchString = Console.ReadLine();               // What tweet to search for.
+
+                //     ReadOnlyCollection<Tuple<string, Tweet>> fetchedTweets = tweetManager.SearchTweets(searchString);
+
+                //     Console.WriteLine();
+                //     foreach (var x in fetchedTweets)
+                //         Console.WriteLine("{0} : \"{1}\" {2}", x.Item1, x.Item2.Message, x.Item2.CreateDate);
+
+                //     Console.WriteLine(Environment.NewLine + "[1] Retweet");
+                //     Console.WriteLine("[Any button] Return to search.");
+                //     Console.Write("Option: ");
+                //     userKey = Console.ReadKey(false).Key;
+
+                //     if (userKey == ConsoleKey.D1)
+                //     {
+                //         for (int i = 0; i < fetchedTweets.Count; i++)
+                //         {
+                //             Console.WriteLine("[{0}] {1} : \"{2}\"", i, fetchedTweets[i].Item1, fetchedTweets[i].Item2.Message);
+                //         }
+                //         Console.Write(Environment.NewLine + "Choose an Id to retweet: ");
+                //         int userKeyInt = Convert.ToInt32(Console.ReadLine());
+                //         Console.WriteLine("You retweeted \"" + fetchedTweets[userKeyInt].Item2.Message + "\" (Tweet Id: " + fetchedTweets[userKeyInt].Item2.ID + ").");
+                //         tweetManager.Retweet(loggedInUser.Id, fetchedTweets[userKeyInt].Item2.ID);
+                //     }
+                // }
 
                 else if (userKey == ConsoleKey.Escape)
                 {

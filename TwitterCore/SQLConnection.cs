@@ -253,25 +253,24 @@ namespace TwitterCore
             }
         }
 
-        public List<Tuple<string, string, int>> GetUserMailFromDb(User user)
+        public List<Tuple<string, int>> GetUserMailFromDb(User user)
         {
-            List<Tuple<string, string, int>> following = new List<Tuple<string, string, int>>();
+            List<Tuple<string, int>> userMailId = new List<Tuple<string, int>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
-                var foo = connection.Query(@"select UserFromId, MailFrom.Username, Message 
+                var foo = connection.Query(@"select distinct UserFromId, MailFrom.Username 
                 from PrivateMessage
                 inner join [User] as MailFrom on MailFrom.Id = PrivateMessage.UserFromId
                 inner join [User] as MailTo on MailTo.Id = PrivateMessage.UserToId where MailTo.Id = " + user.Id);
                 foreach (var item in foo)
                 {
-                    following.Add(new Tuple<string, string, int>(
+                    userMailId.Add(new Tuple<string, int>(
                         (string)item.Username,
-                        (string)item.Message,
                         (int)item.UserFromId));
                 }
             }
 
-            return following;
+            return userMailId;
         }
 
         public List<Tuple<string, PrivateMessage>> GetPrivateMessageConvoFromDb(User user, int userToId)
