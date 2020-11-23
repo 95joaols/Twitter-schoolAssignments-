@@ -56,14 +56,19 @@ namespace Twitter.Blazor.Server.Components
 
         public async Task OnNotifyDataChanged()
         {
-            try
-            {
-                await InvokeAsync(() => StateHasChanged());
-            }
-            catch (System.Exception)
-            {
-            }
-            
+            await InvokeAsync(() =>
+              {
+                  try
+                  {
+
+                      StateHasChanged();
+                  }
+                  catch (System.Exception)
+                  {
+                  }
+              });
+
+
         }
         public async Task OnLoggedIn()
         {

@@ -1,11 +1,14 @@
 ﻿@page "/Message"
 @page "/Message/{userId}"
 
-@if (UserId == null || DataAccess.Messages == null)
+@if (UserId == null && DataAccess.Conversation != null)
 {
-    <p><em>Loading...</em></p>
+    @foreach (var messages in DataAccess.Conversation)
+    {
+        <Conversation MessageP="messages"></Conversation>
+    }
 }
-else
+else if (UserId != null && DataAccess.Messages != null)
 {
     @foreach (var messages in DataAccess.Messages)
     {

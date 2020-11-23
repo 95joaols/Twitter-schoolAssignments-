@@ -16,6 +16,7 @@ namespace Twitter.Blazor.Server.Data
         public IEnumerable<User> UserSearch { get; private set; } = new List<User>();
 
         public IEnumerable<Tuple<string, PrivateMessage>> Messages { get; private set; } = new List<Tuple<string, PrivateMessage>>();
+        public IEnumerable<Tuple<string, string, int>> Conversation { get; private set; } = new List<Tuple<string, string, int>>();
 
         public TweetTyp TweetType
         {
@@ -95,9 +96,9 @@ namespace Twitter.Blazor.Server.Data
                         {
                             Messages = userManager.GetMailConven(LoginUser, UserCheck.Id);
                         }
-                        else if (LoginUser != null)
+                        if (LoginUser != null)
                         {
-                            //Messages = userManager.
+                            Conversation = userManager.GetUserMail(LoginUser);
                         }
                     }
                     catch (Exception)
@@ -184,6 +185,7 @@ namespace Twitter.Blazor.Server.Data
                     IEnumerable<Tuple<string, Tweet>> NewTweets = new List<Tuple<string, Tweet>>();
                     IEnumerable<User> NewUser = new List<User>();
                     IEnumerable<Tuple<string, PrivateMessage>> newMessages = new List<Tuple<string, PrivateMessage>>();
+                     IEnumerable<Tuple<string, string, int>> NewConversation = new List<Tuple<string, string, int>>();
 
                     switch (TweetType)
                     {
@@ -216,14 +218,20 @@ namespace Twitter.Blazor.Server.Data
                     {
                         newMessages = userManager.GetMailConven(LoginUser, UserCheck.Id);
                     }
+                    if (LoginUser != null)
+                    {
+                        NewConversation = userManager.GetUserMail(LoginUser);
+                    }
                     HashSet<int> tweetComper = new HashSet<int>(Tweets.Select(x => x.Item2.ID));
                     HashSet<int> userComper = new HashSet<int>(UserSearch.Select(x => x.Id));
                     HashSet<int> messageComper = new HashSet<int>(Messages.Select(x => x.Item2.Id));
-                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item2.Id)))
+                    HashSet<int> ConversationComper = new HashSet<int>(Conversation.Select(x => x.Item3));
+                    if (!tweetComper.SetEquals(NewTweets.Select(x => x.Item2.ID)) || !userComper.SetEquals(NewUser.Select(x => x.Id)) || !messageComper.SetEquals(newMessages.Select(x => x.Item2.Id)) || !ConversationComper.SetEquals(NewConversation.Select(x => x.Item3)))
                     {
                         Tweets = NewTweets;
                         UserSearch = NewUser;
                         Messages = newMessages;
+                        Conversation = NewConversation;
                         NotifyDataChanged?.Invoke();
                     }
                 }
