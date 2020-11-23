@@ -79,7 +79,17 @@ namespace ConsoleGUI
                 }
             }
 
-            var value = loginSystem.LogInUser(username, password);
+            //var value;
+            Tuple<bool, User> value = new Tuple<bool, User>(false, new User());
+            try
+            {
+                value = loginSystem.LogInUser(username, password);
+               // var value = p;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("bitch: " + e);
+            }
             bool auth = value.Item1;
             User user = value.Item2;
             if (auth)
