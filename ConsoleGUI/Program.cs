@@ -4,7 +4,7 @@ using TwitterCore;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Grupparbete
+namespace ConsoleGUI
 {
     class Program
     {
@@ -189,7 +189,7 @@ namespace Grupparbete
                     PrintBiosOfFriends(user);
                     break;
                 case ConsoleKey.D2:
-                    PrintSendMailMenue(user);
+                    PrintSendMailMenu(user);
                     break;
                 case ConsoleKey.D3:
                     PrintMyInbox(user);
@@ -204,7 +204,7 @@ namespace Grupparbete
             }
         }
 
-        private static void PrintSendMailMenue(User user)
+        private static void PrintSendMailMenu(User user)
         {
             ReadOnlyCollection<Tuple<string, int>> following = userManager.GetFollowing(user); // int = UserToUser.FollowingId, samma som User.Id
             System.Console.WriteLine("These are the users that you follow:");
@@ -229,7 +229,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Send your message to " + idAndName.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message, user, idAndName.Item2);
+                        userManager.SendMessage(message, user, idAndName.Item2);
                         System.Console.WriteLine("Message has been sent!");
                         break;
                     }
@@ -301,7 +301,7 @@ namespace Grupparbete
             }
             else
             {
-                userManager.SendMassage(answer, user, mailToId);
+                userManager.SendMessage(answer, user, mailToId);
                 System.Console.WriteLine("Message has been sent!");
             }
         }
@@ -331,7 +331,7 @@ namespace Grupparbete
                         print = false;
                         System.Console.Write("Send a message to " + mail.Item1 + ": ");
                         string message = Console.ReadLine();
-                        userManager.SendMassage(message, user, mail.Item3);
+                        userManager.SendMessage(message, user, mail.Item3);
                         System.Console.WriteLine("Message has been sent");
                         break;
                     }
@@ -409,7 +409,14 @@ namespace Grupparbete
             string username = Console.ReadLine();
             System.Console.Write("Write a password: ");
             string password = Console.ReadLine();
-            loginSystem.CreateUser(username, password);
+            try
+            {
+                loginSystem.CreateUser(username, password);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             System.Console.WriteLine("User created");
         }
 
@@ -476,7 +483,7 @@ namespace Grupparbete
             }
             else if (userInput.ToLower() == "r")
             {
-                RetweetMenue(user);
+                RetweetMenu(user);
             }
             else if (success)
             {
@@ -627,7 +634,7 @@ namespace Grupparbete
             }
         }
 
-        public static void RetweetMenue(User user)
+        public static void RetweetMenu(User user)
         {
             ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
             System.Console.WriteLine("My Retweets: ");
