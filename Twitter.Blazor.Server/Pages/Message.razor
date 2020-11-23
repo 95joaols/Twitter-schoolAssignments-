@@ -1,7 +1,7 @@
 ﻿@page "/Message"
+@page "/Message/{userId}"
 
-
-@if (DataAccess.Messages == null)
+@if (UserId == null || DataAccess.Messages == null)
 {
     <p><em>Loading...</em></p>
 }

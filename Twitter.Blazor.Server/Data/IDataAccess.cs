@@ -9,7 +9,7 @@ namespace Twitter.Blazor.Server.Data
     {
         IEnumerable<Tuple<string, Tweet>> Tweets { get; }
         IEnumerable<User> UserSearch { get; }
-        public IEnumerable<Tuple<string, string, int>> Messages {get;}
+        public IEnumerable<Tuple<string, PrivateMessage>> Messages {get;}
         TweetTyp TweetType { get; set; }
         User GetUser(int id);
         User LoginUser { get; set; }
