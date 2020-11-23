@@ -2,20 +2,20 @@
     <div class="card-body">
         <div class="row">
             <div>
-                <a href="@($"UserProfile/{MessageP.Item3}")">
+                <a href="@($"UserProfile/{MessageP.Item2.UserFromId}")">
                     <h5 class="card-title">@MessageP.Item1</h5>
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p class="card-text">@MessageP.Item2</p>
+                <p class="card-text">@MessageP.Item2.Message</p>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <button @onclick="SendMessage" class="badge badge-pill badge-primary"><i class="fas fa-comment"></i></button>
-                <Message @ref="Message" Idto="@MessageP.Item3" Nameto="@MessageP.Item1"></Message>
+                <Message @ref="Message" Idto="@MessageP.Item2.UserToId" Nameto="@MessageP.Item1"></Message>
             </div>
         </div>
     </div>

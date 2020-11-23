@@ -12,10 +12,18 @@ namespace Twitter.Blazor.Server.Pages
         [Inject]
         NavigationManager NavigationManager { get; set; }
 
+        [Parameter]
+        public string UserId { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             await Task.Run(() =>
             {
+                if (int.TryParse(UserId, out int idUser))
+                {
+                   DataAccess.UserCheck = DataAccess.GetUser(idUser);
+                }
+
                 DataAccess.NotifyDataChanged += OnNotifyDataChanged;
             });
         }
@@ -26,6 +34,14 @@ namespace Twitter.Blazor.Server.Pages
                 if (DataAccess.LoginUser == null)
                 {
                     NavigationManager.NavigateTo("/");
+                }
+                if (int.TryParse(UserId, out int idUser))
+                {
+                    DataAccess.UserCheck = DataAccess.GetUser(idUser);
+                }
+                else
+                {
+                    DataAccess.UserCheck = null;
                 }
             });
         }
