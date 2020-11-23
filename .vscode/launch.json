@@ -12,7 +12,7 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Grupparbete/bin/Debug/net5.0/Grupparbete.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Grupparbete",
+            "cwd": "${workspaceFolder}/ConsoleGUI",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "integratedTerminal",
             "stopAtEntry": false
