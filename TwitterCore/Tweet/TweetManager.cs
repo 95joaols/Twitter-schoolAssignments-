@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
 
-namespace TwitterCore
+namespace ConsoleGUI
 {
     public class TweetManager
     {

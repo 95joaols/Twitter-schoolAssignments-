@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TwitterCore
+namespace ConsoleGUI
 {
     public class LoginSystem
     {

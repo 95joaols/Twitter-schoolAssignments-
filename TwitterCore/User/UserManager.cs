@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System;
 using System.Linq;
 
-namespace TwitterCore
+namespace ConsoleGUI
 {
     public class UserManager
     {

@@ -5,7 +5,7 @@ using Dapper;
 using System.Text.Json;
 using System.IO;
 
-namespace TwitterCore
+namespace ConsoleGUI
 {
     public class JsonLoginClass                 // Used for json-file.
     {

@@ -1,4 +1,4 @@
-﻿using TwitterCore;
+﻿using ConsoleGUI;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Twitter.Blazor.Server.Data;

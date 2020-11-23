@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TwitterCore;
+using ConsoleGUI;
 
 namespace Twitter.Blazor.Server.Data
 {
