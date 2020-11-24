@@ -7,6 +7,11 @@
         <button @onclick="EditUser" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-user-edit"></i></button>
         <EditUserDialog @ref="EditUserDialog" UserLoging="@DataAccess.UserCheck"></EditUserDialog>
     }
+    else if (DataAccess.UserCheck != null)
+    {
+        <button @onclick="SendMessage" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-comment"></i></button>
+        <MessageDialog @ref="MessageDialog" Idto="@DataAccess.UserCheck.Id" Nameto="@DataAccess.UserCheck.Username"></MessageDialog>
+    }
 }
 @if (DataAccess.UserCheck != null)
 {

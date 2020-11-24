@@ -55,7 +55,6 @@ namespace Twitter.Blazor.Server.Pages
 
         protected void SendMessage()
         {
-
             MessageDialog.Show();
         }
     }

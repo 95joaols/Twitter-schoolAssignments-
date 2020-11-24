@@ -15,7 +15,8 @@ namespace Twitter.Blazor.Server.Pages
         [Parameter]
         public string UserId { get; set; }
 
-        EditUserDialog EditUserDialog { get; set; }
+        private EditUserDialog EditUserDialog { get; set; }
+        private MessageDialog MessageDialog { get; set; }
 
         public string FullName
         {
@@ -88,6 +89,10 @@ namespace Twitter.Blazor.Server.Pages
         protected void EditUser()
         {
             EditUserDialog.Show();
+        }
+        protected void SendMessage()
+        {
+            MessageDialog.Show();
         }
     }
 }
