@@ -693,7 +693,7 @@ namespace ConsoleGUI
                         {
                             Console.WriteLine("Error: " + e.Message);
                             Console.WriteLine("Press any key to continue..");
-                            _ = Console.ReadLine();
+                            _ = Console.ReadKey();
                         }
                         break;
                     case ConsoleKey.D2:
@@ -708,7 +708,7 @@ namespace ConsoleGUI
                         {
                             Console.WriteLine("Error: " + e.Message);
                             Console.WriteLine("Press any key to continue..");
-                            _ = Console.ReadLine();
+                            _ = Console.ReadKey();
                         }
                         break;
                     case ConsoleKey.D3:
@@ -723,7 +723,7 @@ namespace ConsoleGUI
                         {
                             Console.WriteLine("Error: " + e.Message);
                             Console.WriteLine("Press any key to continue..");
-                            _ = Console.ReadLine();
+                            _ = Console.ReadKey();
                         }
                         break;
                     case ConsoleKey.Escape:
