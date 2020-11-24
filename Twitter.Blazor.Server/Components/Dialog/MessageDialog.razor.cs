@@ -32,7 +32,6 @@ namespace Twitter.Blazor.Server.Components.Dialog
             {
                 if (!string.IsNullOrWhiteSpace(PrivateMessage.Message))
                 {
-
                     try
                     {
                         new UserManager().SendMessage(PrivateMessage.Message, DataAccess.LoginUser, Idto);
@@ -54,7 +53,6 @@ namespace Twitter.Blazor.Server.Components.Dialog
                 }
                 DataAccess.Loading = false;
             });
-
         }
         public void Show()
         {

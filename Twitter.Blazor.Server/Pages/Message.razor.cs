@@ -24,7 +24,7 @@ namespace Twitter.Blazor.Server.Pages
             {
                 if (int.TryParse(UserId, out int idUser))
                 {
-                   DataAccess.UserCheck = DataAccess.GetUser(idUser);
+                    DataAccess.UserCheck = DataAccess.GetUser(idUser);
                 }
 
                 DataAccess.NotifyDataChanged += OnNotifyDataChanged;
@@ -53,7 +53,6 @@ namespace Twitter.Blazor.Server.Pages
             await InvokeAsync(() => StateHasChanged());
         }
 
-        
         protected void SendMessage()
         {
 

@@ -11,6 +11,5 @@ namespace Twitter.Blazor.Server.Components
     {
         [Parameter]
         public Tuple<string, int> MessageP { get; set; }
-
     }
 }

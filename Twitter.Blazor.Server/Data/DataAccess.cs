@@ -1,11 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using TwitterCore;
-
 
 namespace Twitter.Blazor.Server.Data
 {
@@ -106,7 +104,6 @@ namespace Twitter.Blazor.Server.Data
                     }
                 }
 
-
                 Timer timer = new Timer(5000);
                 timer.Elapsed += OnSync;
                 timer.AutoReset = true;
@@ -127,7 +124,7 @@ namespace Twitter.Blazor.Server.Data
         }
         public void Update()
         {
-            OnSync(null,null);
+            OnSync(null, null);
             NotifyDataChanged.Invoke();
         }
 

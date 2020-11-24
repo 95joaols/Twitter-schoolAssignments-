@@ -19,7 +19,6 @@ namespace Twitter.Blazor.Server.Pages
             return;
         }
 
-
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() => StateHasChanged());

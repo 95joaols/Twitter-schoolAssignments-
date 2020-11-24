@@ -3,7 +3,6 @@ using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
 {
-
     public partial class UserC
     {
         [Parameter]

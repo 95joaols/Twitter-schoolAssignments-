@@ -25,8 +25,6 @@ namespace Twitter.Blazor.Server
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; }); ;
             services.AddBlazoredSessionStorage();
             services.AddScoped<IDataAccess, DataAccess>();
-            
-            //services.AddSingleton<IDataAccess, DataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

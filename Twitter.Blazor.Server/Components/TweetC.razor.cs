@@ -14,13 +14,13 @@ namespace Twitter.Blazor.Server.Components
         [Inject]
         private IDataAccess DataAccess { get; set; }
 
-         private async Task Remove()
+        private async Task Remove()
         {
             DataAccess.Loading = true;
-             await Task.Run(() =>
-            {
-                DataAccess.RemoveTweet(TweetP.Item2);
-            });
+            await Task.Run(() =>
+           {
+               DataAccess.RemoveTweet(TweetP.Item2);
+           });
         }
     }
 }

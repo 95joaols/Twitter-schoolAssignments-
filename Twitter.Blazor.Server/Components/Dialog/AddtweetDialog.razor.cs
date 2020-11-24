@@ -30,9 +30,9 @@ namespace Twitter.Blazor.Server.Components.Dialog
                     TweetManager tweetManager = new TweetManager();
                     try
                     {
-                    tweetManager.CreateTweet(Tweet.Message, DataAccess.LoginUser.Id);
-                    HasError = false;
-                    ShowDialog = false;
+                        tweetManager.CreateTweet(Tweet.Message, DataAccess.LoginUser.Id);
+                        HasError = false;
+                        ShowDialog = false;
 
                     }
                     catch (Exception e)
@@ -47,7 +47,6 @@ namespace Twitter.Blazor.Server.Components.Dialog
                         }
                         HasError = true;
                     }
-                        
                 }
                 else
                 {
@@ -56,8 +55,7 @@ namespace Twitter.Blazor.Server.Components.Dialog
                 }
                 DataAccess.Loading = false;
             });
-
-            }
+        }
         public void Show()
         {
             ShowDialog = true;

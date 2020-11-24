@@ -67,8 +67,6 @@ namespace Twitter.Blazor.Server.Components
                   {
                   }
               });
-
-
         }
         public async Task OnLoggedIn()
         {
@@ -77,8 +75,6 @@ namespace Twitter.Blazor.Server.Components
         public async Task OnLoggedOut()
         {
             await SessionStorage.SetItemAsync<User>("CurentUser", null);
-
         }
-
     }
 }

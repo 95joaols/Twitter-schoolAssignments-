@@ -15,7 +15,6 @@ namespace Twitter.Blazor.Server.Shared
             return;
         }
 
-
         public async Task OnNotifyDataChanged()
         {
             await InvokeAsync(() =>
