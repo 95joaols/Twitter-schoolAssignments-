@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Data
@@ -18,12 +19,12 @@ namespace Twitter.Blazor.Server.Data
 
         public TweetTyp TweetType
         {
-            get { return tweetType; }
+            get => tweetType;
             set
             {
                 tweetType = value;
                 OnSync(null, null);
-                NotifyDataChanged?.Invoke();
+                _ = (NotifyDataChanged?.Invoke());
             }
         }
         private TweetTyp tweetType;
@@ -37,22 +38,22 @@ namespace Twitter.Blazor.Server.Data
 
         public string Searching
         {
-            get { return searching; }
+            get => searching;
             set
             {
                 searching = value;
                 OnSync(null, null);
-                NotifyDataChanged?.Invoke();
+                _ = (NotifyDataChanged?.Invoke());
             }
         }
         private string searching;
         public bool Loading
         {
-            get { return loading; }
+            get => loading;
             set
             {
                 loading = value;
-                NotifyDataChanged?.Invoke();
+                _ = (NotifyDataChanged?.Invoke());
             }
         }
         private bool loading;
@@ -70,7 +71,7 @@ namespace Twitter.Blazor.Server.Data
         {
             if (!Runing)
             {
-                LoginUser = loginSystem.loginUser;
+                LoginUser = loginSystem.LoginUser;
 
                 TweetManager tweetManager = new TweetManager();
                 UserManager userManager = new UserManager();
@@ -125,7 +126,7 @@ namespace Twitter.Blazor.Server.Data
         public void Update()
         {
             OnSync(null, null);
-            NotifyDataChanged.Invoke();
+            _ = NotifyDataChanged.Invoke();
         }
 
         public bool LogingIn(string username, string password)
@@ -142,8 +143,8 @@ namespace Twitter.Blazor.Server.Data
             if (UserReturn.Item1)
             {
                 LoginUser = UserReturn.Item2;
-                LoggedIn.Invoke();
-                NotifyDataChanged.Invoke();
+                _ = LoggedIn.Invoke();
+                _ = NotifyDataChanged.Invoke();
             }
             return UserReturn.Item1;
         }
@@ -151,15 +152,15 @@ namespace Twitter.Blazor.Server.Data
         public void LogingOut()
         {
             //LoginUser = null;
-            LoggedOut.Invoke();
-            NotifyDataChanged.Invoke();
+            _ = LoggedOut.Invoke();
+            _ = NotifyDataChanged.Invoke();
         }
         public void RemoveTweet(Tweet tweet)
         {
             TweetManager tweetManager = new TweetManager();
             try
             {
-                tweetManager.Delete(tweet.ID, LoginUser);
+                tweetManager.Delete(tweet.ID);
             }
             catch (Exception)
             {
@@ -167,7 +168,7 @@ namespace Twitter.Blazor.Server.Data
                 return;
             }
             List<Tuple<string, Tweet>> tweets = Tweets.ToList();
-            tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
+            _ = tweets.RemoveAll(x => x.Item2.ID == tweet.ID);
             Tweets = tweets;
             Loading = false;
         }
@@ -230,7 +231,7 @@ namespace Twitter.Blazor.Server.Data
                         UserSearch = NewUser;
                         Messages = newMessages;
                         Conversation = NewConversation;
-                        NotifyDataChanged?.Invoke();
+                        _ = (NotifyDataChanged?.Invoke());
                     }
                 }
                 catch (Exception)

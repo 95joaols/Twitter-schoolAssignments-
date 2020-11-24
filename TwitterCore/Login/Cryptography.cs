@@ -11,7 +11,7 @@ namespace TwitterCore
         {
             string EncryptionKey = salt;
             byte[] clearBytes = Encoding.Unicode.GetBytes(encryptString);
-            using(Aes encryptor = Aes.Create())
+            using (Aes encryptor = Aes.Create())
             {
                 Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[]
                 {
@@ -31,15 +31,13 @@ namespace TwitterCore
                 });
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
-                using(MemoryStream ms = new MemoryStream())
+                using MemoryStream ms = new MemoryStream();
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    using(CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    encryptString = Convert.ToBase64String(ms.ToArray());
+                    cs.Write(clearBytes, 0, clearBytes.Length);
+                    cs.Close();
                 }
+                encryptString = Convert.ToBase64String(ms.ToArray());
             }
             return encryptString;
         }

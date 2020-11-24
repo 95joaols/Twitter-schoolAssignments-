@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+
 using System;
 using System.Threading.Tasks;
+
 using Twitter.Blazor.Server.Data;
+
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
@@ -17,10 +20,7 @@ namespace Twitter.Blazor.Server.Components
         private async Task Remove()
         {
             DataAccess.Loading = true;
-            await Task.Run(() =>
-           {
-               DataAccess.RemoveTweet(TweetP.Item2);
-           });
+            await Task.Run(() => DataAccess.RemoveTweet(TweetP.Item2));
         }
     }
 }

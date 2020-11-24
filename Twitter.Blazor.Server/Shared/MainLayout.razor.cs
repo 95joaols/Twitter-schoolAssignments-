@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+
 using System.Threading.Tasks;
+
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Shared

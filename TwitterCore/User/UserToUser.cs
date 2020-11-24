@@ -10,6 +10,6 @@ namespace TwitterCore
             UserId = userId;
             FollowingId = followingId;
         }
-        
+
     }
 }

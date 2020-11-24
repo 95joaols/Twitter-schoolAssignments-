@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+
 using System.Threading.Tasks;
+
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server.Pages
@@ -28,12 +30,12 @@ namespace Twitter.Blazor.Server.Pages
         }
         protected async Task ChangeToUser()
         {
-            await Task.Run(() => SearchTypeP = SearchType.User);
+            _ = await Task.Run(() => SearchTypeP = SearchType.User);
             await OnNotifyDataChanged();
         }
         protected async Task ChangeToTweet()
         {
-            await Task.Run(() => SearchTypeP = SearchType.Tweet);
+            _ = await Task.Run(() => SearchTypeP = SearchType.Tweet);
             await OnNotifyDataChanged();
         }
     }

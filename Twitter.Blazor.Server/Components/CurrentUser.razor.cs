@@ -1,9 +1,13 @@
-﻿using TwitterCore;
+﻿using Blazored.SessionStorage;
+
 using Microsoft.AspNetCore.Components;
+
 using System.Threading.Tasks;
-using Twitter.Blazor.Server.Data;
-using Blazored.SessionStorage;
+
 using Twitter.Blazor.Server.Components.Dialog;
+using Twitter.Blazor.Server.Data;
+
+using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components
 {
@@ -13,7 +17,7 @@ namespace Twitter.Blazor.Server.Components
         private IDataAccess DataAccess { get; set; }
 
         [Inject]
-        ISessionStorageService SessionStorage { get; set; }
+        private ISessionStorageService SessionStorage { get; set; }
 
         protected LoginDialog LoginDialog { get; set; }
         protected LogoutDialog LogoutDialog { get; set; }

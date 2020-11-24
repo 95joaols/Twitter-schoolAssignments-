@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Data
 {
-    interface IDataAccess
+    internal interface IDataAccess
     {
         IEnumerable<Tuple<string, Tweet>> Tweets { get; }
         IEnumerable<User> UserSearch { get; }

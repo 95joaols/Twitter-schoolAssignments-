@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 using System.Linq;
 
 namespace TwitterCore
 {
     public class UserManager
     {
-        readonly SQLConnection db = new SQLConnection();
+        private readonly SQLConnection db = new SQLConnection();
 
         public void AddFollwingOfUser(User loggdInUser, int followId)
         {
@@ -23,7 +23,9 @@ namespace TwitterCore
                 db.UpdateBioToUserInDb(user);
             }
             else
+            {
                 throw new Exception("Biography must be under 200 characters.");
+            }
         }
 
         public void UpdateFirstnameUser(User user, string firstname)
@@ -34,7 +36,9 @@ namespace TwitterCore
                 db.UpdateFirstnameToUserInDb(user);
             }
             else
+            {
                 throw new Exception("Username must be under 50 characters.");
+            }
         }
 
         public void UpdateLastnameUser(User user, string lastname)
@@ -45,7 +49,9 @@ namespace TwitterCore
                 db.UpdateLastnameToUserInDb(user);
             }
             else
-                throw new Exception("Lastname must be under 50 characters.");            
+            {
+                throw new Exception("Lastname must be under 50 characters.");
+            }
         }
 
         public ReadOnlyCollection<User> SearchUsers(string search, User user)
@@ -70,8 +76,10 @@ namespace TwitterCore
             }
             catch (System.Exception e)
             {
-                if(e.HResult == -2146232060)
+                if (e.HResult == -2146232060)
+                {
                     throw new Exception("Your message was too long! A tweet can be up to 100 characters long.");
+                }
             }
         }
 

@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Components;
+
 using System;
 using System.Threading.Tasks;
+
 using Twitter.Blazor.Server.Data;
+
 using TwitterCore;
 
 namespace Twitter.Blazor.Server.Components.Dialog

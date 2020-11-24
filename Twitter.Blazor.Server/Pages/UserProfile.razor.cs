@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+
 using System.Threading.Tasks;
+
 using Twitter.Blazor.Server.Components.Dialog;
 using Twitter.Blazor.Server.Data;
 
@@ -10,7 +12,7 @@ namespace Twitter.Blazor.Server.Pages
         [Inject]
         private IDataAccess DataAccess { get; set; }
         [Inject]
-        NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public string UserId { get; set; }

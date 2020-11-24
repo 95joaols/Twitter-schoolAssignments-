@@ -1,17 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 
 namespace TwitterCore
 {
     public class TweetManager
     {
-        readonly SQLConnection db = new SQLConnection();
+        private readonly SQLConnection db = new SQLConnection();
 
         public TweetManager()
         {
         }
-        
+
         public void CreateTweet(string message, int UserID)
         {
             Tweet tweet = new Tweet(message, UserID);
@@ -22,7 +22,9 @@ namespace TwitterCore
             catch (System.Exception e)
             {
                 if (e.HResult == -2146232060)
+                {
                     throw new Exception("Your message was too long! A tweet can be up to 100 characters long.");
+                }
             }
         }
 
@@ -55,7 +57,7 @@ namespace TwitterCore
             db.RetweetToDb(retweet);
         }
 
-        public void Delete(int tweetId, User user)
+        public void Delete(int tweetId)
         {
             db.DeleteTweetDb(tweetId);
         }

@@ -1,9 +1,11 @@
 using Blazored.SessionStorage;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Twitter.Blazor.Server.Data;
 
 namespace Twitter.Blazor.Server
@@ -21,10 +23,11 @@ namespace Twitter.Blazor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-            services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; }); ;
-            services.AddBlazoredSessionStorage();
-            services.AddScoped<IDataAccess, DataAccess>();
+            _ = services.AddRazorPages();
+            _ = services.AddServerSideBlazor().AddCircuitOptions(options => options.DetailedErrors = true);
+            ;
+            _ = services.AddBlazoredSessionStorage();
+            _ = services.AddScoped<IDataAccess, DataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,25 +35,25 @@ namespace Twitter.Blazor.Server
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                _ = app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                _ = app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                _ = app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            _ = app.UseHttpsRedirection();
+            _ = app.UseStaticFiles();
 
-            app.UseRouting();
+            _ = app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
-            });
+            _ = app.UseEndpoints(endpoints =>
+              {
+                  _ = endpoints.MapBlazorHub();
+                  _ = endpoints.MapFallbackToPage("/_Host");
+              });
         }
     }
 }
