@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
 using TwitterCore;
 
 namespace ConsoleGUI
@@ -24,7 +23,7 @@ namespace ConsoleGUI
         private static void InitializeEventListener()
         {
             Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => handleLogOut();
-            AppDomain.CurrentDomain.UnhandledException += (s, e) => handleLogOut();
+            AppDomain.CurrentDomain.UnhandledException += (object s, UnhandledExceptionEventArgs e) => handleLogOut();
 
             static void handleLogOut()
             {
@@ -57,7 +56,6 @@ namespace ConsoleGUI
                     Console.WriteLine("Username: " + username);
                     Console.Write("Password: " + passwordDots);
                 }
-
                 else if (inputKey.Key == ConsoleKey.Backspace && password.Length > 0)
                 {
                     Console.Clear();
@@ -66,7 +64,6 @@ namespace ConsoleGUI
                     passwordDots = passwordDots.Remove(passwordDots.Length - 1);
                     Console.Write("Password: " + passwordDots);
                 }
-
                 else
                 {
                     passwordDots += '*';
@@ -192,7 +189,6 @@ namespace ConsoleGUI
                 _ = Console.ReadKey(true);
                 Console.Clear();
             }
-
         }
 
         private static void PrintUserInBox(User user)
@@ -276,7 +272,6 @@ namespace ConsoleGUI
             {
                 Console.WriteLine("You did not enter a number!");
             }
-
         }
 
         private static void ChooseMailConversationOfUser(User user)
@@ -316,7 +311,6 @@ namespace ConsoleGUI
             {
                 Console.WriteLine("You did not write a number!");
             }
-
         }
 
         private static void PrintMailConversation(User user, int mailToId)
@@ -434,9 +428,7 @@ namespace ConsoleGUI
                     Console.WriteLine(e.Message);
                     isSuccessfulUserCreate = false;
                 }
-
             }
-
             if (isSuccessfulUserCreate)
             {
                 Console.WriteLine("User created!");
@@ -446,7 +438,7 @@ namespace ConsoleGUI
                 Console.WriteLine("No new user was not created.");
             }
         }
-        public static void PrintHeadMenu()
+        private static void PrintHeadMenu()
         {
             while (true)
             {
@@ -472,7 +464,7 @@ namespace ConsoleGUI
             }
         }
 
-        public static void PrintTweets()
+        private static void PrintTweets()
         {
             ReadOnlyCollection<Tuple<string, Tweet>> tweets = tweetManager.GetTweets();
 
@@ -496,10 +488,8 @@ namespace ConsoleGUI
             {
                 Console.WriteLine("{0}: {1}, {2}, {3}", tweet.Item2.ID, tweet.Item1, tweet.Item2.Message, tweet.Item2.CreateDate);
             }
-            Console.WriteLine("");
 
-
-            Console.WriteLine("Press [Enter] to continue");
+            Console.WriteLine("\nPress [Enter] to continue");
             Console.WriteLine("Type [R] to see your retweets");
             Console.Write("Or type and Id for a Tweet to delete it: ");
             string userInput = Console.ReadLine();
@@ -529,7 +519,6 @@ namespace ConsoleGUI
                         Console.WriteLine("Tweet deleted!");
                         break;
                     }
-
                 }
                 if (skip == false)
                 {
@@ -542,7 +531,7 @@ namespace ConsoleGUI
             }
         }
 
-        public static void SearchTweetsOrUsers(User loggedInUser)
+        private static void SearchTweetsOrUsers(User loggedInUser)
         {
             Console.Clear();
             bool isSearching = true;
@@ -678,7 +667,7 @@ namespace ConsoleGUI
             }
         }
 
-        public static void UserSettingsMenu(User user)
+        private static void UserSettingsMenu(User user)
         {
             bool running = true;
             while (running)
@@ -689,7 +678,6 @@ namespace ConsoleGUI
                 Console.WriteLine("[2] Set/change your lastname");
                 Console.WriteLine("[3] Set/change your biography");
                 Console.WriteLine("[Esc] Return to menu");
-
                 userKey = Console.ReadKey(true).Key;
 
                 switch (userKey)
@@ -749,7 +737,7 @@ namespace ConsoleGUI
             }
         }
 
-        public static void RetweetMenu(User user)
+        private static void RetweetMenu(User user)
         {
             ReadOnlyCollection<Tuple<string, Tweet, UserToRetweet>> reTweets = tweetManager.GetRetweets(user);
             Console.WriteLine("My Retweets: ");

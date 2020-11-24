@@ -109,7 +109,7 @@ namespace TwitterCore
 
         public ReadOnlyCollection<User> SINGLEUSER(int id)
         {
-            IEnumerable<User> onlineUser = db.SINGLEUSER(id);
+            IEnumerable<User> onlineUser = db.GetSingelUser(id);
             return new ReadOnlyCollection<User>(onlineUser.ToList());
         }
     }
