@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace TwitterCore
 {
-    public class JsonLoginClass                 // Used for json-file.
+    internal class JsonLoginClass                 // Used for json-file.
     {
         public string Connection { get; set; }
     }
@@ -144,43 +144,43 @@ namespace TwitterCore
             _ = connection.Execute("INSERT INTO UserToRetweet (UserId, TweetId) values (@userId, @tweetId)", retweet);
         }
 
-        public void AddTweetToDb(Tweet tweet)
+        internal void AddTweetToDb(Tweet tweet)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute("INSERT INTO Tweet (UserId, Message) values (@userId, @message)", tweet);
         }
 
-        public void UpdateBioToUserInDb(User user)
+        internal void UpdateBioToUserInDb(User user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute($"UPDATE [User] SET Biography = @Biography WHERE Id = @Id;", user);
         }
 
-        public void UpdateFirstnameToUserInDb(User user)
+        internal void UpdateFirstnameToUserInDb(User user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute($"UPDATE [User] SET Firstname = @Firstname WHERE Id = @Id;", user);
         }
 
-        public void UpdateLastnameToUserInDb(User user)
+        internal void UpdateLastnameToUserInDb(User user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute($"UPDATE [User] SET Lastname = @Lastname WHERE Id = @Id;", user);
         }
 
-        public void AddUserFollowingToDb(UserToUser userToUser)
+        internal void AddUserFollowingToDb(UserToUser userToUser)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute("INSERT INTO UserToUser (UserId,FollowingId) values (@UserId, @FollowingId)", userToUser);
         }
 
-        public IEnumerable<User> SearchUsers(string search, User user)
+        internal IEnumerable<User> SearchUsers(string search, User user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             return connection.Query<User>("EXEC SearchProcedureUsers @SearchString = @Search, @IdToExclude = @Id", new { @Search = search, user.Id });
         }
 
-        public List<Tuple<string, Tweet>> SearchTweets(string search)
+        internal List<Tuple<string, Tweet>> SearchTweets(string search)
         {
             List<Tuple<string, Tweet>> tweetsFromDb = new List<Tuple<string, Tweet>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
@@ -197,7 +197,7 @@ namespace TwitterCore
             return tweetsFromDb;
         }
 
-        public List<Tuple<string, int>> GetFollowersFromDb(User user)
+        internal List<Tuple<string, int>> GetFollowersFromDb(User user)
         {
             List<Tuple<string, int>> following = new List<Tuple<string, int>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
@@ -218,13 +218,13 @@ namespace TwitterCore
             return following;
         }
 
-        public void PrivateMessageToDb(PrivateMessage privateMessage)
+        internal void PrivateMessageToDb(PrivateMessage privateMessage)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             _ = connection.Execute("INSERT INTO PrivateMessage (UserFromId,UserToId,Message) values (@UserFromId, @UserToId, @Message)", privateMessage);
         }
 
-        public List<Tuple<string, int>> GetUserMailFromDb(User user)
+        internal List<Tuple<string, int>> GetUserMailFromDb(User user)
         {
             List<Tuple<string, int>> userMailId = new List<Tuple<string, int>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
@@ -244,9 +244,9 @@ namespace TwitterCore
             return userMailId;
         }
 
-        public List<Tuple<string, PrivateMessage>> GetPrivateMessageConvoFromDb(User user, int userToId)
+        internal List<Tuple<string, PrivateMessage>> GetPrivateMessageConvoFromDb(User user, int userToId)
         {
-            List<Tuple<string, PrivateMessage>> following = new List<Tuple<string, PrivateMessage>>();
+            List<Tuple<string, PrivateMessage>> PrivateMessage = new List<Tuple<string, PrivateMessage>>();
             using (SqlConnection connection = new SqlConnection(connectionJson.Connection))
             {
                 IEnumerable<dynamic> foo = connection.Query(@"select UserFromId, UserToId, MailFrom.Username, Message 
@@ -257,16 +257,16 @@ namespace TwitterCore
                 "order by PrivateMessage.Id desc");
                 foreach (dynamic item in foo)
                 {
-                    following.Add(new Tuple<string, PrivateMessage>(
+                    PrivateMessage.Add(new Tuple<string, PrivateMessage>(
                         (string)item.Username,
                          new PrivateMessage { UserFromId = item.UserFromId, UserToId = item.UserToId, Message = item.Message }));
                 }
             }
 
-            return following;
+            return PrivateMessage;
         }
 
-        public IEnumerable<User> GetFriendsBioFromDb(User user)
+        internal IEnumerable<User> GetFriendsBioFromDb(User user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             return connection.Query<User>(@"select distinct Friend.Id ,Friend.Username, Friend.Firstname, Friend.Lastname,Friend.Biography
@@ -276,7 +276,7 @@ namespace TwitterCore
                 where I.Id = " + user.Id);
         }
 
-        public IEnumerable<User> SINGLEUSER(int user)
+        internal IEnumerable<User> GetSingelUser(int user)
         {
             using SqlConnection connection = new SqlConnection(connectionJson.Connection);
             return connection.Query<User>(@"SELECT * FROM [User] WHERE Id = @UserId", new { @UserId = user });

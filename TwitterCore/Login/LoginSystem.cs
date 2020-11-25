@@ -23,7 +23,6 @@ namespace TwitterCore
                 try
                 {
                     db.AddUserToDb(user);
-
                 }
                 catch (Exception e)
                 {
