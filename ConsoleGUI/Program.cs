@@ -16,6 +16,7 @@ namespace ConsoleGUI
 
         private static void Main(string[] args)
         {
+            Console.Title = "Twtter";
             InitializeEventListener();
             PrintTweets();
             PrintHeadMenu();
